@@ -1,0 +1,60 @@
+{
+  "env": {
+      "browser": true,
+      "es6": true,
+      "mocha": true,
+      "node": true
+  },
+  "extends": "airbnb",
+  "parserOptions": {
+      "ecmaVersion": 2015,
+      "sourceType": "module",
+      "parser": "babel-eslint"
+  },
+  "rules": {
+      "import/no-extraneous-dependencies": 0,
+      "indent": "off",
+      "consistent-return": 0,
+      "no-useless-escape": 0,
+      "curly": ["error", "multi-line"],
+      "import/no-unresolved": [2, { "commonjs": true }],
+      "linebreak-style": [
+          "error",
+          "unix"
+      ],
+      "quotes": [
+          "error",
+          "single"
+      ],
+      "semi": [
+          "error",
+          "always"
+      ],
+      "no-console": "off",
+
+      "camelcase": [
+          "error", {
+              "properties": "never"
+          }
+      ],
+      "comma-dangle": ["error", {
+          "arrays": "never",
+          "objects": "never",
+          "imports": "never",
+          "exports": "never",
+          "functions": "ignore"
+      }],
+      "eqeqeq": "off",
+      "no-unused-vars": [
+          "off"
+      ],
+      "no-var": [
+          "off"
+      ],
+      "one-var": [
+          "off"
+      ],
+      "eol-last": ["error", "never"],
+      "no-unused-expressions": "off"
+  }
+}
