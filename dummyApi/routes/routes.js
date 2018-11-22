@@ -7,5 +7,6 @@ router.post('/red-flags', RedFlagControllers.createRedFlag);
 router.get('/red-flags', RedFlagControllers.getAllRedFlag);
 router.get('/red-flags/:id', RedFlagControllers.getRedFlagId);
 router.patch('/red-flags/:id/location', RedFlagControllers.updateRedFlagLocation);
+router.delete('/red-flags/:id', RedFlagControllers.deleteRedFlagId);
 
 export default router;

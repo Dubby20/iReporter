@@ -166,6 +166,40 @@ class RedFlagControllers {
       }]
     });
   }
+
+  /**
+   * Deletes a specific red-flag record
+   * @param {object} request Request object
+   * @param {object} response Response object
+   *
+   * @returns {object} response object
+   * @memberof RedFlagControllers
+   */
+  static deleteRedFlagId(request, response) {
+    const redFlagId = incidents.find(item => item.id === parseInt(request.params.id, 10));
+    if (!Number(request.params.id)) {
+      return response.status(400).json({
+        status: 400,
+        error: 'The given id is not a number'
+      });
+    }
+    if (!redFlagId) {
+      return response.status(404).json({
+        status: 404,
+        error: 'The red-flag record with the given ID was not found'
+      });
+    }
+    const index = incidents.indexOf(redFlagId);
+    console.log(index);
+    incidents.splice(index, 1);
+    return response.status(200).json({
+      status: 200,
+      data: [{
+        id: redFlagId.id,
+        message: 'red-flag record has been deleted successfully'
+      }]
+    });
+  }
 }
 
 
