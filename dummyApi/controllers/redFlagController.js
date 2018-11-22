@@ -41,8 +41,7 @@ class RedFlagControllers {
       videos: request.body.videos,
       comment: request.body.comment
     };
-    const userId = incidents.map(item => users.find(id => item.createdBy == id.id));
-    console.log(userId);
+    const userId = users.find(user => user.id === postRedFlag.createdBy);
     incidents.createdBy = userId;
     if (!userId) {
       return response.status(404).json({
@@ -55,7 +54,6 @@ class RedFlagControllers {
       status: 201,
       data: [{
         id: postRedFlag.id,
-        // incidents,
         message: 'Created red-flag record'
       }]
     });
@@ -86,7 +84,7 @@ class RedFlagControllers {
     });
   }
 
-   /**
+  /**
    * Gets a specific red-flag record
    * @param {object} request Request object
    * @param {object} response Response object
@@ -100,19 +98,72 @@ class RedFlagControllers {
     if (!Number(request.params.id)) {
       return response.status(400).json({
         status: 400,
-        message: 'The given id is not a number'
+        error: 'The given id is not a number'
       });
     }
     if (!getId) {
       return response.status(404).json({
         status: 404,
-        message: 'The red-flag record with the given ID was not found'
+        error: 'The red-flag record with the given ID was not found'
       });
     }
     return response.status(200).json({
       status: 200,
-      getId,
-      message: 'The given red-flag id retrieved successfullly'
+      data: [{
+        getId,
+        message: 'The given red-flag id retrieved successfullly'
+      }]
+    });
+  }
+
+  /**
+   * Updates a specific red-flag record location
+   * @param {object} request Request object
+   * @param {object} response Response object
+   *
+   * @returns {json} A specific red-flag record location
+   * @memberof RedFlagControllers
+   */
+  static updateRedFlagLocation(request, response) {
+    const locationRegex = /^([-+]?\d{1,2}([.]\d+)?),\s*([-+]?\d{1,3}([.]\d+)?)$/;
+    const redFlagId = incidents.find(item => item.id === parseInt(request.params.id, 10));
+    if (!Number(request.params.id)) {
+      return response.status(400).json({
+        status: 400,
+        error: 'The given id is not a number'
+      });
+    }
+    if (!redFlagId) {
+      return response.status(404).json({
+        status: 404,
+        error: 'The red-flag record with the given ID was not found'
+      });
+    }
+
+    const {
+      location
+    } = request.body;
+    if (!location || location.trim().length < 1) {
+      return response.status(400).json({
+        status: 400,
+        error: 'Please enter a location'
+      });
+    }
+    if (!locationRegex.test(location)) {
+      return response.status(400).json({
+        status: 400,
+        error: 'Please enter a valid location'
+      });
+    }
+    const locationId = incidents.indexOf(redFlagId);
+    redFlagId.locationId = request.body.location;
+    incidents[locationId] = redFlagId;
+    return response.status(200).json({
+      status: 200,
+      data: [{
+        id: redFlagId.id,
+        message: 'Updated red-flag record’s location'
+      }]
     });
   }
 }

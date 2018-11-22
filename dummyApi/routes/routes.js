@@ -3,8 +3,9 @@ import RedFlagControllers from '../controllers/redFlagController';
 
 const router = express.Router();
 
-router.post('/red-flag', RedFlagControllers.createRedFlag);
-router.get('/red-flag', RedFlagControllers.getAllRedFlag);
-router.get('/red-flag/:id', RedFlagControllers.getRedFlagId);
+router.post('/red-flags', RedFlagControllers.createRedFlag);
+router.get('/red-flags', RedFlagControllers.getAllRedFlag);
+router.get('/red-flags/:id', RedFlagControllers.getRedFlagId);
+router.patch('/red-flags/:id/location', RedFlagControllers.updateRedFlagLocation);
 
 export default router;

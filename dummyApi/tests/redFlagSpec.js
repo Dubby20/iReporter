@@ -21,7 +21,7 @@ describe('/POST red-flag', () => {
       comment: '$24 billion NNPC contract scam'
     };
     chai.request(server)
-      .post('/api/v1/red-flag')
+      .post('/api/v1/red-flags')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .send(incidents)
@@ -44,7 +44,7 @@ describe('/POST red-flag', () => {
       comment: '$24 billion NNPC contract scam'
     };
     chai.request(server)
-      .post('/api/v1/red-flag')
+      .post('/api/v1/red-flags')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .send(incidents)
@@ -59,7 +59,7 @@ describe('/POST red-flag', () => {
 describe('/GET all red-flag records', () => {
   it('should get all red-flag records', (done) => {
     chai.request(server)
-      .get('/api/v1/red-flag')
+      .get('/api/v1/red-flags')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .end((error, response) => {
@@ -74,39 +74,118 @@ describe('/GET all red-flag records', () => {
 describe('/GET a specific red-flag record', () => {
   it('should get a red-flag record id', (done) => {
     chai.request(server)
-      .get('/api/v1/red-flag/1')
+      .get('/api/v1/red-flags/1')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .end((error, response) => {
         expect(response).to.have.status(200);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('message').eql('The given red-flag id retrieved successfullly');
+        expect(response.body.data[0]).to.have.property('message').eql('The given red-flag id retrieved successfullly');
         done();
       });
   });
 
   it('should return an error if the red-flag record id is not found', (done) => {
     chai.request(server)
-      .get('/api/v1/red-flag/10')
+      .get('/api/v1/red-flags/10')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .end((error, response) => {
         expect(response).to.have.status(404);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('message').eql('The red-flag record with the given ID was not found');
+        expect(response.body).to.have.property('error').eql('The red-flag record with the given ID was not found');
         done();
       });
   });
 
   it('should return an error if the red-flag record id is not a number', (done) => {
     chai.request(server)
-      .get('/api/v1/red-flag/rf')
+      .get('/api/v1/red-flags/rf')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .end((error, response) => {
         expect(response).to.have.status(400);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('message').eql('The given id is not a number');
+        expect(response.body).to.have.property('error').eql('The given id is not a number');
+        done();
+      });
+  });
+});
+
+describe('/PATCH a specific red-flag record location', () => {
+  it('it should update the location of a specific red-flag record', (done) => {
+    const redFlagLocation = {
+      location: '6.524379, 3.379206'
+    };
+    chai.request(server)
+      .patch('/api/v1/red-flags/1/location')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .send(redFlagLocation)
+      .end((error, response) => {
+        expect(response).to.have.status(200);
+        expect(response.body).to.be.an('object');
+        expect(response.body.data[0]).to.have.property('message').eql('Updated red-flag record’s location');
+        done();
+      });
+  });
+
+  it('should return an error if the red-flag record id is not found', (done) => {
+    chai.request(server)
+      .patch('/api/v1/red-flags/10/location')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .end((error, response) => {
+        expect(response).to.have.status(404);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('The red-flag record with the given ID was not found');
+        done();
+      });
+  });
+
+  it('should return an error if the red-flag record id is not a number', (done) => {
+    chai.request(server)
+      .patch('/api/v1/red-flags/rf/location')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .end((error, response) => {
+        expect(response).to.have.status(400);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('The given id is not a number');
+        done();
+      });
+  });
+
+  it('it should return an error if the location input is empty', (done) => {
+    const redFlagLocation = {
+      location: ''
+    };
+    chai.request(server)
+      .patch('/api/v1/red-flags/1/location')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .send(redFlagLocation)
+      .end((error, response) => {
+        expect(response).to.have.status(400);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('Please enter a location');
+        done();
+      });
+  });
+
+  it('it should return an error if the location input is empty', (done) => {
+    const redFlagLocation = {
+      location: '109, 180'
+    };
+    chai.request(server)
+      .patch('/api/v1/red-flags/1/location')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .send(redFlagLocation)
+      .end((error, response) => {
+        expect(response).to.have.status(400);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('Please enter a valid location');
         done();
       });
   });
