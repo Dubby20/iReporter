@@ -62,7 +62,7 @@ class RedFlagControllers {
   }
 
   /**
-   * Gets all the incidents
+   * Gets all red-flag records
    * @param {object} request Request object
    * @param {object} response Response object
    *
@@ -74,7 +74,7 @@ class RedFlagControllers {
     if (!incidents) {
       return response.status(404).json({
         status: 404,
-        error: 'No incidents found'
+        error: 'No red-flag record found'
       });
     }
     return response.status(200).json({
@@ -83,6 +83,36 @@ class RedFlagControllers {
         incidents,
         message: 'All red-flag records retrieved successfully'
       }]
+    });
+  }
+
+   /**
+   * Gets a specific red-flag record
+   * @param {object} request Request object
+   * @param {object} response Response object
+   *
+   * @returns {json} List of a specific red-flag record
+   * @memberof RedFlagControllers
+   */
+
+  static getRedFlagId(request, response) {
+    const getId = incidents.find(item => item.id === parseInt(request.params.id, 10));
+    if (!Number(request.params.id)) {
+      return response.status(400).json({
+        status: 400,
+        message: 'The given id is not a number'
+      });
+    }
+    if (!getId) {
+      return response.status(404).json({
+        status: 404,
+        message: 'The red-flag record with the given ID was not found'
+      });
+    }
+    return response.status(200).json({
+      status: 200,
+      getId,
+      message: 'The given red-flag id retrieved successfullly'
     });
   }
 }

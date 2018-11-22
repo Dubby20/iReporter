@@ -55,3 +55,59 @@ describe('/POST red-flag', () => {
       });
   });
 });
+
+describe('/GET all red-flag records', () => {
+  it('should get all red-flag records', (done) => {
+    chai.request(server)
+      .get('/api/v1/red-flag')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .end((error, response) => {
+        expect(response).to.have.status(200);
+        expect(response.body).to.be.an('object');
+        expect(response.body.data[0]).to.have.property('message').eql('All red-flag records retrieved successfully');
+        done();
+      });
+  });
+});
+
+describe('/GET a specific red-flag record', () => {
+  it('should get a red-flag record id', (done) => {
+    chai.request(server)
+      .get('/api/v1/red-flag/1')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .end((error, response) => {
+        expect(response).to.have.status(200);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('message').eql('The given red-flag id retrieved successfullly');
+        done();
+      });
+  });
+
+  it('should return an error if the red-flag record id is not found', (done) => {
+    chai.request(server)
+      .get('/api/v1/red-flag/10')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .end((error, response) => {
+        expect(response).to.have.status(404);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('message').eql('The red-flag record with the given ID was not found');
+        done();
+      });
+  });
+
+  it('should return an error if the red-flag record id is not a number', (done) => {
+    chai.request(server)
+      .get('/api/v1/red-flag/rf')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .end((error, response) => {
+        expect(response).to.have.status(400);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('message').eql('The given id is not a number');
+        done();
+      });
+  });
+});
