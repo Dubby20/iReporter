@@ -60,6 +60,31 @@ class RedFlagControllers {
       }]
     });
   }
+
+  /**
+   * Gets all the incidents
+   * @param {object} request Request object
+   * @param {object} response Response object
+   *
+   * @returns {json} List of all incidents array
+   * @memberof RedFlagControllers
+   */
+
+  static getAllRedFlag(request, response) {
+    if (!incidents) {
+      return response.status(404).json({
+        status: 404,
+        error: 'No incidents found'
+      });
+    }
+    return response.status(200).json({
+      status: 200,
+      data: [{
+        incidents,
+        message: 'All red-flag records retrieved successfully'
+      }]
+    });
+  }
 }
 
 
