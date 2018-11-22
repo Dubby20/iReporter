@@ -97,14 +97,6 @@ export class RedFlagValidator {
     if (typeof comment !== 'string' || comment.length > 300) {
       this.passing = false;
       this.errMessage = 'Comment must be characters not exceeding 300 words';
-    //   return {
-    //     passing: false,
-    //     errMessage: "something",
-    //   }
-    // }
-    // return {
-    //   passing: true,
-    //   errMessage: null
     }
   }
 
