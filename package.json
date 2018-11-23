@@ -14,8 +14,8 @@
   "scripts": {
     "mocha": "mocha --compilers js:babel-register",
     "babel-node": "babel-node --presets=env",
-    "start": "--exec npm run babel-node -- dummyApi/server.js",
-    "start:dev": "--exec npm run babel-node -- dummyApi/server.js",
+    "start": "exec npm run babel-node -- dummyApi/server.js",
+    "start:dev": "exec npm run babel-node -- dummyApi/server.js",
     "build": "babel ./ -d dist",
     "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
     "coverage": "nyc reports --reporter=text-lcov | coveralls",
