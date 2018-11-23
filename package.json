@@ -14,18 +14,22 @@
   "scripts": {
     "mocha": "mocha --compilers js:babel-register",
     "babel-node": "babel-node --presets=env",
-    "start": "export NODE_ENV=DEVELOPMENT&& nodemon --exec npm run babel-node -- dummyApi/server.js",
-    "start:dev": "export NODE_ENV=PRODUCTION&& nodemon --exec npm run babel-node -- dummyApi/server.js",
+    "start": "nodemon --exec npm run babel-node -- dummyApi/server.js",
+    "start:dev": "nodemon --exec npm run babel-node -- dummyApi/server.js",
     "build": "babel ./ -d dist",
     "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
     "coverage": "nyc reports --reporter=text-lcov | coveralls",
-    "test": "export NODE_ENV=TEST&& nyc --reporter=text mocha  --timeout 100000 --compilers js:babel-register ./dummyApi/tests/*.js --exit --reporter spec"
+    "test": "nyc --reporter=text mocha  --timeout 100000 --compilers js:babel-register ./dummyApi/tests/*.js --exit --reporter spec"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dubby20/iReporter.git"
   },
-  "keywords": [],
+  "keywords": ["red-flag",
+    "intervention",
+    "crime",
+    "corruption"
+  ],
   "author": "",
   "license": "MIT",
   "bugs": {

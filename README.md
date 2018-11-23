@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/Dubby20/iReporter.svg?branch=develop-1)](https://travis-ci.org/Dubby20/iReporter)
 [![Coverage Status](https://coveralls.io/repos/github/Dubby20/iReporter/badge.svg?branch=develop-1)](https://coveralls.io/github/Dubby20/iReporter?branch=develop-1)
+[![Maintainability](https://api.codeclimate.com/v1/badges/60048819973b3d9e7717/maintainability)](https://codeclimate.com/github/Dubby20/iReporter/maintainability)
 
 # iReporter
 
