@@ -453,6 +453,10 @@ label {
   vertical-align: middle;
 }
 
+.location-btn{
+  border-radius: 4px;
+}
+
 .page-border {
   border: 1px solid var(--primary-color)
 }
