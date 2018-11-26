@@ -14,29 +14,63 @@
 </head>
 
 <body>
-  <div class="container">
-    <div class="centered">
-      <dt class="logo">i<span class="logo-name">Reporter</span></dt>
-      <dd class="logo-text">Speak up. Ask for help.</dd>
-    </div>
-    <hr />
-    <div>
-      <nav id="nav" role="navigation">
-        <ul>
-          <li><i class="fas fa-home"></i> <a href="index.html">Home</a></li>
-          <li>
+  <div class="centered">
+    <dt class="logo">i<span class="logo-name">Reporter</span></dt>
+    <dd class="logo-text">Speak up. Ask for help.</dd>
+  </div>
+  <hr />
+  <div>
+    <nav id="nav" role="navigation">
+      <ul>
+        <li><i class="fas fa-home"></i> <a href="index.html">Home</a></li>
+        <!-- <li>
             <i class="fas fa-pen-alt"></i>
             <a href="#">Report <i class="fas fa-caret-down"></i></a>
             <ul class="dropdown-toggle">
               <li class="sub-menu"><a href="#">Red-flag</a></li>
               <li class="sub-menu"><a href="#">Intervention</a></li>
             </ul>
-          </li>
-          <li><i class="fas fa-sign-in-alt"></i> <a href="login.html">Login</a></li>
-          <li><i class="fas fa-user-plus"></i> <a href="register.html">Register</a></li>
-          <li><i class="fas fa-phone-square"></i> <a href="#">Contact Us</a></li>
-        </ul>
-      </nav>
+          </li> -->
+        <li><i class="fas fa-sign-in-alt"></i> <a href="login.html" class="active">Login</a></li>
+        <li><i class="fas fa-user-plus"></i> <a href="register.html">Register</a></li>
+        <!-- <li><i class="fas fa-phone-square"></i> <a href="#">Contact Us</a></li> -->
+      </ul>
+    </nav>
+  </div>
+
+  <div class="page-container">
+    <div class="signUp-login">
+      <h3>Login</h3>
+      <form action="" method="POST">
+        <div class="msg-div"></div>
+        <div class="form-group">
+
+          <input type="email" name="email" placeholder="Email" required id="email" class="form-control">
+        </div>
+
+        <div class="form-group">
+
+          <input type="password" name="password" placeholder="Password" required id="password" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <div class="form-link">
+            <label for=""><input type="checkbox" class="inline-checkbox"> Remember Me </label>
+            <a href="#" class="float-right forget">Forgot Password?</a>
+          </div>
+        </div>
+        <div class="form-group btn-div">
+          <input type="submit" value="LOGIN" class="login-btn">
+        </div>
+        <!-- <div class="loginLoader loader">
+            <img src="./assets/images/6 (1).gif" alt="spinner">
+          </div> -->
+      </form>
+    </div>
+    <div class="account">
+      <p>Don't have an account yet?
+        <a href="register.html">Create an account</a>
+      </p>
     </div>
   </div>
   <footer>
