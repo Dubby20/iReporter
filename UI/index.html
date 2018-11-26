@@ -1,12 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>iReporter App</title>
-</head>
-<body>
-  
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>iReporter App</title>
+    <link rel="shortcut icon" type="image/png" href="./assets/images/task-bar-logo.jpg" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+      integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Archivo+Black|Candal|Montserrat"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="centered">
+        <dt class="logo">i<span class="logo-name">Reporter</span></dt>
+        <dd class="logo-text">Speak up. Ask for help.</dd>
+      </div>
+      <hr />
+      <div>
+        <nav id="nav" role="navigation">
+          <ul>
+            <li><i class="fas fa-home"></i> <a href="index.html">Home</a></li>
+            <li>
+              <i class="fas fa-pen-alt"></i>
+              <a href="#">Report <i class="fas fa-caret-down"></i></a>
+              <ul class="dropdown-toggle">
+                <li class="sub-menu"><a href="#">Red-flag</a></li>
+                <li class="sub-menu"><a href="#">Intervention</a></li>
+              </ul>
+            </li>
+            <li><i class="fas fa-sign-in-alt"></i> <a href="login.html">Login</a></li>
+            <li><i class="fas fa-user-plus"></i> <a href="register.html">Register</a></li>
+            <li><i class="fas fa-phone-square"></i> <a href="#">Contact Us</a></li>
+          </ul>
+        </nav>
+      </div>
+      <article role="article" class="slide-img">
+        <div class="banner">
+          <div class="banner-text">
+            <h1>Send us a report</h1>
+            <p>When you get in touch with us, your anonymity is guaranteed.</p>
+          </div>
+        </div>
+      </article>
+    </div>
+    <footer><p class="footer">Copyright &copy iReporter App 2018. All Rights Reserved.</p></footer>
+  </body>
 </html>
