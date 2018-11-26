@@ -65,6 +65,7 @@ body {
   }
 }
 
+
 @media (min-width: 768px) {
   .row {
     padding: 30px 0;
@@ -455,10 +456,13 @@ label {
 
 .location-btn{
   border-radius: 4px;
+  margin-bottom: 8px;
 }
 
 .page-border {
-  border: 1px solid var(--primary-color)
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+  /* padding: 8px; */
 }
 
 div .heading {
@@ -480,6 +484,20 @@ div .heading {
   margin: 20px 8px;
   border-radius: 4px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 5px 0px;
+}
+
+.send-btn {
+  background: var(--main-color);
+  border-color: var(--main-color);
+  cursor: pointer;
+  padding: .375rem 1.2rem;
+  color: var(--text-color);
+  border-radius: 4px;
+  line-height: 24px;
+  font-size: 1rem;
+  font-weight: 700;
+  border: 1px solid var(--main-color);
+  margin-top: 8px;
 }
 
 footer {
