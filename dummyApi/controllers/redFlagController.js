@@ -2,7 +2,7 @@ import incidents from '../models/redFlag';
 import users from '../models/users';
 import {
   RedFlagValidator
-} from '../Helpers/validateRedFlag';
+} from '../helpers/validateRedFlag';
 
 /**
  * Creates a new redFlagValidator.
@@ -163,6 +163,48 @@ class RedFlagControllers {
       data: [{
         id: redFlagId.id,
         message: 'Updated red-flag record’s location'
+      }]
+    });
+  }
+
+  static updateRedFlagComment(request, response) {
+    const redFlagId = incidents.find(item => item.id === parseInt(request.params.id, 10));
+    if (!Number(request.params.id)) {
+      return response.status(400).json({
+        status: 400,
+        error: 'The given id is not a number'
+      });
+    }
+    if (!redFlagId) {
+      return response.status(404).json({
+        status: 404,
+        error: 'The red-flag record with the given ID was not found'
+      });
+    }
+
+    const {
+      comment
+    } = request.body;
+    if (!comment || comment.length < 1) {
+      return response.status(400).json({
+        status: 400,
+        error: 'Please enter a comment'
+      });
+    }
+    if (typeof comment !== 'string' || comment.length > 300) {
+      return response.status(400).json({
+        status: 400,
+        error: 'Comment must be a character not exceeding 300 words'
+      });
+    }
+    const commentId = incidents.indexOf(redFlagId);
+    redFlagId.commentId = request.body.comment;
+    incidents[commentId] = redFlagId;
+    return response.status(200).json({
+      status: 200,
+      data: [{
+        id: redFlagId.id,
+        message: 'Updated red-flag record’s comment'
       }]
     });
   }
