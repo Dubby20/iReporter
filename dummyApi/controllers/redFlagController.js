@@ -9,7 +9,7 @@ import {
  * @class redFlagValidator
  */
 
-const red_Flag_Validator = new RedFlagValidator();
+const redFlagValidator = new RedFlagValidator();
 class RedFlagControllers {
   /**
    * Creates a red-flag
@@ -23,10 +23,10 @@ class RedFlagControllers {
    */
 
   static createRedFlag(request, response) {
-    const result = red_Flag_Validator.testRedFlag(request.body);
+    const result = redFlagValidator.testRedFlag(request.body);
     if (!result.passing) {
-      return response.status(400).json({
-        status: 400,
+      return response.status(422).json({
+        status: 422,
         error: result.err
       });
     }
@@ -144,14 +144,14 @@ class RedFlagControllers {
       location
     } = request.body;
     if (!location || location.trim().length < 1) {
-      return response.status(400).json({
-        status: 400,
+      return response.status(422).json({
+        status: 422,
         error: 'Please enter a location'
       });
     }
     if (!locationRegex.test(location)) {
-      return response.status(400).json({
-        status: 400,
+      return response.status(422).json({
+        status: 422,
         error: 'Please enter a valid location'
       });
     }
@@ -186,14 +186,14 @@ class RedFlagControllers {
       comment
     } = request.body;
     if (!comment || comment.length < 1) {
-      return response.status(400).json({
-        status: 400,
+      return response.status(422).json({
+        status: 422,
         error: 'Please enter a comment'
       });
     }
     if (typeof comment !== 'string' || comment.length > 300) {
-      return response.status(400).json({
-        status: 400,
+      return response.status(422).json({
+        status: 422,
         error: 'Comment must be a character not exceeding 300 words'
       });
     }
@@ -232,7 +232,6 @@ class RedFlagControllers {
       });
     }
     const index = incidents.indexOf(redFlagId);
-    console.log(index);
     incidents.splice(index, 1);
     return response.status(200).json({
       status: 200,

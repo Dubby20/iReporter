@@ -1,3 +1,5 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable no-mixed-operators */
 const locationRegex = /^([-+]?\d{1,2}([.]\d+)?),\s*([-+]?\d{1,3}([.]\d+)?)$/;
 
 export class RedFlagValidator {
@@ -34,6 +36,7 @@ export class RedFlagValidator {
    */
 
   testForType(type) {
+    // eslint-disable-next-line no-mixed-operators
     if (typeof type !== 'string' || !type.includes('red-flag') && !type.includes('intervention')) {
       this.passing = false;
       this.errMessage = 'Type of record can either be red-flag or intervention';
@@ -70,9 +73,11 @@ export class RedFlagValidator {
    * @returns {boolean}
    */
   testForImages(images) {
-    if (typeof images !== 'string' || !images.includes('.jpg') && !images.includes('.png') && !images.includes('.jpeg')) {
-      this.passing = false;
-      this.errMessage = 'Input is not a valid image extension';
+    for (let i = 0; i < images.length; i++) {
+      if (typeof images[i] !== 'string' || !images[i].includes('.jpg') && !images[i].includes('.png') && !images[i].includes('.jpeg')) {
+        this.passing = false;
+        this.errMessage = 'Input is not an array or a valid image extension';
+      }
     }
   }
 
@@ -82,9 +87,11 @@ export class RedFlagValidator {
    * @returns {boolean}
    */
   testForVideos(videos) {
-    if (typeof videos !== 'string') {
-      this.passing = false;
-      this.errMessage = 'Input must be characters';
+    for (let i = 0; i < videos.length; i++) {
+      if (typeof videos[i] !== 'string') {
+        this.passing = false;
+        this.errMessage = 'Video input is not an array or a string';
+      }
     }
   }
 
