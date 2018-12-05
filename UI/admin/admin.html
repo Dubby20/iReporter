@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Admin Dashboarrd</title>
+  <link rel="shortcut icon" type="image/png" href="../assets/images/task-bar-logo.jpg" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+    crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css?family=Archivo+Black|Candal|Montserrat" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="centered">
+      <dt class="logo">i<span class="logo-name">Reporter</span></dt>
+      <dd class="logo-text">Speak up. Ask for help.</dd>
+    </div>
+    <hr />
+    <div>
+      <nav id="nav" role="navigation">
+        <ul>
+          <li class="align"><a href="#">Log out</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <div class="admin-container">
+      <div class="status status-box">
+        <div class="status-div draft-bg">
+          <h2>103</h2>
+          <h3>Draft</h3>
+        </div>
+      </div>
+      <div class="status status-box">
+        <div class="status-div investigation-bg">
+          <h2>50</h2>
+          <h3>Under Investigation</h3>
+        </div>
+      </div>
+      <div class="status status-box">
+        <div class="status-div resolved-bg">
+          <h2>70</h2>
+          <h3>Resolved</h3>
+        </div>
+      </div>
+      <div class="status status-box">
+        <div class="status-div rejected-bg">
+          <h2>11</h2>
+          <h3>Rejected</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-border table-striped">
+        <thead>
+          <tr>
+            <th>Reporter ID</th>
+            <th>Username</th>
+            <th>Record Type</th>
+            <th>Report</th>
+            <th>Status</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td item-data="Item">456</td>
+            <td item-data="Image">Raymond</td>
+            <td item-data="Item">Red-flag</td>
+            <td item-data="Action"><button class="view-btn modalBtn">View Report</button>
+            </td>
+            <td item-data="Item"><select name="status" id="status" class="form-control">
+                <option value="under investigation">Under Investigation</option>
+                <option value="resolved">Resolved</option>
+                <option value="rejected">Rejected</option>
+              </select></td>
+          </tr>
+
+          <tr>
+            <td item-data="Item">987</td>
+            <td item-data="Image">Alex</td>
+            <td item-data="Item">Red-flag</td>
+            <td item-data="Action"><button class="view-btn modalBtn">View Report</button>
+            </td>
+            <td item-data="Item"><select name="status" id="status" class="form-control">
+                <option value="under investigation">Rejected</option>
+                <option value="resolved">Resolved</option>
+                <option value="rejected">Under Investigation</option>
+              </select></td>
+          </tr>
+          <tr>
+            <td item-data="Item">348</td>
+            <td item-data="Image">Flora</td>
+            <td item-data="Item">Intervention</td>
+            <td item-data="Action"><button class="view-btn modalBtn">View Report</button>
+            </td>
+            <td item-data="Item"><select name="status" id="status" class="form-control">
+                <option value="under investigation">Resolved</option>
+                <option value="resolved">Under Investigation</option>
+                <option value="rejected">Rejected</option>
+              </select></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    <p class="footer">Copyright &copy iReporter App 2018. All Rights Reserved.</p>
+  </footer>
+  <div id="modalPage" class="modal">
+    <div class="modal-content animate">
+      <span class="close-btn">x</span>
+      <div class="modal-body">
+        <form action="" method="POST">
+          <label for="comment">Comment:</label>
+          <div class="form-group">
+            <textarea name="" id="" cols="20" rows="10" maxlength="300" placeholder="Enter comments about your report"
+              required class="form-control">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quidem cumque quo quam sint culpa necessitatibus.</textarea>
+          </div>
+          <label for="image">Image/Video:</label>
+          <div class="form-group">
+            <img src="../assets/images/bribery-and-corruption.jpg" alt="" id="image" class="img-fluid">
+          </div>
+          <div class="form-group location-div">
+            <p id=location-code></p>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+
+  <script src="../js/app.js"></script>
+</body>
+
+</html>

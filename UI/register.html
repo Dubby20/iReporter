@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>SignUp Form</title>
+  <link rel="shortcut icon" type="image/png" href="./assets/images/task-bar-logo.jpg" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+    crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css?family=Archivo+Black|Candal|Montserrat" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+  <div class="centered">
+    <dt class="logo">i<span class="logo-name">Reporter</span></dt>
+    <dd class="logo-text">Speak up. Ask for help.</dd>
+  </div>
+  <hr />
+  <div>
+    <nav id="nav" role="navigation">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="register.html" class="active">Register</a></li>
+        <!-- <li><i class="fas fa-phone-square"></i> <a href="#">Contact Us</a></li> -->
+      </ul>
+    </nav>
+  </div>
+  <div class="page-container">
+    <div class="signUp-login">
+      <h3>Create an account</h3>
+      <form action="" method="POST">
+        <div class="msg-div"></div>
+        <div class="form-group">
+          <input type="text" name="firstname" placeholder="Firstname" required minlength="3" id="firstname" class="form-control">
+        </div>
+        <div class="form-group">
+          <input type="text" name="lastname" placeholder="Lastname" required minlength="3" id="lastname" class="form-control">
+        </div>
+        <div class="form-group">
+          <input type="text" name="othernames" placeholder="Other names" required minlength="3" id="othernames" class="form-control">
+        </div>
+        <div class="form-group">
+          <input type="email" name="email" placeholder="Email" required id="email" class="form-control">
+        </div>
+        <div class="form-group">
+          <input type="tel" name="phoneNumber" placeholder="Phone Number" required id="phoneNumber" class="form-control">
+        </div>
+        <div class="form-group">
+          <input type="text" name="username" placeholder="Username" required minlength="3" id="username" class="form-control">
+        </div>
+        <div class="form-group">
+          <input type="password" name="password" placeholder="Password" required minlength="6" id="password" class="form-control">
+        </div>
+        <div class="form-group">
+          <input type="password" name="confirmPassword" placeholder="Confirm Password" required minlength="6" id="confirmPassword"
+            class="form-control">
+        </div>
+        <div class="form-group btn-div">
+          <input type="submit" value="SIGN UP" class="signUp-btn">
+        </div>
+        <!-- <div class="loader signUpLoader">
+            <img src="./assets/images/6 (1).gif" alt="spinner" class="">
+          </div> -->
+      </form>
+    </div>
+    <div class="account">
+      <p>Already have an account?
+        <a href="login.html"> Login.</a>
+      </p>
+    </div>
+  </div>
+  <footer>
+    <p class="footer">Copyright &copy iReporter App 2018. All Rights Reserved.</p>
+  </footer>
+
+</body>
+
+</html>
