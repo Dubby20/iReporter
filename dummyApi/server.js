@@ -1,13 +1,12 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import logger from 'morgan';
-import createError from 'http-errors';
 
 
-// import router from './routes/routes';
+import router from './routes/routes';
 
 const app = express();
-const port = parseInt(process.env.PORT, 10)  || 5000;
+const port = process.env.PORT || 5000;
 
 
 app.use(logger('dev'));
@@ -19,13 +18,8 @@ app.get('/', (request, response) => response.status(200).json({
   message: 'Welcome to iReporter API'
 }));
 
-// app.use('/api/v1', router);
+app.use('/api/v1', router);
 
-
-// catch 404 and forward to error handler
-app.use((request, response, next) => {
-  next(createError(404));
-});
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
