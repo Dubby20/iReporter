@@ -32,6 +32,27 @@ describe('/POST red-flag', () => {
         done();
       });
   });
+  it('should not create a red flag if input is invalid', (done) => {
+    const incidents = {
+      createdBy: 2,
+      type: 'intervention',
+      location: '6.524379, 3.379206',
+      status: 'rejected',
+      images: 'https://static.pulse.ng/img/incoming/origs7872357/5196368231-w644-h960/DSuR9f-XUAY9MDF',
+      videos: '',
+      comment: '$24 billion NNPC contract scam'
+    };
+    chai.request(server)
+      .post('/api/v1/red-flags')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .send(incidents)
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body).to.be.an('object');
+        done();
+      });
+  });
 });
 
 describe('/GET all red-flag records', () => {
