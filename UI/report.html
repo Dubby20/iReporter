@@ -24,6 +24,8 @@
     <nav id="nav" role="navigation">
       <ul>
         <li><i class="fas fa-home"></i> <a href="index.html">Home</a></li>
+        <li><i class="fas fa-user"></i> <a href="profile.html">My Profile</a></li>
+        <li><i class="fas fa-pen-alt"></i><a href="report.html" class="active">Report</a></li>
         <li><i class="fas fa-eye"></i> <a href="redFlag.html">View Red-flags</a></li>
         <li><i class="fas fa-eye"></i> <a href="intervention.html">View Interventions</a></li>
         <li><i class="fas fa-sign-out-alt"></i> <a href="#">Log out</a></li>
@@ -37,11 +39,12 @@
     <div class="report">
       <form action="" method="POST">
         <div class="msg-div"></div>
+        <label for="comment">Comment:</label>
         <div class="form-group">
           <textarea name="" id="" cols="40" rows="10" maxlength="300" placeholder="Enter comments about your report"
             required class="form-control"></textarea>
         </div>
-        <label for="type">Type of report</label>
+        <label for="type">Type of report:</label>
         <div class="form-group">
           <select name="type" id="type" class="form-control" required>
             <option value="select an option">Select an option</option>
@@ -49,16 +52,17 @@
             <option value="intervention">Intervention</option>
           </select>
         </div>
+
+        <div class="form-group">
+          <label for="file">File Type: Image, Video</label>
+          <img src="" alt="" id="image" height="100" width="100">
+          <input type="file" accept=".png,.jpg,.jpeg | video/mp4,video/x-m4v,video/*" multiple placeholder="Image, Video"
+            class="form-control" id="file-upload">
+        </div>
         <div class="form-group location-div">
           <button onclick="getLocation()" class="btn location-btn"><i class="fas fa-search-location"></i>Use current
             location</button>
           <p id=location-code></p>
-        </div>
-        <div class="form-group">
-          <label for="file">File Type: Image, Video</label>
-          <img src="" alt="" id="image" height="100" width="100">
-          <input type="file" accept=".png, .jpg, .jpeg | video/mp4,video/x-m4v,video/*" placeholder="Image, Video"
-            class="form-control" id="file-upload">
         </div>
         <div class="form-group btn-div">
           <input type="submit" value="SEND REPORT" class="send-btn">
