@@ -2,7 +2,7 @@ import incidents from '../models/redFlag';
 import users from '../models/users';
 import {
   RedFlagValidator
-} from '../helpers/validateRedFlag';
+} from '../middlewares/validateRedFlag';
 
 /**
  * Creates a new redFlagValidator.

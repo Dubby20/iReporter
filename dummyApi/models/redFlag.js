@@ -5,7 +5,10 @@ const incidents = [{
     type: 'red-flag',
     location: '9.076479, 7.398574',
     status: 'draft',
-    images: ['https://static.pulse.ng/img/incoming/origs7873831/3206361644-w644-h960/Godwin-Emefiele.jpg', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgFTAylUzrw8NaJQHsojhiC5cYMklzdR43PypR_oUVtt4TNcwEWg'],
+    images: [
+      'https://static.pulse.ng/img/incoming/origs7873831/3206361644-w644-h960/Godwin-Emefiele.jpg',
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgFTAylUzrw8NaJQHsojhiC5cYMklzdR43PypR_oUVtt4TNcwEWg'
+    ],
     videos: ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgFTAylUzrw8NaJQHsojhiC5cYMklzdR43PypR_oUVtt4TNcwEWg', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgFTAylUzrw8NaJQHsojhiC5cYMklzdR43PypR_oUVtt4TNcwEWg'],
     comment: 'Employment scandals in Central Bank of Nigeria (CBN) and Federal Inland Revenue Service (FIRS)'
   },
