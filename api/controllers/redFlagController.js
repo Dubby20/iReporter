@@ -12,7 +12,7 @@ export default class RedFlagController {
    * @memberof RedFlagController
    * @param {object} request The request.
    * @param {object} response The response.
-   *@function addMenu
+   *@function add  Red-flag
 
    * @returns {object} response.
    */
@@ -93,14 +93,14 @@ export default class RedFlagController {
   }
 
   /**
-   * @description Gets a specific order by id
+   * @description Gets a specific red-flag by id
    *
-   * @static orderId
-   * @param {object} request Request Object with the given order id
+   * @static red-flagId
+   * @param {object} request Request Object with the given red-flag id
    * @param {object} response Response object
-   * @memberof OrderController
+   * @memberof RedFlagController
    *
-   * @returns {object} orders object or error message if order is not found
+   * @returns {object} red-flags object or error message if red-flag is not found
    */
   static redFlagId(request, response) {
     if (!Number(request.params.id)) {
@@ -126,6 +126,77 @@ export default class RedFlagController {
           }]
         });
       }).catch(err => response.status(500).json({
+        status: 500,
+        error: 'Database Error'
+      }));
+  }
+
+  /**
+       * @description edit red-flag
+       *
+       * @static edit a red-flag
+       * @memberof RedFlagController
+       * @param {object} request The request.
+       * @param {object} response The response.
+       *@function get  red-flag
+
+       * @returns {object} response.
+       */
+
+  static editRedFlag(request, response) {
+    const locationRegex = /^([-+]?\d{1,2}([.]\d+)?),\s*([-+]?\d{1,3}([.]\d+)?)$/;
+
+    if (!Number(request.params.id)) {
+      return response.status(422).json({
+        status: 422,
+        error: 'The given red-flag id is not a number'
+      });
+    }
+    pool.query('SELECT  * FROM red_flags WHERE red_flags.id = $1', [request.params.id])
+      .then((redFlagId) => {
+        if (redFlagId.rowCount < 1) {
+          return response.status(404).json({
+            status: 404,
+            error: 'The red-flag with the given id does not exists'
+          });
+        }
+        const {
+          location
+        } = request.body;
+        if (!location || location.trim().length < 1) {
+          return response.status(422).json({
+            status: 422,
+            error: 'Please enter a location'
+          });
+        }
+        if (!locationRegex.test(location)) {
+          return response.status(422).json({
+            status: 422,
+            error: 'Please enter a valid location'
+          });
+        }
+        if (request.user.id === redFlagId.rows[0].user_id) {
+          pool.query(`UPDATE red_flags SET location = '${location}' WHERE red_flags.id = $1 RETURNING *`, [request.params.id])
+            .then((data) => {
+              const editRedFlagLocation = data.rows[0];
+              return response.status(200).json({
+                status: 200,
+                data: [{
+                  id: editRedFlagLocation.id,
+                  message: 'Updated red-flag record’s location'
+                }]
+              });
+            }).catch(error => response.status(500).json({
+              status: 500,
+              error: 'Database Error'
+            }));
+        } else {
+          return response.status(401).json({
+            status: 401,
+            error: 'Unauthorized'
+          });
+        }
+      }).catch(error => response.status(500).json({
         status: 500,
         error: 'Database Error'
       }));
