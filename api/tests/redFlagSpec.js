@@ -130,4 +130,29 @@ describe('/POST orders', () => {
         done();
       });
   });
+
+  describe('/GET red-flags', () => {
+    before((done) => {
+      chai.request(server)
+        .post('/api/v1/auth/login')
+        .send(user)
+        .end((error, response) => {
+          userToken = response.body.data[0].token;
+          done();
+        });
+    });
+    it('it should GET all red-flags', (done) => {
+      chai.request(server)
+        .get('/api/v1/red-flags')
+        .set('Content-Type', 'application/json')
+        .set('Accept', 'application/json')
+        .set('x-access-token', userToken)
+        .end((error, response) => {
+          expect(response).to.have.status(200);
+          expect(response.body.data[0]).to.have.property('message').eql('All red-flags was retrieved successfully');
+          expect(response.body).to.be.an('object');
+          done();
+        });
+    });
+  });
 });

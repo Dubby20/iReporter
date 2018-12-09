@@ -57,4 +57,38 @@ export default class RedFlagController {
         error: 'Database Error'
       }));
   }
+
+  /**
+    * @description Gets all the red-flags record
+    *
+   * @static allRedFlags
+    * @param {object} request Request object
+    * @param {object} response Response object
+    * @memberof RedFlagController
+
+    * @returns {object} List of all red-flags records
+    */
+
+  static allRedFlags(request, response) {
+    pool.query('SELECT * FROM red_flags')
+      .then((data) => {
+        const redFlag = data.rows;
+        if (redFlag.length === 0) {
+          return response.status(404).json({
+            status: 404,
+            error: 'No red-flag record yet'
+          });
+        }
+        return response.status(200).json({
+          status: 200,
+          data: [{
+            redFlag,
+            message: 'All red-flags was retrieved successfully'
+          }]
+        });
+      }).catch(err => response.status(500).json({
+        status: 500,
+        error: 'Database Error'
+      }));
+  }
 }
