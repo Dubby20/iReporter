@@ -26,7 +26,7 @@ const redFlag = {
   comment: 'Grass Cutting” scandal of ex-secretary to the Federal Government'
 };
 
-describe('/POST orders', () => {
+describe('/POST red-flags', () => {
   before((done) => {
     chai
       .request(server)
@@ -54,7 +54,7 @@ describe('/POST orders', () => {
       });
   });
 
-  it('it should not place an empty red-flag', (done) => {
+  it('it should not create an empty red-flag', (done) => {
     const invalidRedFlag = {
       location: '',
       images: '',
@@ -130,29 +130,69 @@ describe('/POST orders', () => {
         done();
       });
   });
+});
 
-  describe('/GET red-flags', () => {
-    before((done) => {
-      chai.request(server)
-        .post('/api/v1/auth/login')
-        .send(user)
-        .end((error, response) => {
-          userToken = response.body.data[0].token;
-          done();
-        });
-    });
-    it('it should GET all red-flags', (done) => {
-      chai.request(server)
-        .get('/api/v1/red-flags')
-        .set('Content-Type', 'application/json')
-        .set('Accept', 'application/json')
-        .set('x-access-token', userToken)
-        .end((error, response) => {
-          expect(response).to.have.status(200);
-          expect(response.body.data[0]).to.have.property('message').eql('All red-flags was retrieved successfully');
-          expect(response.body).to.be.an('object');
-          done();
-        });
-    });
+
+describe('/GET all red-flags', () => {
+  before((done) => {
+    chai.request(server)
+      .post('/api/v1/auth/login')
+      .send(user)
+      .end((error, response) => {
+        userToken = response.body.data[0].token;
+        done();
+      });
+  });
+  it('it should GET all red-flags', (done) => {
+    chai.request(server)
+      .get('/api/v1/red-flags')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
+      .end((error, response) => {
+        expect(response).to.have.status(200);
+        expect(response.body.data[0]).to.have.property('message').eql('All red-flags was retrieved successfully');
+        expect(response.body).to.be.an('object');
+        done();
+      });
+  });
+});
+
+describe('/GET/red-flags/:id', () => {
+  it('it should GET a red-flag by the given id', (done) => {
+    chai.request(server)
+      .get('/api/v1/red-flags/9')
+      .set('x-access-token', userToken)
+      .end((error, response) => {
+        expect(response).to.have.status(200);
+        expect(response.body.data[0]).to.have.property('message').equal('Get a specific red-flag was successful');
+        expect(response.body).to.be.an('object');
+        expect(response.body.data).to.be.an('array');
+        done();
+      });
+  });
+
+  it('it should return an error message if the id is not a number', (done) => {
+    chai.request(server)
+      .get('/api/v1/red-flags/re')
+      .set('x-access-token', userToken)
+      .end((error, response) => {
+        expect(response).to.have.status(400);
+        expect(response.body.error).to.equal('The given red-flag id is not a number');
+        expect(response.body).to.be.an('object');
+        done();
+      });
+  });
+
+  it('it should return an error message when the given ID is not found', (done) => {
+    chai.request(server)
+      .get('/api/v1/red-flags/1')
+      .set('x-access-token', userToken)
+      .end((error, response) => {
+        expect(response).to.have.status(404);
+        expect(response.body.error).to.equal('The id of the given red-flag was not found');
+        expect(response.body).to.be.an('object');
+        done();
+      });
   });
 });

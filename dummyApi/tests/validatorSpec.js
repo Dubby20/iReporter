@@ -3,7 +3,7 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import {
   RedFlagValidator
-} from '../helpers/validateRedFlag';
+} from '../middlewares/validateRedFlag';
 
 const {
   expect

@@ -91,4 +91,43 @@ export default class RedFlagController {
         error: 'Database Error'
       }));
   }
+
+  /**
+   * @description Gets a specific order by id
+   *
+   * @static orderId
+   * @param {object} request Request Object with the given order id
+   * @param {object} response Response object
+   * @memberof OrderController
+   *
+   * @returns {object} orders object or error message if order is not found
+   */
+  static redFlagId(request, response) {
+    if (!Number(request.params.id)) {
+      return response.status(400).json({
+        status: 400,
+        error: 'The given red-flag id is not a number'
+      });
+    }
+    pool.query('SELECT * FROM red_flags where id = $1', [request.params.id])
+      .then((data) => {
+        const redFlag = data.rows[0];
+        if (!redFlag) {
+          return response.status(404).json({
+            status: 404,
+            error: 'The id of the given red-flag was not found'
+          });
+        }
+        return response.status(200).json({
+          status: 200,
+          data: [{
+            redFlag,
+            message: 'Get a specific red-flag was successful'
+          }]
+        });
+      }).catch(err => response.status(500).json({
+        status: 500,
+        error: 'Database Error'
+      }));
+  }
 }

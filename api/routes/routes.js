@@ -10,6 +10,7 @@ router.post('/auth/signup', UserController.signup);
 router.post('/auth/login', UserController.login);
 router.post('/red-flags', verifyToken.userAuthentication, RedFlagControllers.createRedFlag);
 router.get('/red-flags', verifyToken.userAuthentication, RedFlagControllers.allRedFlags);
+router.get('/red-flags/:id', verifyToken.userAuthentication, RedFlagControllers.redFlagId);
 
 
 export default router;
