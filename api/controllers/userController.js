@@ -210,7 +210,10 @@ export default class UserController {
           status: 200,
           data: [{
             token,
-            isAdmin: user.is_admin,
+            user: {
+              email: user.email,
+              isAdmin: user.is_admin
+            },
             message: 'Successfully signed in'
           }]
         });

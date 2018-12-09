@@ -14,7 +14,8 @@ class verifyToken {
     const token = request.header('x-access-token');
     if (!token) {
       return response.status(401).json({
-        message: 'Unauthorized'
+        status: 401,
+        error: 'Unauthorized'
       });
     }
     try {
@@ -23,7 +24,8 @@ class verifyToken {
       return next();
     } catch (err) {
       return response.status(403).json({
-        message: 'Access denied'
+        status: 403,
+        error: 'Access denied'
       });
     }
   }
