@@ -197,7 +197,7 @@ describe('/GET/red-flags/:id', () => {
   });
 });
 
-describe('/PATCH red-flags/:id', () => {
+describe('/PATCH red-flags/:id/location', () => {
   it('it should UPDATE location of a specific red-flag id', (done) => {
     const redFlagLocation = {
       location: '9.076479, 7.398574'
@@ -294,6 +294,113 @@ describe('/PATCH red-flags/:id', () => {
       .set('x-access-token', '')
       .send({
         location: '9.076479, 7.398574'
+      })
+      .end((error, response) => {
+        expect(response).to.have.status(401);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('Unauthorized');
+        done();
+      });
+  });
+});
+
+describe('/PATCH red-flags/:id/comment', () => {
+  it('it should UPDATE comment of a specific red-flag id', (done) => {
+    const redFlagComment = {
+      comment: '24 billion NNPC contract scam'
+    };
+    chai.request(server)
+      .patch('/api/v1/red-flags/11/comment')
+      .set('content-Type', 'application/json')
+      .set('accept', 'application/json')
+      .set('x-access-token', userToken)
+      .send(redFlagComment)
+      .end((error, response) => {
+        expect(response).to.have.status(200);
+        expect(response.body).to.be.an('object');
+        expect(response.body.data).to.be.an('array');
+        expect(response.body.data[0]).to.have.property('message').eql('Updated red-flag record’s comment');
+        done();
+      });
+  });
+
+  it('it should return an error if the location is empty', (done) => {
+    const redFlagComment = {
+      comment: ''
+    };
+    chai.request(server)
+      .patch('/api/v1/red-flags/12/comment')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
+      .send(redFlagComment)
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('Please enter a comment');
+        done();
+      });
+  });
+
+  it('it should return an error if the comment is invalid', (done) => {
+    chai.request(server)
+      .patch('/api/v1/red-flags/11/comment')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
+      .send({
+        comment: '$24 billion NNPC contract scam'
+      })
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('comment must be a string of characters');
+        done();
+      });
+  });
+
+  it('it should return an error if the red-flag id is not a number', (done) => {
+    chai.request(server)
+      .patch('/api/v1/red-flags/ab/comment')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
+      .send({
+        comment: '24 billion NNPC contract scam'
+      })
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('The given red-flag id is not a number');
+        done();
+      });
+  });
+
+  it('it should return an error if the red-flag id is not found', (done) => {
+    chai.request(server)
+      .patch('/api/v1/red-flags/1/comment')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
+      .send({
+        comment: '24 billion NNPC contract scam'
+      })
+      .end((error, response) => {
+        expect(response).to.have.status(404);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('The red-flag with the given id does not exists');
+        done();
+      });
+  });
+
+  it('it should return an error if the user_id is not authenticated', (done) => {
+    chai.request(server)
+      .patch('/api/v1/red-flags/14/comment')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', '')
+      .send({
+        comment: '24 billion NNPC contract scam'
       })
       .end((error, response) => {
         expect(response).to.have.status(401);

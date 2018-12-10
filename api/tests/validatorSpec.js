@@ -153,13 +153,12 @@ describe('Validate red-flag input', () => {
   });
 
   it('should validate testForComment function', (done) => {
-    redFlagValidator.testForComment('$24 billion NNPC contract scam');
+    redFlagValidator.testForComment('24 billion NNPC contract scam');
     expect(redFlagValidator.passing).to.equal(true);
-    // eslint-disable-next-line operator-linebreak
-    redFlagValidator.testForComment('Employment scandals in Central Bank of Nigeria (CBN) and Federal Inland Revenue Service (FIRS). Grass Cutting scandal of ex-secretary to the Federal Government ' + '\n' +
-      'Employment scandals in Central Bank of Nigeria (CBN) and Federal Inland Revenue Service (FIRS). Employment scandals in Central Bank of Nigeria (CBN) and Federal Inland Revenue Service (FIRS).');
+    // eslint-disable-next-line no-undef
+    redFlagValidator.testForComment(24);
     expect(redFlagValidator.passing).to.equal(false);
-    expect(redFlagValidator.errMessage).to.equal('Comment must be characters not exceeding 300 words');
+    expect(redFlagValidator.errMessage).to.equal('Comment must be characters');
     done();
   });
 

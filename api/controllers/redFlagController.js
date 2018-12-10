@@ -132,7 +132,7 @@ export default class RedFlagController {
   }
 
   /**
-       * @description edit red-flag
+       * @description edit red-flag location
        *
        * @static edit a red-flag
        * @memberof RedFlagController
@@ -184,6 +184,75 @@ export default class RedFlagController {
                 data: [{
                   id: editRedFlagLocation.id,
                   message: 'Updated red-flag record’s location'
+                }]
+              });
+            }).catch(error => response.status(500).json({
+              status: 500,
+              error: 'Database Error'
+            }));
+        } else {
+          return response.status(401).json({
+            status: 401,
+            error: 'Unauthorized'
+          });
+        }
+      }).catch(error => response.status(500).json({
+        status: 500,
+        error: 'Database Error'
+      }));
+  }
+
+  /**
+       * @description edit red-flag comment
+       *
+       * @static edit a red-flag
+       * @memberof RedFlagController
+       * @param {object} request The request.
+       * @param {object} response The response.
+       *@function get  red-flag
+
+       * @returns {object} response.
+       */
+  static editRedFlagComment(request, response) {
+    const commentRegex = /^[a-zA-Z0-9,. ]+$/;
+    if (!Number(request.params.id)) {
+      return response.status(422).json({
+        status: 422,
+        error: 'The given red-flag id is not a number'
+      });
+    }
+    pool.query('SELECT  * FROM red_flags WHERE red_flags.id = $1', [request.params.id])
+      .then((redFlagId) => {
+        if (redFlagId.rowCount < 1) {
+          return response.status(404).json({
+            status: 404,
+            error: 'The red-flag with the given id does not exists'
+          });
+        }
+        const {
+          comment
+        } = request.body;
+        if (!comment || comment.trim().length < 1) {
+          return response.status(422).json({
+            status: 422,
+            error: 'Please enter a comment'
+          });
+        }
+        if (typeof comment !== 'string' || !commentRegex.test(comment)) {
+          return response.status(422).json({
+            status: 422,
+            error: 'comment must be a string of characters'
+          });
+        }
+        if (request.user.id === redFlagId.rows[0].user_id) {
+          pool.query(`UPDATE red_flags SET comment = '${comment}' WHERE red_flags.id = $1 RETURNING *`, [request.params.id])
+            .then((data) => {
+              const editComment = data.rows[0];
+              return response.status(200).json({
+                status: 200,
+                data: [{
+                  id: editComment.id,
+                  message: 'Updated red-flag record’s comment'
                 }]
               });
             }).catch(error => response.status(500).json({
