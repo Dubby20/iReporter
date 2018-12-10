@@ -6,6 +6,10 @@ import {
 import {
   RedFlagValidator
 } from '../middlewares/validateRedFlag';
+import {
+  InterventionValidator
+} from '../middlewares/validateIntervention';
+
 
 const {
   expect
@@ -185,6 +189,78 @@ describe('Validate red-flag input', () => {
     });
     expect(redFlagValidator.passing).to.equal(false);
     expect(redFlagValidator.errMessage).to.equal('Input fields must not be empty');
+    done();
+  });
+});
+
+
+describe('Validate intervention input', () => {
+  let interventionValidator;
+  beforeEach((done) => {
+    interventionValidator = new InterventionValidator();
+    done();
+  });
+
+  it('should validate testForLocation function', (done) => {
+    interventionValidator.testForLocation('6.524379, 3.379206');
+    expect(interventionValidator.passing).to.equal(true);
+    interventionValidator.testForLocation('6.524379 3.379206');
+    expect(interventionValidator.passing).to.equal(false);
+    expect(interventionValidator.errMessage).to.equal('Input does not match a Lat Long coordinates');
+    done();
+  });
+
+  it('should validate testForImages function', (done) => {
+    interventionValidator.testForImages(['https://static.pulse.ng/img/incoming/origs7532087/2036362149-w644-h960/babachir-lawal.jpg']);
+    expect(interventionValidator.passing).to.equal(true);
+    interventionValidator.testForImages('https://static.pulse.ng/img/incoming/origs7532087/2036362149-w644-h960/babachir-lawal');
+    expect(interventionValidator.passing).to.equal(false);
+    expect(interventionValidator.errMessage).to.equal('Input is not an array or a valid image extension');
+    done();
+  });
+
+  it('should validate testForVideos function', (done) => {
+    interventionValidator.testForVideos(['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVtbtjMiVvbOLVc7dA53s3_st7BjF-wtTxNu8Tq_-5al0IZBId']);
+    expect(interventionValidator.passing).to.equal(true);
+    interventionValidator.testForVideos([1234]);
+    expect(interventionValidator.passing).to.equal(false);
+    expect(interventionValidator.errMessage).to.equal('Video input is not an array or a string');
+    done();
+  });
+
+  it('should validate testForComment function', (done) => {
+    interventionValidator.testForComment('24 billion NNPC contract scam');
+    expect(interventionValidator.passing).to.equal(true);
+    // eslint-disable-next-line no-undef
+    interventionValidator.testForComment(24);
+    expect(interventionValidator.passing).to.equal(false);
+    expect(interventionValidator.errMessage).to.equal('Comment must be characters');
+    done();
+  });
+
+  it('should validate resetValid function', (done) => {
+    interventionValidator.resetValid();
+    expect(interventionValidator.passing).to.equal(true);
+    done();
+  });
+  it('should validate testForEmptyStringInput function', (done) => {
+    const incidents = {
+      createdBy: 2,
+      type: 'intervention',
+      location: '6.524379, 3.379206',
+      status: 'rejected',
+      images: ['https://static.pulse.ng/img/incoming/origs7872357/5196368231-w644-h960/DSuR9f-XUAY9MDF.jpg'],
+      videos: ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVtbtjMiVvbOLVc7dA53s3_st7BjF-wtTxNu8Tq_-5al0IZBId'],
+      comment: '$24 billion NNPC contract scam'
+    };
+    interventionValidator.testForEmptyStringInput(incidents);
+    expect(interventionValidator.errMessage).to.equal(undefined);
+    expect(interventionValidator.passing).to.equal(true);
+    interventionValidator.testForEmptyStringInput({
+      status: ''
+    });
+    expect(interventionValidator.passing).to.equal(false);
+    expect(interventionValidator.errMessage).to.equal('Input fields must not be empty');
     done();
   });
 });

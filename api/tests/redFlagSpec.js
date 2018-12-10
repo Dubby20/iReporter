@@ -26,12 +26,6 @@ const redFlag = {
   comment: 'Grass Cutting” scandal of ex-secretary to the Federal Government'
 };
 
-const redFlag3 = {
-
-  images: {},
-  videos: {},
-  comment: 'Grass Cutting” scandal of ex-secretary to the Federal Government'
-};
 
 describe('/POST red-flags', () => {
   before((done) => {

@@ -3,9 +3,9 @@
 /* eslint-disable no-mixed-operators */
 const locationRegex = /^([-+]?\d{1,2}([.]\d+)?),\s*([-+]?\d{1,3}([.]\d+)?)$/;
 
-export class RedFlagValidator {
+export class InterventionValidator {
   /**
-   * @description Validate red-flag input
+   * @description Validate intervention input
    *
    * @constructor
    * @param {String} request
@@ -85,8 +85,8 @@ export class RedFlagValidator {
    *
    * @returns {boolean}
    */
-  testForEmptyStringInput(red_flags) {
-    let check = Object.values(red_flags);
+  testForEmptyStringInput(interventions) {
+    let check = Object.values(interventions);
     check = check.every(data => data !== '');
     if (!check) {
       this.passing = false;
@@ -94,13 +94,13 @@ export class RedFlagValidator {
     }
   }
 
-  testRedFlag(red_flags) {
+  testIntervention(interventions) {
     this.resetValid();
-    this.testForLocation(red_flags.location);
-    this.testForImages(red_flags.images);
-    this.testForVideos(red_flags.videos);
-    this.testForComment(red_flags.comment);
-    this.testForEmptyStringInput(red_flags);
+    this.testForLocation(interventions.location);
+    this.testForImages(interventions.images);
+    this.testForVideos(interventions.videos);
+    this.testForComment(interventions.comment);
+    this.testForEmptyStringInput(interventions);
     const obj = {
       passing: this.passing,
       err: this.errMessage
@@ -109,4 +109,4 @@ export class RedFlagValidator {
   }
 }
 
-export default RedFlagValidator;
+export default InterventionValidator;
