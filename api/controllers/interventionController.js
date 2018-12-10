@@ -58,4 +58,38 @@ export default class InterventionController {
       }));
   }
 
+  /**
+   * @description Gets all the red-flags record
+   *
+  * @static allRedFlags
+   * @param {object} request Request object
+   * @param {object} response Response object
+   * @memberof RedFlagController
+
+   * @returns {object} List of all red-flags records
+   */
+
+  static allInterventions(request, response) {
+    pool.query('SELECT * FROM interventions')
+      .then((data) => {
+        const intervention = data.rows;
+        if (intervention.length === 0) {
+          return response.status(404).json({
+            status: 404,
+            error: 'No intervention record yet'
+          });
+        }
+        return response.status(200).json({
+          status: 200,
+          data: [{
+            intervention,
+            message: 'All interventions was retrieved successfully'
+          }]
+        });
+      }).catch(err => response.status(500).json({
+        status: 500,
+        error: 'Database Error'
+      }));
+  }
+
 }

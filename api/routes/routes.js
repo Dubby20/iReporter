@@ -13,6 +13,7 @@ router.post('/auth/login', UserController.login);
 router.post('/red-flags', verifyToken.userAuthentication, RedFlagController.createRedFlag);
 router.post('/interventions', verifyToken.userAuthentication, InterventionController.createIntervention);
 router.get('/red-flags', verifyToken.userAuthentication, RedFlagController.allRedFlags);
+router.get('/interventions', verifyToken.userAuthentication, InterventionController.allInterventions);
 router.get('/red-flags/:id', verifyToken.userAuthentication, RedFlagController.redFlagId);
 router.patch('/red-flags/:id/location', verifyToken.userAuthentication, RedFlagController.editRedFlag);
 router.patch('/red-flags/:id/comment', verifyToken.userAuthentication, RedFlagController.editRedFlagComment);

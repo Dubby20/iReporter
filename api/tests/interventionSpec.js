@@ -132,3 +132,28 @@ describe('/POST interventions', () => {
       });
   });
 });
+
+describe('/GET all interventions', () => {
+  before((done) => {
+    chai.request(server)
+      .post('/api/v1/auth/login')
+      .send(user)
+      .end((error, response) => {
+        userToken = response.body.data[0].token;
+        done();
+      });
+  });
+  it('it should GET all interventions', (done) => {
+    chai.request(server)
+      .get('/api/v1/interventions')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
+      .end((error, response) => {
+        expect(response).to.have.status(200);
+        expect(response.body.data[0]).to.have.property('message').eql('All interventions was retrieved successfully');
+        expect(response.body).to.be.an('object');
+        done();
+      });
+  });
+});
