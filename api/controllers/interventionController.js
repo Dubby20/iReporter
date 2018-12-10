@@ -59,14 +59,14 @@ export default class InterventionController {
   }
 
   /**
-   * @description Gets all the red-flags record
+   * @description Gets all the interventions record
    *
-  * @static allRedFlags
+  * @static allInterventions
    * @param {object} request Request object
    * @param {object} response Response object
-   * @memberof RedFlagController
+   * @memberof InterventionController
 
-   * @returns {object} List of all red-flags records
+   * @returns {object} List of all interventions records
    */
 
   static allInterventions(request, response) {
@@ -92,4 +92,42 @@ export default class InterventionController {
       }));
   }
 
+  /**
+   * @description Gets a specific intervention by id
+   *
+   * @static interventionId
+   * @param {object} request Request Object with the given intervention id
+   * @param {object} response Response object
+   * @memberof RedFlagController
+   *
+   * @returns {object} interventions object or error message if intervention is not found
+   */
+  static interventionId(request, response) {
+    if (!Number(request.params.id)) {
+      return response.status(422).json({
+        status: 422,
+        error: 'The given intervention id is not a number'
+      });
+    }
+    pool.query('SELECT * FROM interventions where id = $1', [request.params.id])
+      .then((data) => {
+        const intervention = data.rows[0];
+        if (!intervention) {
+          return response.status(404).json({
+            status: 404,
+            error: 'The id of the given intervention was not found'
+          });
+        }
+        return response.status(200).json({
+          status: 200,
+          data: [{
+            intervention,
+            message: 'Get a specific intervention was successful'
+          }]
+        });
+      }).catch(err => response.status(500).json({
+        status: 500,
+        error: 'Database Error'
+      }));
+  }
 }

@@ -157,3 +157,42 @@ describe('/GET all interventions', () => {
       });
   });
 });
+
+describe('/GET/interventions/:id', () => {
+  it('it should GET an intervention by the given id', (done) => {
+    chai.request(server)
+      .get('/api/v1/interventions/11')
+      .set('x-access-token', userToken)
+      .end((error, response) => {
+        expect(response).to.have.status(200);
+        expect(response.body.data[0]).to.have.property('message').equal('Get a specific intervention was successful');
+        expect(response.body).to.be.an('object');
+        expect(response.body.data).to.be.an('array');
+        done();
+      });
+  });
+
+  it('it should return an error message if the id is not a number', (done) => {
+    chai.request(server)
+      .get('/api/v1/interventions/re')
+      .set('x-access-token', userToken)
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body.error).to.equal('The given intervention id is not a number');
+        expect(response.body).to.be.an('object');
+        done();
+      });
+  });
+
+  it('it should return an error message when the given ID is not found', (done) => {
+    chai.request(server)
+      .get('/api/v1/interventions/1')
+      .set('x-access-token', userToken)
+      .end((error, response) => {
+        expect(response).to.have.status(404);
+        expect(response.body.error).to.equal('The id of the given intervention was not found');
+        expect(response.body).to.be.an('object');
+        done();
+      });
+  });
+});
