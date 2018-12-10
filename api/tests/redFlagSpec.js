@@ -26,6 +26,13 @@ const redFlag = {
   comment: 'Grass Cutting” scandal of ex-secretary to the Federal Government'
 };
 
+const redFlag3 = {
+
+  images: {},
+  videos: {},
+  comment: 'Grass Cutting” scandal of ex-secretary to the Federal Government'
+};
+
 describe('/POST red-flags', () => {
   before((done) => {
     chai
@@ -402,6 +409,51 @@ describe('/PATCH red-flags/:id/comment', () => {
       .send({
         comment: '24 billion NNPC contract scam'
       })
+      .end((error, response) => {
+        expect(response).to.have.status(401);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('Unauthorized');
+        done();
+      });
+  });
+});
+
+
+describe('/DELETE red-flags/:id', () => {
+  it('it should not delete a red-flag id if it is not a number', (done) => {
+    chai.request(server)
+      .delete('/api/v1/red-flags/in')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('The given red-flag id is not a number');
+        done();
+      });
+  });
+
+  it('it should not DELETE a meal id that is not available', (done) => {
+    chai.request(server)
+      .delete('/api/v1/red-flags/4')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
+      .end((error, response) => {
+        expect(response).to.have.status(404);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('The red-flag with the given id does not exists');
+        done();
+      });
+  });
+
+  it('it should return an error if the user_id is not authenticated', (done) => {
+    chai.request(server)
+      .delete('/api/v1/red-flags/14/')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', '')
       .end((error, response) => {
         expect(response).to.have.status(401);
         expect(response.body).to.be.an('object');

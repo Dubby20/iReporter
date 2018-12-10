@@ -14,6 +14,7 @@ router.get('/red-flags', verifyToken.userAuthentication, RedFlagControllers.allR
 router.get('/red-flags/:id', verifyToken.userAuthentication, RedFlagControllers.redFlagId);
 router.patch('/red-flags/:id/location', verifyToken.userAuthentication, RedFlagControllers.editRedFlag);
 router.patch('/red-flags/:id/comment', verifyToken.userAuthentication, RedFlagControllers.editRedFlagComment);
+router.delete('/red-flags/:id', verifyToken.userAuthentication, RedFlagControllers.deleteRedFlag);
 
 
 export default router;

@@ -198,7 +198,7 @@ export default class RedFlagController {
         }
       }).catch(error => response.status(500).json({
         status: 500,
-        error: 'Database Error'
+        error: 'Server Error'
       }));
   }
 
@@ -265,6 +265,41 @@ export default class RedFlagController {
             error: 'Unauthorized'
           });
         }
+      }).catch(error => response.status(500).send({
+        status: 500,
+        error: 'Server Error'
+      }));
+  }
+
+  static deleteRedFlag(request, response) {
+    if (!Number(request.params.id)) {
+      return response.status(422).json({
+        status: 422,
+        error: 'The given red-flag id is not a number'
+      });
+    }
+    pool.query('SELECT  * FROM red_flags WHERE red_flags.id = $1', [request.params.id])
+      .then((redFlagId) => {
+        if (redFlagId.rowCount < 1) {
+          return response.status(404).json({
+            status: 404,
+            error: 'The red-flag with the given id does not exists'
+          });
+        }
+        pool.query('DELETE FROM red_flags WHERE red_flags.id = $1 RETURNING *', [request.params.id])
+          .then((data) => {
+            const delRedFlag = data.rows[0];
+            response.status(202).json({
+              status: 202,
+              data: [{
+                id: delRedFlag.id,
+                message: 'red-flag record has been deleted'
+              }]
+            });
+          }).catch(error => response.status(500).json({
+            status: 500,
+            error: 'Server Error'
+          }));
       }).catch(error => response.status(500).json({
         status: 500,
         error: 'Database Error'
