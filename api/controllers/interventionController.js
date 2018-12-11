@@ -130,4 +130,76 @@ export default class InterventionController {
         error: 'Database Error'
       }));
   }
+
+  /**
+       * @description edit red-flag location
+       *
+       * @static edit a red-flag
+       * @memberof RedFlagController
+       * @param {object} request The request.
+       * @param {object} response The response.
+       *@function get  red-flag
+
+       * @returns {object} response.
+       */
+
+  static interventionLocation(request, response) {
+    const locationRegex = /^([-+]?\d{1,2}([.]\d+)?),\s*([-+]?\d{1,3}([.]\d+)?)$/;
+
+    if (!Number(request.params.id)) {
+      return response.status(422).json({
+        status: 422,
+        error: 'The given intervention id is not a number'
+      });
+    }
+    pool.query('SELECT  * FROM interventions WHERE interventions.id = $1', [request.params.id])
+      .then((interventionId) => {
+        if (interventionId.rowCount < 1) {
+          return response.status(404).json({
+            status: 404,
+            error: 'The intervention with the given id does not exists'
+          });
+        }
+        const {
+          location
+        } = request.body;
+        if (!location || location.trim().length < 1) {
+          return response.status(422).json({
+            status: 422,
+            error: 'Please enter a location'
+          });
+        }
+        if (!locationRegex.test(location)) {
+          return response.status(422).json({
+            status: 422,
+            error: 'Please enter a valid location'
+          });
+        }
+        if (request.user.id === interventionId.rows[0].user_id) {
+          pool.query(`UPDATE interventions SET location = '${location}' WHERE interventions.id = $1 RETURNING *`, [request.params.id])
+            .then((data) => {
+              const editInterventionLocation = data.rows[0];
+              return response.status(200).json({
+                status: 200,
+                data: [{
+                  id: editInterventionLocation.id,
+                  message: 'Updated intervention record’s location'
+                }]
+              });
+            }).catch(error => response.status(500).json({
+              status: 500,
+              error: 'Database Error'
+            }));
+        } else {
+          return response.status(401).json({
+            status: 401,
+            error: 'Unauthorized'
+          });
+        }
+      }).catch(error => response.status(500).json({
+        status: 500,
+        error: 'Server Error'
+      }));
+  }
+
 }
