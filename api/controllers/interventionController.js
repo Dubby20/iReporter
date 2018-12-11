@@ -270,4 +270,50 @@ export default class InterventionController {
         error: 'Server Error'
       }));
   }
+
+  /**
+       * @description delete intervention
+       *
+       * @static delete an intervention
+       * @memberof InterventionController
+       * @param {object} request The request.
+       * @param {object} response The response.
+       *@function delete intervention
+
+       * @returns {object} response.
+       */
+  static deleteIntervention(request, response) {
+    if (!Number(request.params.id)) {
+      return response.status(422).json({
+        status: 422,
+        error: 'The given intervention id is not a number'
+      });
+    }
+    pool.query('SELECT  * FROM interventions WHERE interventions.id = $1', [request.params.id])
+      .then((interventionId) => {
+        if (interventionId.rowCount < 1) {
+          return response.status(404).json({
+            status: 404,
+            error: 'The intervention with the given id does not exists'
+          });
+        }
+        pool.query('DELETE FROM interventions WHERE interventions.id = $1 RETURNING *', [request.params.id])
+          .then((data) => {
+            const delIntervention = data.rows[0];
+            response.status(202).json({
+              status: 202,
+              data: [{
+                id: delIntervention.id,
+                message: 'intervention record has been deleted'
+              }]
+            });
+          }).catch(error => response.status(500).json({
+            status: 500,
+            error: 'Server Error'
+          }));
+      }).catch(error => response.status(500).json({
+        status: 500,
+        error: 'Database Error'
+      }));
+  }
 }

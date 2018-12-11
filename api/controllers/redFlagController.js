@@ -271,6 +271,17 @@ export default class RedFlagController {
       }));
   }
 
+  /**
+       * @description delete red-flag
+       *
+       * @static delete a red-flag
+       * @memberof RedFlagController
+       * @param {object} request The request.
+       * @param {object} response The response.
+       *@function delete red-flag
+
+       * @returns {object} response.
+       */
   static deleteRedFlag(request, response) {
     if (!Number(request.params.id)) {
       return response.status(422).json({

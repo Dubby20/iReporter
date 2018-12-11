@@ -21,6 +21,7 @@ router.patch('/interventions/:id/location', verifyToken.userAuthentication, Inte
 router.patch('/red-flags/:id/comment', verifyToken.userAuthentication, RedFlagController.editRedFlagComment);
 router.patch('/interventions/:id/comment', verifyToken.userAuthentication, InterventionController.editInterventionComment);
 router.delete('/red-flags/:id', verifyToken.userAuthentication, RedFlagController.deleteRedFlag);
+router.delete('/interventions/:id', verifyToken.userAuthentication, InterventionController.deleteIntervention);
 
 
 export default router;
