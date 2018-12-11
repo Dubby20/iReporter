@@ -133,7 +133,6 @@ describe('/POST red-flags', () => {
   });
 });
 
-
 describe('/GET all red-flags', () => {
   before((done) => {
     chai.request(server)
@@ -162,7 +161,7 @@ describe('/GET all red-flags', () => {
 describe('/GET/red-flags/:id', () => {
   it('it should GET a red-flag by the given id', (done) => {
     chai.request(server)
-      .get('/api/v1/red-flags/9')
+      .get('/api/v1/red-flags/1')
       .set('x-access-token', userToken)
       .end((error, response) => {
         expect(response).to.have.status(200);
@@ -187,7 +186,7 @@ describe('/GET/red-flags/:id', () => {
 
   it('it should return an error message when the given ID is not found', (done) => {
     chai.request(server)
-      .get('/api/v1/red-flags/1')
+      .get('/api/v1/red-flags/70')
       .set('x-access-token', userToken)
       .end((error, response) => {
         expect(response).to.have.status(404);
@@ -204,7 +203,7 @@ describe('/PATCH red-flags/:id/location', () => {
       location: '9.076479, 7.398574'
     };
     chai.request(server)
-      .patch('/api/v1/red-flags/11/location')
+      .patch('/api/v1/red-flags/1/location')
       .set('content-Type', 'application/json')
       .set('accept', 'application/json')
       .set('x-access-token', userToken)
@@ -223,7 +222,7 @@ describe('/PATCH red-flags/:id/location', () => {
       location: ''
     };
     chai.request(server)
-      .patch('/api/v1/red-flags/12/location')
+      .patch('/api/v1/red-flags/2/location')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', userToken)
@@ -238,7 +237,7 @@ describe('/PATCH red-flags/:id/location', () => {
 
   it('it should return an error if the location is invalid', (done) => {
     chai.request(server)
-      .patch('/api/v1/red-flags/11/location')
+      .patch('/api/v1/red-flags/1/location')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', userToken)
@@ -272,7 +271,7 @@ describe('/PATCH red-flags/:id/location', () => {
 
   it('it should return an error if the red-flag id is not found', (done) => {
     chai.request(server)
-      .patch('/api/v1/red-flags/1/location')
+      .patch('/api/v1/red-flags/80/location')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', userToken)
@@ -311,7 +310,7 @@ describe('/PATCH red-flags/:id/comment', () => {
       comment: '24 billion NNPC contract scam'
     };
     chai.request(server)
-      .patch('/api/v1/red-flags/11/comment')
+      .patch('/api/v1/red-flags/1/comment')
       .set('content-Type', 'application/json')
       .set('accept', 'application/json')
       .set('x-access-token', userToken)
@@ -330,7 +329,7 @@ describe('/PATCH red-flags/:id/comment', () => {
       comment: ''
     };
     chai.request(server)
-      .patch('/api/v1/red-flags/12/comment')
+      .patch('/api/v1/red-flags/2/comment')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', userToken)
@@ -345,7 +344,7 @@ describe('/PATCH red-flags/:id/comment', () => {
 
   it('it should return an error if the comment is invalid', (done) => {
     chai.request(server)
-      .patch('/api/v1/red-flags/11/comment')
+      .patch('/api/v1/red-flags/1/comment')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', userToken)
@@ -379,7 +378,7 @@ describe('/PATCH red-flags/:id/comment', () => {
 
   it('it should return an error if the red-flag id is not found', (done) => {
     chai.request(server)
-      .patch('/api/v1/red-flags/1/comment')
+      .patch('/api/v1/red-flags/100/comment')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', userToken)
@@ -428,9 +427,9 @@ describe('/DELETE red-flags/:id', () => {
       });
   });
 
-  it('it should not DELETE a meal id that is not available', (done) => {
+  it('it should not DELETE an intervention id that is not available', (done) => {
     chai.request(server)
-      .delete('/api/v1/red-flags/4')
+      .delete('/api/v1/red-flags/45')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', userToken)

@@ -161,7 +161,7 @@ describe('/GET all interventions', () => {
 describe('/GET/interventions/:id', () => {
   it('it should GET an intervention by the given id', (done) => {
     chai.request(server)
-      .get('/api/v1/interventions/11')
+      .get('/api/v1/interventions/1')
       .set('x-access-token', userToken)
       .end((error, response) => {
         expect(response).to.have.status(200);
@@ -186,7 +186,7 @@ describe('/GET/interventions/:id', () => {
 
   it('it should return an error message when the given ID is not found', (done) => {
     chai.request(server)
-      .get('/api/v1/interventions/1')
+      .get('/api/v1/interventions/70')
       .set('x-access-token', userToken)
       .end((error, response) => {
         expect(response).to.have.status(404);
@@ -203,7 +203,7 @@ describe('/PATCH interventions/:id/location', () => {
       location: '9.076479, 7.398574'
     };
     chai.request(server)
-      .patch('/api/v1/interventions/8/location')
+      .patch('/api/v1/interventions/2/location')
       .set('content-Type', 'application/json')
       .set('accept', 'application/json')
       .set('x-access-token', userToken)
@@ -219,7 +219,7 @@ describe('/PATCH interventions/:id/location', () => {
 
   it('it should return an error if the location is empty', (done) => {
     chai.request(server)
-      .patch('/api/v1/interventions/12/location')
+      .patch('/api/v1/interventions/2/location')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', userToken)
@@ -236,7 +236,7 @@ describe('/PATCH interventions/:id/location', () => {
 
   it('it should return an error if the location is invalid', (done) => {
     chai.request(server)
-      .patch('/api/v1/interventions/11/location')
+      .patch('/api/v1/interventions/1/location')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', userToken)
@@ -270,7 +270,7 @@ describe('/PATCH interventions/:id/location', () => {
 
   it('it should return an error if the intervention id is not found', (done) => {
     chai.request(server)
-      .patch('/api/v1/interventions/1/location')
+      .patch('/api/v1/interventions/80/location')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', userToken)
@@ -287,7 +287,7 @@ describe('/PATCH interventions/:id/location', () => {
 
   it('it should return an error if the user_id is not authenticated', (done) => {
     chai.request(server)
-      .patch('/api/v1/interventions/14/location')
+      .patch('/api/v1/interventions/1/location')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', '')
@@ -309,7 +309,7 @@ describe('/PATCH interventions/:id/comment', () => {
       comment: '24 billion NNPC contract scam'
     };
     chai.request(server)
-      .patch('/api/v1/interventions/11/comment')
+      .patch('/api/v1/interventions/1/comment')
       .set('content-Type', 'application/json')
       .set('accept', 'application/json')
       .set('x-access-token', userToken)
@@ -325,7 +325,7 @@ describe('/PATCH interventions/:id/comment', () => {
 
   it('it should return an error if the location is empty', (done) => {
     chai.request(server)
-      .patch('/api/v1/interventions/12/comment')
+      .patch('/api/v1/interventions/2/comment')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', userToken)
@@ -342,7 +342,7 @@ describe('/PATCH interventions/:id/comment', () => {
 
   it('it should return an error if the comment is invalid', (done) => {
     chai.request(server)
-      .patch('/api/v1/interventions/11/comment')
+      .patch('/api/v1/interventions/1/comment')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', userToken)
@@ -357,7 +357,7 @@ describe('/PATCH interventions/:id/comment', () => {
       });
   });
 
-  it('it should return an error if the red-flag id is not a number', (done) => {
+  it('it should return an error if the intervention id is not a number', (done) => {
     chai.request(server)
       .patch('/api/v1/interventions/ab/comment')
       .set('Content-Type', 'application/json')
@@ -376,7 +376,7 @@ describe('/PATCH interventions/:id/comment', () => {
 
   it('it should return an error if the intervention id is not found', (done) => {
     chai.request(server)
-      .patch('/api/v1/interventions/1/comment')
+      .patch('/api/v1/interventions/60/comment')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', userToken)
@@ -393,13 +393,57 @@ describe('/PATCH interventions/:id/comment', () => {
 
   it('it should return an error if the user_id is not authenticated', (done) => {
     chai.request(server)
-      .patch('/api/v1/interventions/14/comment')
+      .patch('/api/v1/interventions/1/comment')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', '')
       .send({
         comment: '24 billion NNPC contract scam'
       })
+      .end((error, response) => {
+        expect(response).to.have.status(401);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('Unauthorized');
+        done();
+      });
+  });
+});
+
+describe('/DELETE interventions/:id', () => {
+  it('it should not delete a intervention id if it is not a number', (done) => {
+    chai.request(server)
+      .delete('/api/v1/interventions/in')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('The given intervention id is not a number');
+        done();
+      });
+  });
+
+  it('it should not DELETE an intervention id that is not available', (done) => {
+    chai.request(server)
+      .delete('/api/v1/interventions/90')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
+      .end((error, response) => {
+        expect(response).to.have.status(404);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('The intervention with the given id does not exists');
+        done();
+      });
+  });
+
+  it('it should return an error if the user_id is not authenticated', (done) => {
+    chai.request(server)
+      .delete('/api/v1/interventions/14/')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', '')
       .end((error, response) => {
         expect(response).to.have.status(401);
         expect(response.body).to.be.an('object');
