@@ -10,7 +10,7 @@ export default class InterventionController {
     * @description creates an intervention
     *
     * @static creates an intervention
-    * @memberof RedFlagController
+    * @memberof InterventionController
     * @param {object} request The request.
     * @param {object} response The response.
     *@function add  intervention
@@ -98,7 +98,7 @@ export default class InterventionController {
    * @static interventionId
    * @param {object} request Request Object with the given intervention id
    * @param {object} response Response object
-   * @memberof RedFlagController
+   * @memberof InterventionController
    *
    * @returns {object} interventions object or error message if intervention is not found
    */
@@ -132,13 +132,13 @@ export default class InterventionController {
   }
 
   /**
-       * @description edit red-flag location
+       * @description edit interevention location
        *
-       * @static edit a red-flag
-       * @memberof RedFlagController
+       * @static edit a interevention
+       * @memberof InterventionController
        * @param {object} request The request.
        * @param {object} response The response.
-       *@function get  red-flag
+       *@function patch  interevention
 
        * @returns {object} response.
        */
@@ -202,4 +202,72 @@ export default class InterventionController {
       }));
   }
 
+  /**
+       * @description edit interevention comment
+       *
+       * @static edit a interevention
+       * @memberof IntereventionController
+       * @param {object} request The request.
+       * @param {object} response The response.
+       *@function edit  interevention
+
+       * @returns {object} response.
+       */
+  static editInterventionComment(request, response) {
+    const commentRegex = /^[a-zA-Z0-9,. ]+$/;
+    if (!Number(request.params.id)) {
+      return response.status(422).json({
+        status: 422,
+        error: 'The given intervention id is not a number'
+      });
+    }
+    pool.query('SELECT  * FROM interventions WHERE interventions.id = $1', [request.params.id])
+      .then((intereventionId) => {
+        if (intereventionId.rowCount < 1) {
+          return response.status(404).json({
+            status: 404,
+            error: 'The intervention with the given id does not exists'
+          });
+        }
+        const {
+          comment
+        } = request.body;
+        if (!comment || comment.trim().length < 1) {
+          return response.status(422).json({
+            status: 422,
+            error: 'Please enter a comment'
+          });
+        }
+        if (typeof comment !== 'string' || !commentRegex.test(comment)) {
+          return response.status(422).json({
+            status: 422,
+            error: 'comment must be a string of characters'
+          });
+        }
+        if (request.user.id === intereventionId.rows[0].user_id) {
+          pool.query(`UPDATE interventions SET comment = '${comment}' WHERE interventions.id = $1 RETURNING *`, [request.params.id])
+            .then((data) => {
+              const editComment = data.rows[0];
+              return response.status(200).json({
+                status: 200,
+                data: [{
+                  id: editComment.id,
+                  message: 'Updated intervention record’s comment'
+                }]
+              });
+            }).catch(error => response.status(500).json({
+              status: 500,
+              error: 'Database Error'
+            }));
+        } else {
+          return response.status(401).json({
+            status: 401,
+            error: 'Unauthorized'
+          });
+        }
+      }).catch(error => response.status(500).send({
+        status: 500,
+        error: 'Server Error'
+      }));
+  }
 }

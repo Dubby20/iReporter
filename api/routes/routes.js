@@ -19,6 +19,7 @@ router.get('/interventions/:id', verifyToken.userAuthentication, InterventionCon
 router.patch('/red-flags/:id/location', verifyToken.userAuthentication, RedFlagController.editRedFlag);
 router.patch('/interventions/:id/location', verifyToken.userAuthentication, InterventionController.interventionLocation);
 router.patch('/red-flags/:id/comment', verifyToken.userAuthentication, RedFlagController.editRedFlagComment);
+router.patch('/interventions/:id/comment', verifyToken.userAuthentication, InterventionController.editInterventionComment);
 router.delete('/red-flags/:id', verifyToken.userAuthentication, RedFlagController.deleteRedFlag);
 
 
