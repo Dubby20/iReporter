@@ -1,167 +1,159 @@
-const firstnameRegex = /^[A-Za-z]{3,30}$/;
-const lastnameRegex = /^[A-Za-z]{3,30}$/;
+import pool from '../models/database';
+
+const validNameRegex = /^[A-Za-z]{3,30}$/;
 const othernamesRegex = /^[a-zA-Z]'?([a-zA-Z]|\.| |-){3,}$/;
 const usernameRegex = /^[A-Za-z0-9]{3,20}$/;
 const emailRegex = /\S+@\S+\.\S+/;
 const passwordRegex = /^[A-Za-z0-9]{6,}$/;
 const phoneNumberRegex = /^(\+?234|0)?[789]\d{9}$/;
 
-export class ValidateUserSignup {
-  /**
-   * @description Validate signup
-   *
-   * @constructor
-   * @param {String} request users
-   * @param {Object} response users.firstname...
-   *
-   * @returns {Object} Object
-   */
+export default class ValidateUsers {
+  static checkIfUserExists(request, response, next) {
+    const {
+      email
+    } = request.body;
 
-
-  constructor() {
-    this.passing = true;
-    this.errMessage;
+    pool.query('SELECT * FROM users WHERE email = $1', [email])
+      .then((result) => {
+        const userExists = result.rows[0];
+        if (userExists) {
+          return response.status(409).json({
+            status: 409,
+            error: 'Email already exists'
+          });
+        }
+        return next();
+      }).catch(err => response.status(400).json({
+        status: 400,
+        error: 'Email or Username must be unique'
+      }));
   }
 
-  /** @function testForEmptyStringInput
-   *  @param {Object}
-
-   * @returns {boolean}
-   */
-
-  testForEmptyStringInput(users) {
-    let check = Object.values(users);
-    check = check.every(data => data !== '');
-    if (!check) {
-      this.passing = false;
-      this.errMessage = 'Input fields must not be empty';
+  static validateSignUp(request, response, next) {
+    const {
+      firstname,
+      lastname,
+      othernames,
+      username,
+      email,
+      phoneNumber,
+      password
+    } = request.body;
+    if (!(firstname && firstname.trim().length)) {
+      return response.status(422).json({
+        status: 422,
+        error: 'Please enter your firstname'
+      });
     }
-  }
-
-  /** @function testFirstName
-     *  @param {string}
-
-     * @returns {boolean}
-     */
-
-  testFirstName(firstname) {
-    if (!firstnameRegex.test(firstname)) {
-      this.passing = false;
-      this.errMessage = 'Firstname must contain between 3 and 30 characters only';
+    if (!validNameRegex.test(firstname)) {
+      return response.status(422).json({
+        status: 422,
+        error: 'firstname must be between 3 and 30 characters only'
+      });
     }
-  }
-
-  /** @function testLastName
-   *  @param {string}
-
-   * @returns {boolean}
-   */
-
-  testLastName(lastname) {
-    if (!lastnameRegex.test(lastname)) {
-      this.passing = false;
-      this.errMessage = 'Lastname must contain between 3 and 30 characters only';
+    if (!(lastname && lastname.trim().length)) {
+      return response.status(422).json({
+        status: 422,
+        error: 'Please enter your lastname'
+      });
     }
-  }
+    if (!validNameRegex.test(lastname)) {
+      return response.status(422).json({
+        status: 422,
+        error: 'lastname must be between 3 and 30 characters only'
+      });
+    }
 
-  /** @function testOtherNames
-   *  @param {string}
+    if (!(othernames && othernames.trim().length)) {
+      return response.status(422).json({
+        status: 422,
+        error: 'Please enter your othernames'
+      });
+    }
 
-   * @returns {boolean}
-   */
-
-  testOtherNames(othernames) {
     if (!othernamesRegex.test(othernames)) {
-      this.passing = false;
-      this.errMessage = 'Othernames must contain a minimum of 3 charcaters';
+      return response.status(422).json({
+        status: 422,
+        error: 'othernames must be a minimum of 3 charcaters'
+      });
     }
-  }
 
-  /** @function testUserName
-   *  @param {string}
+    if (!(username && username.trim().length)) {
+      return response.status(422).json({
+        status: 422,
+        error: 'Please enter your username'
+      });
+    }
 
-   * @returns {boolean}
-   */
-
-  testUserName(username) {
     if (!usernameRegex.test(username)) {
-      this.passing = false;
-      this.errMessage = 'Username must contain between 3 and 30 characters only';
+      return response.status(422).json({
+        status: 422,
+        error: 'username must contain between 3 and 30 alphanumeric characters only'
+      });
     }
-  }
+    if (!(email && email.trim().length)) {
+      return response.status(422).json({
+        status: 422,
+        error: 'Please enter your email'
+      });
+    }
 
-  /** @function testEmail
-   *  @param {string}
-
-   * @returns {boolean}
-   */
-
-  testEmail(email) {
     if (!emailRegex.test(email)) {
-      this.passing = false;
-      this.errMessage = 'Please enter a valid email';
+      return response.status(422).json({
+        status: 422,
+        error: 'Please enter a valid email'
+      });
     }
-  }
 
-  /** @function testPassword
-   *  @param {string}
-
-   * @returns {boolean}
-   */
-
-  testPassword(password) {
-    if (!passwordRegex.test(password)) {
-      this.passing = false;
-      this.errMessage = 'Password must be a minimum of 6 alphanumeric characters';
+    if (!(phoneNumber && phoneNumber.trim().length)) {
+      return response.status(422).json({
+        status: 422,
+        error: 'Please enter your phone number'
+      });
     }
-  }
 
-  /** @function testPhoneNumber
-   *  @param {string}
-
-   * @returns {boolean}
-   */
-
-  testPhoneNumber(phoneNumber) {
     if (!phoneNumberRegex.test(phoneNumber)) {
-      this.passing = false;
-      this.errMessage = 'Please enter a valid phone number';
+      return response.status(422).json({
+        status: 422,
+        error: 'Please enter a valid phone number'
+      });
     }
+
+    if (!(password && password.trim().length)) {
+      return response.status(422).json({
+        status: 422,
+        error: 'Please enter your password'
+      });
+    }
+
+    if (!passwordRegex.test(password)) {
+      return response.status(422).json({
+        status: 422,
+        error: 'Password must be a minimum of 6 alphanumeric characters'
+      });
+    }
+
+
+    return next();
   }
 
-  /** @function resetValid
-
-   *  @returns {boolean}
-   */
-
-  resetValid() {
-    this.passing = true;
-    this.errMessage = '';
-  }
-
-  /** @function testUsers
-   *  @param {Object}
-
-   * @returns {Object}
-   */
-
-  testUsers(users) {
-    this.resetValid();
-    this.testFirstName(users.firstname);
-    this.testLastName(users.lastname);
-    this.testOtherNames(users.othernames);
-    this.testUserName(users.username);
-    this.testEmail(users.email.toLowerCase());
-    this.testPassword(users.password);
-    this.testPhoneNumber(users.phoneNumber);
-    this.testForEmptyStringInput(users);
-    const obj = {
-      passing: this.passing,
-      err: this.errMessage
-    };
-    return obj;
+  static validateLogin(request, response, next) {
+    const {
+      email,
+      password
+    } = request.body;
+    if (!(email && email.trim().length)) {
+      return response.status(422).json({
+        status: 422,
+        error: 'email is required'
+      });
+    }
+    if (!(password && password.trim().length)) {
+      return response.status(422).json({
+        status: 422,
+        error: 'password is required'
+      });
+    }
+    return next();
   }
 }
-
-
-export default ValidateUserSignup;

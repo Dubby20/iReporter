@@ -1,6 +1,10 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../server';
+import {
+  records
+} from './testData';
+
 
 const {
   expect
@@ -55,47 +59,129 @@ describe('/POST interventions', () => {
       });
   });
 
-  it('it should not create an empty intervention', (done) => {
-    const invalidIntervention = {
-      location: '',
-      images: '',
-      videos: [],
-      comment: ''
-    };
+  it('it return an error if the location is empty', (done) => {
     chai
       .request(server)
       .post('/api/v1/interventions')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', userToken)
-      .send(invalidIntervention)
+      .send(records[1])
       .end((error, response) => {
         expect(response).to.have.status(422);
         expect(response.body).to.be.an('object');
-        expect(response.body)
-          .to.have.property('message')
-          .eql('Input fields must not be empty');
+        expect(response.body).to.have.property('error').eql('Please enter your location');
         done();
       });
   });
 
-  it('it should not create an intervention if input is not valid', (done) => {
-    const interevention2 = {
-      location: '10.89',
-      images: 'htpps://wwww.bbgfddhghj',
-      videos: [],
-      comment: ''
-    };
+  it('it return an error if images is empty', (done) => {
     chai
       .request(server)
       .post('/api/v1/interventions')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', userToken)
-      .send(interevention2)
+      .send(records[2])
       .end((error, response) => {
         expect(response).to.have.status(422);
         expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('Please enter an image url');
+        done();
+      });
+  });
+
+  it('it return an error if videos is empty', (done) => {
+    chai
+      .request(server)
+      .post('/api/v1/interventions')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
+      .send(records[3])
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('Please enter a video url');
+        done();
+      });
+  });
+
+  it('it return an error if comment is empty', (done) => {
+    chai
+      .request(server)
+      .post('/api/v1/interventions')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
+      .send(records[4])
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('Please enter a comment');
+        done();
+      });
+  });
+
+  it('it should return an error if the location is invalid', (done) => {
+    chai.request(server)
+      .post('/api/v1/interventions')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
+      .send(records[5])
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('location does not match a Lat Long coordinates');
+        done();
+      });
+  });
+
+  it('it should return an error if the image is not a string', (done) => {
+    chai.request(server)
+      .post('/api/v1/interventions')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
+      .send(records[6])
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('image must be a string');
+        done();
+      });
+  });
+
+
+  it('it should return an error if the video is not a string', (done) => {
+    chai.request(server)
+      .post('/api/v1/interventions')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
+      .send(records[7])
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('video must be a string');
+
+        done();
+      });
+  });
+
+  it('it should return an error if the comment is not a string', (done) => {
+    chai.request(server)
+      .post('/api/v1/interventions')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
+      .send(records[8])
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('comment must be a string of characters');
+
         done();
       });
   });
@@ -116,7 +202,7 @@ describe('/POST interventions', () => {
       });
   });
 
-  it('it should not create a intervention if the token is invalid', (done) => {
+  it('it should not create an intervention if the token is invalid', (done) => {
     chai
       .request(server)
       .post('/api/v1/interventions')
@@ -127,7 +213,7 @@ describe('/POST interventions', () => {
       .end((error, response) => {
         expect(response).to.have.status(403);
         expect(response.body).to.be.an('object');
-        expect(response.body.error).eql('Access denied');
+        expect(response.body.error).eql('Authentication failed');
         done();
       });
   });
@@ -156,6 +242,20 @@ describe('/GET all interventions', () => {
         done();
       });
   });
+
+  it('it should GET all interventions', (done) => {
+    chai.request(server)
+      .get('/api/v1/interventions')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
+      .end((error, response) => {
+        expect(response).to.have.status(200);
+        expect(response.body.data).to.be.an('array');
+        expect(response.body).to.be.an('object');
+        done();
+      });
+  });
 });
 
 describe('/GET/interventions/:id', () => {
@@ -178,7 +278,7 @@ describe('/GET/interventions/:id', () => {
       .set('x-access-token', userToken)
       .end((error, response) => {
         expect(response).to.have.status(422);
-        expect(response.body.error).to.equal('The given intervention id is not a number');
+        expect(response.body.error).to.equal('The given id is not a number');
         expect(response.body).to.be.an('object');
         done();
       });
@@ -229,7 +329,7 @@ describe('/PATCH interventions/:id/location', () => {
       .end((error, response) => {
         expect(response).to.have.status(422);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('Please enter a location');
+        expect(response.body).to.have.property('error').eql('Please enter your location');
         done();
       });
   });
@@ -246,7 +346,7 @@ describe('/PATCH interventions/:id/location', () => {
       .end((error, response) => {
         expect(response).to.have.status(422);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('Please enter a valid location');
+        expect(response.body).to.have.property('error').eql('location does not match a Lat Long coordinates');
         done();
       });
   });
@@ -263,7 +363,7 @@ describe('/PATCH interventions/:id/location', () => {
       .end((error, response) => {
         expect(response).to.have.status(422);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('The given intervention id is not a number');
+        expect(response.body).to.have.property('error').eql('The given id is not a number');
         done();
       });
   });
@@ -347,7 +447,7 @@ describe('/PATCH interventions/:id/comment', () => {
       .set('Accept', 'application/json')
       .set('x-access-token', userToken)
       .send({
-        comment: '$24 billion NNPC contract scam'
+        comment: 234
       })
       .end((error, response) => {
         expect(response).to.have.status(422);
@@ -369,7 +469,7 @@ describe('/PATCH interventions/:id/comment', () => {
       .end((error, response) => {
         expect(response).to.have.status(422);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('The given intervention id is not a number');
+        expect(response.body).to.have.property('error').eql('The given id is not a number');
         done();
       });
   });
@@ -419,14 +519,14 @@ describe('/DELETE interventions/:id', () => {
       .end((error, response) => {
         expect(response).to.have.status(422);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('The given intervention id is not a number');
+        expect(response.body).to.have.property('error').eql('The given id is not a number');
         done();
       });
   });
 
   it('it should not DELETE an intervention id that is not available', (done) => {
     chai.request(server)
-      .delete('/api/v1/interventions/40')
+      .delete('/api/v1/interventions/90')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', userToken)

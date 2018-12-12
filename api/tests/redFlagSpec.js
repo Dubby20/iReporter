@@ -1,6 +1,10 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../server';
+import {
+  records
+} from './testData';
+
 
 const {
   expect
@@ -10,22 +14,14 @@ const user = {
   email: 'ebuka179@gmail.com',
   password: 'password221'
 };
+
+const admin = {
+  email: 'jacynnadi20@gmail.com',
+  password: 'password'
+}
 chai.use(chaiHttp);
 let userToken;
-
-const redFlag = {
-  location: '6.524379, 3.379206',
-  images: [
-    'https://static.pulse.ng/img/incoming/origs7532087/2036362149-w644-h960/babachir-lawal.jpg',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVtbtjMiVvbOLVc7dA53s3_st7BjF-wtTxNu8Tq_-5al0IZBId.jpg'
-  ],
-  videos: [
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVtbtjMiVvbOLVc7dA53s3_st7BjF-wtTxNu8Tq_-5al0IZBId',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVtbtjMiVvbOLVc7dA53s3_st7BjF-wtTxNu8Tq_-5al0IZBId'
-  ],
-  comment: 'Grass Cutting” scandal of ex-secretary to the Federal Government'
-};
-
+let adminToken;
 
 describe('/POST red-flags', () => {
   before((done) => {
@@ -45,8 +41,9 @@ describe('/POST red-flags', () => {
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', userToken)
-      .send(redFlag)
+      .send(records[0])
       .end((error, response) => {
+        console.log(records[0]);
         expect(response).to.have.status(201);
         expect(response.body).to.be.an('object');
         expect(response.body.data).to.be.an('array');
@@ -55,47 +52,129 @@ describe('/POST red-flags', () => {
       });
   });
 
-  it('it should not create an empty red-flag', (done) => {
-    const invalidRedFlag = {
-      location: '',
-      images: '',
-      videos: [],
-      comment: ''
-    };
+  it('it return an error if the location is empty', (done) => {
     chai
       .request(server)
       .post('/api/v1/red-flags')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', userToken)
-      .send(invalidRedFlag)
+      .send(records[1])
       .end((error, response) => {
         expect(response).to.have.status(422);
         expect(response.body).to.be.an('object');
-        expect(response.body)
-          .to.have.property('message')
-          .eql('Input fields must not be empty');
+        expect(response.body).to.have.property('error').eql('Please enter your location');
         done();
       });
   });
 
-  it('it should not create a red-flag if input is not valid', (done) => {
-    const redFlag2 = {
-      location: '10.89',
-      images: 'htpps://wwww.bbgfddhghj',
-      videos: [],
-      comment: ''
-    };
+  it('it return an error if images is empty', (done) => {
     chai
       .request(server)
       .post('/api/v1/red-flags')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', userToken)
-      .send(redFlag2)
+      .send(records[2])
       .end((error, response) => {
         expect(response).to.have.status(422);
         expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('Please enter an image url');
+        done();
+      });
+  });
+
+  it('it return an error if videos is empty', (done) => {
+    chai
+      .request(server)
+      .post('/api/v1/red-flags')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
+      .send(records[3])
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('Please enter a video url');
+        done();
+      });
+  });
+
+  it('it return an error if comment is empty', (done) => {
+    chai
+      .request(server)
+      .post('/api/v1/red-flags')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
+      .send(records[4])
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('Please enter a comment');
+        done();
+      });
+  });
+
+  it('it should return an error if the location is invalid', (done) => {
+    chai.request(server)
+      .post('/api/v1/red-flags')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
+      .send(records[5])
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('location does not match a Lat Long coordinates');
+        done();
+      });
+  });
+
+  it('it should return an error if the image is not a string', (done) => {
+    chai.request(server)
+      .post('/api/v1/red-flags')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
+      .send(records[6])
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('image must be a string');
+        done();
+      });
+  });
+
+
+  it('it should return an error if the video is not a string', (done) => {
+    chai.request(server)
+      .post('/api/v1/red-flags')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
+      .send(records[7])
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('video must be a string');
+
+        done();
+      });
+  });
+
+  it('it should return an error if the comment is not a string', (done) => {
+    chai.request(server)
+      .post('/api/v1/red-flags')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
+      .send(records[8])
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('comment must be a string of characters');
+
         done();
       });
   });
@@ -107,7 +186,7 @@ describe('/POST red-flags', () => {
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', '')
-      .send(redFlag)
+      .send(records[0])
       .end((error, response) => {
         expect(response).to.have.status(401);
         expect(response.body).to.be.an('object');
@@ -123,11 +202,11 @@ describe('/POST red-flags', () => {
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', 'eghdfhyujgfjkgk')
-      .send(redFlag)
+      .send(records[0])
       .end((error, response) => {
         expect(response).to.have.status(403);
         expect(response.body).to.be.an('object');
-        expect(response.body.error).eql('Access denied');
+        expect(response.body.error).eql('Authentication failed');
         done();
       });
   });
@@ -177,8 +256,8 @@ describe('/GET/red-flags/:id', () => {
       .get('/api/v1/red-flags/re')
       .set('x-access-token', userToken)
       .end((error, response) => {
-        expect(response).to.have.status(400);
-        expect(response.body.error).to.equal('The given red-flag id is not a number');
+        expect(response).to.have.status(422);
+        expect(response.body.error).to.equal('The given id is not a number');
         expect(response.body).to.be.an('object');
         done();
       });
@@ -230,7 +309,7 @@ describe('/PATCH red-flags/:id/location', () => {
       .end((error, response) => {
         expect(response).to.have.status(422);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('Please enter a location');
+        expect(response.body).to.have.property('error').eql('Please enter your location');
         done();
       });
   });
@@ -247,7 +326,7 @@ describe('/PATCH red-flags/:id/location', () => {
       .end((error, response) => {
         expect(response).to.have.status(422);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('Please enter a valid location');
+        expect(response.body).to.have.property('error').eql('location does not match a Lat Long coordinates');
         done();
       });
   });
@@ -264,7 +343,7 @@ describe('/PATCH red-flags/:id/location', () => {
       .end((error, response) => {
         expect(response).to.have.status(422);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('The given red-flag id is not a number');
+        expect(response.body).to.have.property('error').eql('The given id is not a number');
         done();
       });
   });
@@ -349,7 +428,7 @@ describe('/PATCH red-flags/:id/comment', () => {
       .set('Accept', 'application/json')
       .set('x-access-token', userToken)
       .send({
-        comment: '$24 billion NNPC contract scam'
+        comment: 90
       })
       .end((error, response) => {
         expect(response).to.have.status(422);
@@ -371,7 +450,7 @@ describe('/PATCH red-flags/:id/comment', () => {
       .end((error, response) => {
         expect(response).to.have.status(422);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('The given red-flag id is not a number');
+        expect(response.body).to.have.property('error').eql('The given id is not a number');
         done();
       });
   });
@@ -422,7 +501,7 @@ describe('/DELETE red-flags/:id', () => {
       .end((error, response) => {
         expect(response).to.have.status(422);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('The given red-flag id is not a number');
+        expect(response.body).to.have.property('error').eql('The given id is not a number');
         done();
       });
   });
@@ -447,6 +526,123 @@ describe('/DELETE red-flags/:id', () => {
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', '')
+      .end((error, response) => {
+        expect(response).to.have.status(401);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('Unauthorized');
+        done();
+      });
+  });
+});
+
+describe('/PATCH red-flags/:id/status', () => {
+  before((done) => {
+    chai
+      .request(server)
+      .post('/api/v1/auth/login')
+      .send(admin)
+      .end((error, response) => {
+        adminToken = response.body.data[0].token;
+        done();
+      });
+  });
+  it('it should UPDATE status of a specific red-flag id', (done) => {
+    const redFlagStatus = {
+      status: 'resolved'
+    };
+    chai.request(server)
+      .patch('/api/v1/red-flags/1/status')
+      .set('content-Type', 'application/json')
+      .set('accept', 'application/json')
+      .set('x-access-token', adminToken)
+      .send(redFlagStatus)
+      .end((error, response) => {
+        expect(response).to.have.status(200);
+        expect(response.body).to.be.an('object');
+        expect(response.body.data).to.be.an('array');
+        expect(response.body.data[0]).to.have.property('message').eql('Updated red-flag record’s status');
+        done();
+      });
+  });
+
+  it('it should return an error if the status is empty', (done) => {
+    const redFlagStatus = {
+      status: ''
+    };
+    chai.request(server)
+      .patch('/api/v1/red-flags/2/status')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', adminToken)
+      .send(redFlagStatus)
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('Status is required');
+        done();
+      });
+  });
+
+  it('it should return an error if the comment is invalid', (done) => {
+    chai.request(server)
+      .patch('/api/v1/red-flags/1/status')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', adminToken)
+      .send({
+        status: 'pending'
+      })
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('Invalid status, status must be a string containing under investigation, resolved or rejected');
+        done();
+      });
+  });
+
+  it('it should return an error if the red-flag id is not a number', (done) => {
+    chai.request(server)
+      .patch('/api/v1/red-flags/ab/status')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', adminToken)
+      .send({
+        status: 'under investigation'
+      })
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('The given id is not a number');
+        done();
+      });
+  });
+
+  it('it should return an error if the red-flag id is not found', (done) => {
+    chai.request(server)
+      .patch('/api/v1/red-flags/100/status')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', adminToken)
+      .send({
+        status: 'rejected'
+      })
+      .end((error, response) => {
+        expect(response).to.have.status(404);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('The status with the given red-flag id was not found');
+        done();
+      });
+  });
+
+  it('it should return an error if the user_id is not authenticated', (done) => {
+    chai.request(server)
+      .patch('/api/v1/red-flags/14/status')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', '')
+      .send({
+        status: 'rejected'
+      })
       .end((error, response) => {
         expect(response).to.have.status(401);
         expect(response.body).to.be.an('object');

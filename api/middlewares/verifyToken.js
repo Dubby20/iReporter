@@ -25,7 +25,7 @@ class verifyToken {
     } catch (err) {
       return response.status(403).json({
         status: 403,
-        error: 'Access denied'
+        error: 'Authentication failed'
       });
     }
   }
@@ -39,9 +39,10 @@ class verifyToken {
    */
 
   static adminAuthentication(request, response, next) {
-    if (!request.user.isAdmin) {
+    if (request.user.isAdmin === false) {
       return response.status(403).json({
-        message: 'Access denied'
+        status: 403,
+        error: 'Access denied'
       });
     }
     return next();

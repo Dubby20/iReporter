@@ -1,16 +1,15 @@
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+/* eslint-disable prefer-const */
 import pool from '../models/database';
 import {
-  ValidateUserSignup
-} from '../middlewares/validateUser';
+  generateToken,
+  hashPassword,
+  checkPasswordMatch
+} from '../utils';
+import {
+  errors
+} from '../utils/errorHandler';
 
 
-/**
- * Creates a new ValidateUserSignup.
- * @class ValidateUserSignup
- */
-const validateSignup = new ValidateUserSignup();
 export default class UserController {
   /**
    * @description creates new user
@@ -25,14 +24,6 @@ export default class UserController {
    */
 
   static signup(request, response) {
-    const results = validateSignup.testUsers(request.body);
-    if (!results.passing) {
-      return response.status(422).json({
-        status: 422,
-        error: results.err
-      });
-    }
-
     /**
  * Create new user
  * @property {string} request.body.firstname - The firstname of user.
@@ -45,7 +36,7 @@ export default class UserController {
 
  * @returns {User}
  */
-    const {
+    let {
       firstname,
       lastname,
       othernames,
@@ -54,81 +45,35 @@ export default class UserController {
       phoneNumber,
       password
     } = request.body;
-    pool.query('SELECT * FROM users WHERE email = $1', [email])
-      .then((result) => {
-        const emailExists = result.rows[0];
-        if (emailExists) {
-          return response.status(409).json({
-            status: 'Error',
-            message: 'Email already exists'
-          });
-        }
-        pool.query('SELECT * FROM users WHERE username = $1', [username])
-          // eslint-disable-next-line no-shadow
-          .then((result) => {
-            const usernameExists = result.rows[0];
-            if (usernameExists) {
-              return response.status(409).json({
-                status: 'Error',
-                message: 'Username already exists'
-              });
-            }
-
-            /**
-             * Hash Password Method
-             * @param {string} password
-             * @returns {string} returns hashed password
-             */
-
-            bcrypt.hash(password, 10, (error, hash) => {
-              pool.query(
-                  'INSERT INTO users (firstname, lastname, othernames, username, email, phone_number, password) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, firstname, lastname, othernames, username, email, phone_number',
-                  [firstname, lastname, othernames, username, email, phoneNumber, hash]
-                )
-                .then((data) => {
-                  const user = data.rows[0];
-
-                  /**
-                   * Gnerate Token
-                   * @param {string} id
-                   * @param {string} email
-                   * @returns {string} token
-                   */
-
-                  const token = jwt.sign({
-                    id: user.id,
-                    email: user.email
-                  }, process.env.SECRET, {
-                    expiresIn: '48h'
-                  });
-                  // const {
-                  //   password,
-                  //   ...newUser
-                  // } = user
-                  return response.status(201).json({
-                    status: 201,
-                    data: [{
-                      token,
-                      user,
-                      message: 'User created successfully'
-                    }]
-                  });
-                }).catch((err) => {
-                  response.status(500).json({
-                    status: 500,
-                    error: err.message
-                  });
-                });
-            });
-          }).catch(err => response.status(501).json({
-            status: 500,
-            error: 'Database Error'
-          }));
-      }).catch(err => response.status(502).json({
-        status: 500,
-        error: 'Server Error'
-      }));
+    password = hashPassword(password.trim());
+    pool.query(
+        'INSERT INTO users (firstname, lastname, othernames, username, email, phone_number, password) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, firstname, lastname, othernames, username, email, phone_number',
+        [firstname, lastname, othernames, username, email, phoneNumber, password]
+      )
+      .then((data) => {
+        const user = data.rows[0];
+        const result = {
+          id: user.id,
+          email: user.email,
+          username: user.username
+        };
+        const token = generateToken(result);
+        return response.status(201).json({
+          status: 201,
+          data: [{
+            token,
+            user
+          }],
+          message: 'User created successfully'
+        });
+      }).catch((err) => {
+        response.status(400).json({
+          status: 400,
+          error: errors.validationError
+        });
+      });
   }
+
 
   /**
     * @description login a  user
@@ -144,68 +89,51 @@ export default class UserController {
 
   static login(request, response) {
     /**
-          * @property {string} request.body.email - The email of user.
-          * @property {string} request.body.password - The password of user.
+* @property {string} request.body.email - The email of user.
+* @property {string} request.body.password - The password of user.
 
-          * @returns {User}
-          */
+* @returns {User}
+*/
 
     const {
       email,
       password
     } = request.body;
-
-    if (!email) {
-      return response.status(422).json({
-        status: 422,
-        error: 'Email is required'
-      });
-    }
-    if (!password) {
-      return response.status(422).json({
-        status: 422,
-        error: 'Password is required'
-      });
-    }
     pool.query('SELECT * FROM users WHERE email = $1', [email])
       .then((data) => {
         const user = data.rows[0];
         if (!user) {
           return response.status(422).json({
             status: 422,
-            error: 'Invalid login details. Email or password is wrong'
+            error: 'User does not exists'
           });
         }
 
         /**
-       * comparePassword
-       * @param {string} hashPassword
-       * @param {string} password
+         * comparePassword
+         * @param {string} hashPassword
+         * @param {string} password
 
-       * @returns {Boolean} return True or False
-       */
-        if (!bcrypt.compareSync(password, user.password)) {
+          * @returns {Boolean} return True or False
+          */
+        if (!checkPasswordMatch(password, user.password)) {
           return response.status(422).json({
             status: 422,
             error: 'Invalid login details. Email or password is wrong'
           });
         }
-
         /**
          * Gnerate Token
          * @param {string} id
          * @param {string} email
          * @returns {string} token
          */
-
-        const token = jwt.sign({
-            id: user.id,
-            email: user.email,
-            isAdmin: user.is_admin
-          },
-          process.env.SECRET, {
-            expiresIn: '48h'
-          });
+        const result = {
+          id: user.id,
+          email: user.email,
+          isAdmin: user.is_admin
+        };
+        const token = generateToken(result);
         return response.status(200).json({
           status: 200,
           data: [{
@@ -213,12 +141,13 @@ export default class UserController {
             user: {
               email: user.email,
               isAdmin: user.is_admin
-            },
-            message: 'Successfully signed in'
-          }]
+            }
+          }],
+          message: 'Successfully signed in'
         });
-      }).catch(err => response.status(500).json({
-        message: 'Error'
+      }).catch(err => response.status(400).json({
+        status: 400,
+        error: errors.validationError
       }));
   }
 }
