@@ -256,4 +256,31 @@ export default class InterventionController {
         error: errors.validationError
       }));
   }
+
+  static updateInterventionStatus(request, response) {
+    const {
+      status
+    } = request.body;
+    pool.query(`UPDATE interventions SET status = '${status}' WHERE id = $1 RETURNING *`, [request.params.id])
+      .then((data) => {
+        const interventionStatus = data.rows;
+        if (interventionStatus.length < 1) {
+          return response.status(404).json({
+            status: 404,
+            error: 'The status with the given intervention id was not found'
+          });
+        }
+        return response.status(200).json({
+          status: 200,
+          data: [{
+            id: interventionStatus.id,
+            message: 'Updated intervention record’s status'
+
+          }]
+        });
+      }).catch(err => response.status(400).json({
+        status: 400,
+        error: errors.validationError
+      }));
+  }
 }

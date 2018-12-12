@@ -44,12 +44,10 @@ export default class RedFlagController {
           }]
         });
       })
-      .catch((err) => {
-        return response.status(400).json({
-          status: 400,
-          error: errors.validationError
-        });
-      });
+      .catch(err => response.status(400).json({
+        status: 400,
+        error: errors.validationError
+      }));
   }
 
 

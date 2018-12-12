@@ -24,6 +24,7 @@ router.patch('/interventions/:id/comment', verifyToken.userAuthentication, PostV
 router.delete('/red-flags/:id', verifyToken.userAuthentication, PostValidator.validateId, RedFlagController.deleteRedFlag);
 router.delete('/interventions/:id', verifyToken.userAuthentication, PostValidator.validateId, InterventionController.deleteIntervention);
 router.patch('/red-flags/:id/status', verifyToken.userAuthentication, verifyToken.adminAuthentication, PostValidator.validateId, PostValidator.validateStatus, RedFlagController.updateRedFlagStatus);
+router.patch('/interventions/:id/status', verifyToken.userAuthentication, verifyToken.adminAuthentication, PostValidator.validateId, PostValidator.validateStatus, InterventionController.updateInterventionStatus);
 
 
 export default router;

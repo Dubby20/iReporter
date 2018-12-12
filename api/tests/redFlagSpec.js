@@ -18,7 +18,7 @@ const user = {
 const admin = {
   email: 'jacynnadi20@gmail.com',
   password: 'password'
-}
+};
 chai.use(chaiHttp);
 let userToken;
 let adminToken;
@@ -647,6 +647,22 @@ describe('/PATCH red-flags/:id/status', () => {
         expect(response).to.have.status(401);
         expect(response.body).to.be.an('object');
         expect(response.body).to.have.property('error').eql('Unauthorized');
+        done();
+      });
+  });
+  it('it should return an error if the user_id is not authorized', (done) => {
+    chai.request(server)
+      .patch('/api/v1/red-flags/14/status')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
+      .send({
+        status: 'rejected'
+      })
+      .end((error, response) => {
+        expect(response).to.have.status(403);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('Access denied');
         done();
       });
   });
