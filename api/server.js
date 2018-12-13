@@ -1,6 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import logger from 'morgan';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from '../swagger.json';
 
 import router from './routes/routes';
 
@@ -16,6 +18,8 @@ app.use(
     extended: false
   })
 );
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 app.get('/', (request, response) => response.status(200).json({
   message: 'Welcome to iReporter API'
 }));
