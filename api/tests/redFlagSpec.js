@@ -18,7 +18,7 @@ const user = {
 const admin = {
   email: 'jacynnadi20@gmail.com',
   password: 'password'
-}
+};
 chai.use(chaiHttp);
 let userToken;
 let adminToken;

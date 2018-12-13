@@ -259,7 +259,7 @@ describe('User', () => {
         .end((error, response) => {
           expect(response).to.status(400);
           expect(response.body).to.be.an('object');
-          expect(response.body.error).to.equal('Fill all required fields');
+          expect(response.body.error).to.equal('Missing input fields');
           done();
         });
     });

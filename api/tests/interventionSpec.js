@@ -286,7 +286,7 @@ describe('/GET/interventions/:id', () => {
 
   it('it should return an error message when the given ID is not found', (done) => {
     chai.request(server)
-      .get('/api/v1/interventions/70')
+      .get('/api/v1/interventions/170')
       .set('x-access-token', userToken)
       .end((error, response) => {
         expect(response).to.have.status(404);
