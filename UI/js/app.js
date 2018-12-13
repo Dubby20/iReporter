@@ -11,9 +11,9 @@ for (let i = 0; i < modalBtn.length; i++) {
     modalPage.style.display = 'block';
   });
 }
-closeBtn.onclick = () => {
-  modalPage.style.display = 'none';
-};
+// closeBtn.onclick = () => {
+//   modalPage.style.display = 'none';
+// };
 
 window.onclick = (event) => {
   if (event.target === modalPage) {
