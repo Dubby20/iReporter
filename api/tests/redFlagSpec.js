@@ -140,7 +140,7 @@ describe('/POST red-flags', () => {
       .end((error, response) => {
         expect(response).to.have.status(422);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('image must be a string');
+        expect(response.body).to.have.property('error').eql('image must be a string and not empty');
         done();
       });
   });
@@ -156,7 +156,7 @@ describe('/POST red-flags', () => {
       .end((error, response) => {
         expect(response).to.have.status(422);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('video must be a string');
+        expect(response.body).to.have.property('error').eql('video must be a string and not empty');
 
         done();
       });
@@ -221,7 +221,7 @@ describe('/POST red-flags', () => {
       .end((error, response) => {
         expect(response).to.have.status(401);
         expect(response.body).to.be.an('object');
-        expect(response.body.error).eql('Unauthorized');
+        expect(response.body.error).eql('You must signup or login to access this route');
         done();
       });
   });
@@ -408,7 +408,7 @@ describe('/PATCH red-flags/:id/location', () => {
       .end((error, response) => {
         expect(response).to.have.status(401);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('Unauthorized');
+        expect(response.body).to.have.property('error').eql('You must signup or login to access this route');
         done();
       });
   });
@@ -434,7 +434,7 @@ describe('/PATCH red-flags/:id/comment', () => {
       });
   });
 
-  it('it should return an error if the location is empty', (done) => {
+  it('it should return an error if the comment is empty', (done) => {
     const redFlagComment = {
       comment: ''
     };
@@ -515,7 +515,7 @@ describe('/PATCH red-flags/:id/comment', () => {
       .end((error, response) => {
         expect(response).to.have.status(401);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('Unauthorized');
+        expect(response.body).to.have.property('error').eql('You must signup or login to access this route');
         done();
       });
   });
@@ -560,7 +560,7 @@ describe('/DELETE red-flags/:id', () => {
       .end((error, response) => {
         expect(response).to.have.status(401);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('Unauthorized');
+        expect(response.body).to.have.property('error').eql('You must signup or login to access this route');
         done();
       });
   });
@@ -650,7 +650,7 @@ describe('/PATCH red-flags/:id/status', () => {
 
   it('it should return an error if the red-flag id is not found', (done) => {
     chai.request(server)
-      .patch('/api/v1/red-flags/99/status')
+      .patch('/api/v1/red-flags/200/status')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', adminToken)
@@ -677,7 +677,7 @@ describe('/PATCH red-flags/:id/status', () => {
       .end((error, response) => {
         expect(response).to.have.status(401);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('Unauthorized');
+        expect(response.body).to.have.property('error').eql('You must signup or login to access this route');
         done();
       });
   });
@@ -693,7 +693,7 @@ describe('/PATCH red-flags/:id/status', () => {
       .end((error, response) => {
         expect(response).to.have.status(403);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('Access denied');
+        expect(response.body).to.have.property('error').eql('You do not have the admin rights to perform this action');
         done();
       });
   });

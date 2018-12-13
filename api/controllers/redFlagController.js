@@ -40,6 +40,7 @@ export default class RedFlagController {
           status: 201,
           data: [{
             id: redFlag.id,
+            redFlag,
             message: 'Created red-flag record'
           }]
         });
@@ -66,10 +67,10 @@ export default class RedFlagController {
     pool.query('SELECT * FROM red_flags')
       .then((data) => {
         const redFlag = data.rows;
-        if (redFlag.length === 0) {
+        if (redFlag.rowCount < 1) {
           return response.status(200).json({
             status: 200,
-            data: [{}]
+            data: []
           });
         }
         return response.status(200).json({
@@ -150,6 +151,7 @@ export default class RedFlagController {
                 status: 200,
                 data: [{
                   id: editRedFlagLocation.id,
+                  editRedFlagLocation,
                   message: 'Updated red-flag record’s location'
                 }]
               });
@@ -160,7 +162,7 @@ export default class RedFlagController {
         } else {
           return response.status(401).json({
             status: 401,
-            error: 'Unauthorized'
+            error: 'You must signup or login to access this route'
           });
         }
       }).catch(error => response.status(400).json({
@@ -200,6 +202,7 @@ export default class RedFlagController {
                 status: 200,
                 data: [{
                   id: editComment.id,
+                  editComment,
                   message: 'Updated red-flag record’s comment'
                 }]
               });
@@ -210,7 +213,7 @@ export default class RedFlagController {
         } else {
           return response.status(401).json({
             status: 401,
-            error: 'Unauthorized'
+            error: 'You must signup or login to access this route'
           });
         }
       }).catch(error => response.status(400).send({
@@ -266,7 +269,7 @@ export default class RedFlagController {
     pool.query(`UPDATE red_flags SET status = '${status}' WHERE id = $1 RETURNING *`, [request.params.id])
       .then((data) => {
         const redFlagStatus = data.rows;
-        if (redFlagStatus.length === 0) {
+        if (redFlagStatus.length < 1) {
           return response.status(404).json({
             status: 404,
             error: 'The status with the given red-flag id was not found'
@@ -276,6 +279,7 @@ export default class RedFlagController {
           status: 200,
           data: [{
             id: redFlagStatus.id,
+            redFlagStatus,
             message: 'Updated red-flag record’s status'
 
           }]

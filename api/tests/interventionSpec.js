@@ -154,7 +154,7 @@ describe('/POST interventions', () => {
       .end((error, response) => {
         expect(response).to.have.status(422);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('image must be a string');
+        expect(response.body).to.have.property('error').eql('image must be a string and not empty');
         done();
       });
   });
@@ -170,7 +170,7 @@ describe('/POST interventions', () => {
       .end((error, response) => {
         expect(response).to.have.status(422);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('video must be a string');
+        expect(response.body).to.have.property('error').eql('video must be a string and not empty');
 
         done();
       });
@@ -203,7 +203,7 @@ describe('/POST interventions', () => {
       .end((error, response) => {
         expect(response).to.have.status(401);
         expect(response.body).to.be.an('object');
-        expect(response.body.error).eql('Unauthorized');
+        expect(response.body.error).eql('You must signup or login to access this route');
         done();
       });
   });
@@ -386,7 +386,7 @@ describe('/PATCH interventions/:id/location', () => {
       .end((error, response) => {
         expect(response).to.have.status(404);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('The intervention with the given id does not exists');
+        expect(response.body).to.have.property('error').eql('The location with the given intervention id does not exists');
         done();
       });
   });
@@ -403,7 +403,7 @@ describe('/PATCH interventions/:id/location', () => {
       .end((error, response) => {
         expect(response).to.have.status(401);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('Unauthorized');
+        expect(response.body).to.have.property('error').eql('You must signup or login to access this route');
         done();
       });
   });
@@ -492,7 +492,7 @@ describe('/PATCH interventions/:id/comment', () => {
       .end((error, response) => {
         expect(response).to.have.status(404);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('The intervention with the given id does not exists');
+        expect(response.body).to.have.property('error').eql('The comment with the given intervention id does not exists');
         done();
       });
   });
@@ -509,7 +509,7 @@ describe('/PATCH interventions/:id/comment', () => {
       .end((error, response) => {
         expect(response).to.have.status(401);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('Unauthorized');
+        expect(response.body).to.have.property('error').eql('You must signup or login to access this route');
         done();
       });
   });
@@ -553,7 +553,7 @@ describe('/DELETE interventions/:id', () => {
       .end((error, response) => {
         expect(response).to.have.status(401);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('Unauthorized');
+        expect(response.body).to.have.property('error').eql('You must signup or login to access this route');
         done();
       });
   });
@@ -670,7 +670,7 @@ describe('/PATCH interventions/:id/status', () => {
       .end((error, response) => {
         expect(response).to.have.status(401);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('Unauthorized');
+        expect(response.body).to.have.property('error').eql('You must signup or login to access this route');
         done();
       });
   });
@@ -687,7 +687,7 @@ describe('/PATCH interventions/:id/status', () => {
       .end((error, response) => {
         expect(response).to.have.status(403);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('Access denied');
+        expect(response.body).to.have.property('error').eql('You do not have the admin rights to perform this action');
         done();
       });
   });

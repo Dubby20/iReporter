@@ -79,7 +79,7 @@ export default class UserController {
     * @description login a  user
 
     * @memberof UserController
-   * @static login a user
+    *@static login a user
     * @param {object} request object
     * @param {object} response  object
     *
@@ -147,7 +147,7 @@ export default class UserController {
         });
       }).catch(err => response.status(400).json({
         status: 400,
-        error: errors.validationError
+        error: err.message
       }));
   }
 }

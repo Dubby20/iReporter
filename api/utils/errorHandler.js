@@ -1,5 +1,5 @@
 export const errors = {
-  validationError: 'Fill all required fields'
+  validationError: 'Missing input fields'
 };
 
 export const handleError = (response, message, code = 422) => {

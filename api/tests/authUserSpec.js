@@ -249,20 +249,6 @@ describe('User', () => {
           done();
         });
     });
-
-    it('It should not create user if fields are incomplete', (done) => {
-      chai.request(server)
-        .post('/api/v1/auth/signup')
-        .set('Content-Type', 'application/json')
-        .set('Accept', 'application/json')
-        .send(users[15])
-        .end((error, response) => {
-          expect(response).to.status(400);
-          expect(response.body).to.be.an('object');
-          expect(response.body.error).to.equal('Fill all required fields');
-          done();
-        });
-    });
   });
 
   describe('User login', () => {
