@@ -266,7 +266,7 @@ export default class RedFlagController {
     pool.query(`UPDATE red_flags SET status = '${status}' WHERE id = $1 RETURNING *`, [request.params.id])
       .then((data) => {
         const redFlagStatus = data.rows;
-        if (redFlagStatus.length < 1) {
+        if (redFlagStatus.length === 0) {
           return response.status(404).json({
             status: 404,
             error: 'The status with the given red-flag id was not found'

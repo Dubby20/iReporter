@@ -292,7 +292,7 @@ describe('/GET/interventions/:id', () => {
 
   it('it should return an error message when the given ID is not found', (done) => {
     chai.request(server)
-      .get('/api/v1/interventions/70')
+      .get('/api/v1/interventions/170')
       .set('x-access-token', userToken)
       .end((error, response) => {
         expect(response).to.have.status(404);
@@ -376,7 +376,7 @@ describe('/PATCH interventions/:id/location', () => {
 
   it('it should return an error if the intervention id is not found', (done) => {
     chai.request(server)
-      .patch('/api/v1/interventions/80/location')
+      .patch('/api/v1/interventions/180/location')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', userToken)
@@ -641,14 +641,14 @@ describe('/PATCH interventions/:id/status', () => {
       });
   });
 
-  it('it should return an error if the red-flag id is not found', (done) => {
+  it('it should return an error if the intervention id is not found', (done) => {
     chai.request(server)
-      .patch('/api/v1/interventions/100/status')
+      .patch('/api/v1/interventions/99/status')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', adminToken)
       .send({
-        status: 'rejected'
+        status: 'resolved'
       })
       .end((error, response) => {
         expect(response).to.have.status(404);

@@ -43,7 +43,6 @@ describe('/POST red-flags', () => {
       .set('x-access-token', userToken)
       .send(records[0])
       .end((error, response) => {
-        console.log(records[0]);
         expect(response).to.have.status(201);
         expect(response.body).to.be.an('object');
         expect(response.body.data).to.be.an('array');
@@ -174,6 +173,38 @@ describe('/POST red-flags', () => {
         expect(response).to.have.status(422);
         expect(response.body).to.be.an('object');
         expect(response.body).to.have.property('error').eql('comment must be a string of characters');
+
+        done();
+      });
+  });
+
+  it('it should return an error if images is not an array', (done) => {
+    chai.request(server)
+      .post('/api/v1/red-flags')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
+      .send(records[9])
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('Images must be an array');
+
+        done();
+      });
+  });
+
+  it('it should return an error if videos is not an array', (done) => {
+    chai.request(server)
+      .post('/api/v1/red-flags')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
+      .send(records[10])
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('videos must be an array');
 
         done();
       });
@@ -619,12 +650,12 @@ describe('/PATCH red-flags/:id/status', () => {
 
   it('it should return an error if the red-flag id is not found', (done) => {
     chai.request(server)
-      .patch('/api/v1/red-flags/100/status')
+      .patch('/api/v1/red-flags/99/status')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', adminToken)
       .send({
-        status: 'rejected'
+        status: 'resolved'
       })
       .end((error, response) => {
         expect(response).to.have.status(404);

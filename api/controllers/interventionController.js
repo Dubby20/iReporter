@@ -261,7 +261,7 @@ export default class InterventionController {
     const {
       status
     } = request.body;
-    pool.query(`UPDATE interventions SET status = '${status}' WHERE id = $1 RETURNING *`, [request.params.id])
+    pool.query(`UPDATE interventions SET status= '${status}' WHERE id = $1 RETURNING *`, [request.params.id])
       .then((data) => {
         const interventionStatus = data.rows;
         if (interventionStatus.length < 1) {
@@ -280,7 +280,7 @@ export default class InterventionController {
         });
       }).catch(err => response.status(400).json({
         status: 400,
-        error: errors.validationError
+        error: err.message
       }));
   }
 }
