@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import logger from 'morgan';
 
 import router from './routes/routes';
@@ -7,6 +8,8 @@ import router from './routes/routes';
 require('dotenv').config();
 
 const app = express();
+app.use(cors());
+
 const port = process.env.PORT || 8080;
 
 app.use(logger('dev'));

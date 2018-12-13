@@ -33,11 +33,11 @@
   <div class="page-container">
     <div class="signUp-login">
       <h3>Login</h3>
-      <form action="" method="POST">
+      <form id="loginForm" action="" method="POST">
         <div class="msg-div"></div>
         <div class="form-group">
 
-          <input type="email" name="email" placeholder="Email" required id="email" class="form-control">
+          <input type="email" name="email" placeholder="Email" autofocus required id="email" class="form-control">
         </div>
 
         <div class="form-group">
@@ -54,9 +54,9 @@
         <div class="form-group btn-div">
           <input type="submit" value="LOGIN" class="login-btn">
         </div>
-        <!-- <div class="loginLoader loader">
-            <img src="./assets/images/6 (1).gif" alt="spinner">
-          </div> -->
+        <div class="loginLoader loader">
+          <img src="./assets/images/spinner.gif" alt="spinner">
+        </div>
       </form>
     </div>
     <div class="account">
