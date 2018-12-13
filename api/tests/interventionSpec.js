@@ -643,7 +643,7 @@ describe('/PATCH interventions/:id/status', () => {
 
   it('it should return an error if the intervention id is not found', (done) => {
     chai.request(server)
-      .patch('/api/v1/interventions/99/status')
+      .patch('/api/v1/interventions/500/status')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', adminToken)
