@@ -21,6 +21,13 @@ app.get('/', (request, response) => response.status(200).json({
 }));
 
 app.use('/api/v1', router);
+app.use((request, response, next) => {
+  response.status(404).json({
+    status: 404,
+    error: ' Endpoint not found'
+  });
+  next();
+});
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);

@@ -14,8 +14,14 @@ const user = {
   email: 'ebuka179@gmail.com',
   password: 'password221'
 };
+const admin = {
+  email: 'jacynnadi20@gmail.com',
+  password: 'password'
+};
 chai.use(chaiHttp);
 let userToken;
+let adminToken;
+
 
 const intervention = {
   location: '6.524379, 3.379206',
@@ -370,7 +376,7 @@ describe('/PATCH interventions/:id/location', () => {
 
   it('it should return an error if the intervention id is not found', (done) => {
     chai.request(server)
-      .patch('/api/v1/interventions/80/location')
+      .patch('/api/v1/interventions/180/location')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', userToken)
@@ -548,6 +554,140 @@ describe('/DELETE interventions/:id', () => {
         expect(response).to.have.status(401);
         expect(response.body).to.be.an('object');
         expect(response.body).to.have.property('error').eql('Unauthorized');
+        done();
+      });
+  });
+});
+
+describe('/PATCH interventions/:id/status', () => {
+  before((done) => {
+    chai
+      .request(server)
+      .post('/api/v1/auth/login')
+      .send(admin)
+      .end((error, response) => {
+        adminToken = response.body.data[0].token;
+        done();
+      });
+  });
+  it('it should UPDATE status of a specific intervention id', (done) => {
+    const interventionStatus = {
+      status: 'resolved'
+    };
+    chai.request(server)
+      .patch('/api/v1/interventions/1/status')
+      .set('content-Type', 'application/json')
+      .set('accept', 'application/json')
+      .set('x-access-token', adminToken)
+      .send(interventionStatus)
+      .end((error, response) => {
+        expect(response).to.have.status(200);
+        expect(response.body).to.be.an('object');
+        expect(response.body.data).to.be.an('array');
+        expect(response.body.data[0]).to.have.property('message').eql('Updated intervention record’s status');
+        done();
+      });
+  });
+
+  it('it should return an error if the status is empty', (done) => {
+    const interventionStatus = {
+      status: ''
+    };
+    chai.request(server)
+      .patch('/api/v1/interventions/2/status')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', adminToken)
+      .send(interventionStatus)
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('Status is required');
+        done();
+      });
+  });
+
+  it('it should return an error if the comment is invalid', (done) => {
+    chai.request(server)
+      .patch('/api/v1/interventions/1/status')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', adminToken)
+      .send({
+        status: 'pending'
+      })
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('Invalid status, status must be a string containing under investigation, resolved or rejected');
+        done();
+      });
+  });
+
+  it('it should return an error if the intervention id is not a number', (done) => {
+    chai.request(server)
+      .patch('/api/v1/interventions/ab/status')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', adminToken)
+      .send({
+        status: 'under investigation'
+      })
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('The given id is not a number');
+        done();
+      });
+  });
+
+  it('it should return an error if the intervention id is not found', (done) => {
+    chai.request(server)
+      .patch('/api/v1/interventions/99/status')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', adminToken)
+      .send({
+        status: 'resolved'
+      })
+      .end((error, response) => {
+        expect(response).to.have.status(404);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('The status with the given intervention id was not found');
+        done();
+      });
+  });
+
+  it('it should return an error if the user_id is not authenticated', (done) => {
+    chai.request(server)
+      .patch('/api/v1/interventions/14/status')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', '')
+      .send({
+        status: 'rejected'
+      })
+      .end((error, response) => {
+        expect(response).to.have.status(401);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('Unauthorized');
+        done();
+      });
+  });
+
+  it('it should return an error if the user_id is not authorized', (done) => {
+    chai.request(server)
+      .patch('/api/v1/interventions/14/status')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
+      .send({
+        status: 'rejected'
+      })
+      .end((error, response) => {
+        expect(response).to.have.status(403);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('Access denied');
         done();
       });
   });
