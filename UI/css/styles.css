@@ -582,25 +582,27 @@ label {
 
 .page-border {
   border-radius: 4px;
+  /* padding: 8px; */
 }
 
 div .heading {
   background-color: var(--main-color);
   height: 40px;
+  border-radius: 4px;
 }
 
 .heading h3 {
   color: var(--text-color);
   text-align: center;
   text-transform: uppercase;
-  padding: 8px;
+  padding: 8px
 }
 
 .report {
   background: #f5f5f5;
   padding: 16px;
   border: 1px solid #e5e5e5;
-  margin: 20px 8px;
+  margin: 0px 2px;
   border-radius: 4px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 5px 0px;
 }
@@ -917,6 +919,12 @@ footer {
   text-align: center;
   padding-top: 14px;
   font-weight: 600;
+}
+
+.loader {
+  display: none;
+  text-align: center;
+  margin-top: 20px;
 }
 
 @media screen and (min-width: 1000px) {

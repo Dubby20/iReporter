@@ -1,5 +1,6 @@
 const editRedFlag = document.getElementById('edit-red-flag');
-const locationText = document.getElementById('location-code')
+const locationText = document.getElementById('location-code');
+
 
 const modalPage = document.getElementById('modalPage');
 const closeBtn = document.querySelector('.close-btn');
@@ -25,29 +26,31 @@ const getLocation = () => {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);
   } else {
-    locationText.innerHTML = "Geolocation is not supported by this browser.";
+    locationText.innerHTML = 'Geolocation is not supported by this browser.';
   }
-}
+};
+
 
 function showPosition(position) {
-  locationText.innerHTML = "Latitude: " + position.coords.latitude +
-    "<br>Longitude: " + position.coords.longitude;
+  locationText.innerHTML = `Latitude: ${position.coords.latitude
+    }<br>Longitude: ${position.coords.longitude}`;
 }
 
 
 function initMap() {
-  let myLocation = {
+  const myLocation = {
     lat: 6.5243793,
     lng: 3.3792057
   };
-  let map = new google.maps.Map(
+  const map = new google.maps.Map(
     document.getElementById('map'), {
       zoom: 4,
       center: myLocation
-    });
-  let marker = new google.maps.Marker({
+    }
+  );
+  const marker = new google.maps.Marker({
     position: myLocation,
-    map: map
+    map
   });
 
   marker.setMap(map);
@@ -74,9 +77,9 @@ const closeModalForm = (elemID) => {
 
 const showButton = () => {
   const btn = document.getElementById('item');
-  if (btn.style.display === "none") {
-    btn.style.display = "block";
+  if (btn.style.display === 'none') {
+    btn.style.display = 'block';
   } else {
-    btn.style.display = "none";
+    btn.style.display = 'none';
   }
 };
