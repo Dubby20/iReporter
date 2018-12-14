@@ -3,11 +3,10 @@ const registerForm = document.getElementById('registerForm');
 const msgDiv = document.querySelector('.msg-div');
 
 const validateSignup = (firstname, lastname, othernames, username, email, phoneNumber, password) => {
-
-  if (firstname == "") {
-    alert("Firstname must be filled out");
-    document.getElementById('msg-error').innerHTML = "You must have to provide firstname";
-    document.getElementById('fistname').style.border = "solid 1px red";
+  if (firstname == '') {
+    alert('Firstname must be filled out');
+    document.getElementById('msg-error').innerHTML = 'You must have to provide firstname';
+    document.getElementById('fistname').style.border = 'solid 1px red';
     return false;
   }
   // else {
@@ -15,67 +14,67 @@ const validateSignup = (firstname, lastname, othernames, username, email, phoneN
   //   document.getElementById('firstname').style.border = "solid 1px #a9a9a9";
   // }
 
-  if (lastname == "") {
-    alert("Lastname must be filled out");
-    document.getElementById('msg-error').innerHTML = "You must have to provide email";
-    document.getElementById('lastname').style.border = "solid 1px red";
+  if (lastname == '') {
+    alert('Lastname must be filled out');
+    document.getElementById('msg-error').innerHTML = 'You must have to provide email';
+    document.getElementById('lastname').style.border = 'solid 1px red';
     return false;
   }
   // else {
   //   document.getElementById('lastname').innerHTML = "";
   //   document.getElementById('lastname').style.border = "solid 1px #a9a9a9";
   // }
-  if (othernames == "") {
-    alert("Email must be filled out");
-    document.getElementById('othernames').innerHTML = "You must have to provide othernames";
-    document.getElementById('othernames').style.border = "solid 1px red";
+  if (othernames == '') {
+    alert('Email must be filled out');
+    document.getElementById('othernames').innerHTML = 'You must have to provide othernames';
+    document.getElementById('othernames').style.border = 'solid 1px red';
     return false;
   }
   // else {
   //   document.getElementById('msg-error').innerHTML = "";
   //   document.getElementById('othernames').style.border = "solid 1px #a9a9a9";
   // }
-  if (username == "") {
-    alert("Email must be filled out");
-    document.getElementById('msg-error').innerHTML = "You must have to provide username";
-    document.getElementById('username').style.border = "solid 1px red";
+  if (username == '') {
+    alert('Email must be filled out');
+    document.getElementById('msg-error').innerHTML = 'You must have to provide username';
+    document.getElementById('username').style.border = 'solid 1px red';
     return false;
   }
   // else {
   //   document.getElementById('msg-error').innerHTML = "";
   //   document.getElementById('username').style.border = "solid 1px #a9a9a9";
   // }
-  if (email == "") {
-    alert("Email must be filled out");
-    document.getElementById('msg-error').innerHTML = "You must have to provide email";
-    document.getElementById('email').style.border = "solid 1px red";
+  if (email == '') {
+    alert('Email must be filled out');
+    document.getElementById('msg-error').innerHTML = 'You must have to provide email';
+    document.getElementById('email').style.border = 'solid 1px red';
     return false;
   }
   // else {
   //   document.getElementById('msg-error').innerHTML = "";
   //   document.getElementById('email').style.border = "solid 1px #a9a9a9";
   // }
-  if (phoneNumber == "") {
-    alert("phoneNumber must be filled out");
-    document.getElementById('msg-error').innerHTML = "You must have to provide phone number";
-    document.getElementById('phoneNumber').style.border = "solid 1px red";
+  if (phoneNumber == '') {
+    alert('phoneNumber must be filled out');
+    document.getElementById('msg-error').innerHTML = 'You must have to provide phone number';
+    document.getElementById('phoneNumber').style.border = 'solid 1px red';
     return false;
   }
   //  else {
   //   document.getElementById('msg-error').innerHTML = "";
   //   document.getElementById('phoneNumber').style.border = "solid 1px #a9a9a9";
   // }
-  if (password == "") {
-    alert("password must be filled out");
-    document.getElementById('msg-error').innerHTML = "You must have to provide password";
-    document.getElementById('password').style.border = "solid 1px red";
+  if (password == '') {
+    alert('password must be filled out');
+    document.getElementById('msg-error').innerHTML = 'You must have to provide password';
+    document.getElementById('password').style.border = 'solid 1px red';
     return false;
   }
   // else {
   //   document.getElementById('msg-error').innerHTML = "";
   //   document.getElementById('password').style.border = "solid 1px #a9a9a9";
   // }
-}
+};
 
 
 const validatePassword = (password, confirmPassword) => {
@@ -103,7 +102,7 @@ const newUser = (e) => {
     phoneNumber,
     password
   };
-  const validity = validateSignup(firstname, lastname, othernames, username, email, phoneNumber, password)
+  const validity = validateSignup(firstname, lastname, othernames, username, email, phoneNumber, password);
   const confirmPassword = document.getElementById('confirmPassword').value;
   const result = validatePassword(info.password, confirmPassword);
   signUpLoader.style.display = 'block';

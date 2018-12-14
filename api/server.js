@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import logger from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../swagger.json';
@@ -9,6 +10,8 @@ import router from './routes/routes';
 require('dotenv').config();
 
 const app = express();
+app.use(cors());
+
 const port = process.env.PORT || 8080;
 
 app.use(logger('dev'));
