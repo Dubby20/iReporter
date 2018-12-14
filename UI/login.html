@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Login Form</title>
+  <link rel="shortcut icon" type="image/png" href="./assets/images/task-bar-logo.jpg" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+    crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css?family=Archivo+Black|Candal|Montserrat" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+  <div class="centered">
+    <dt class="logo">i<span class="logo-name">Reporter</span></dt>
+    <dd class="logo-text">Speak up. Ask for help.</dd>
+  </div>
+  <hr />
+  <div>
+    <nav id="nav" role="navigation">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="login.html" class="active">Login</a></li>
+        <li><a href="register.html">Register</a></li>
+        <!-- <li><i class="fas fa-phone-square"></i> <a href="#">Contact Us</a></li> -->
+      </ul>
+    </nav>
+  </div>
+
+  <div class="page-container">
+    <div class="signUp-login">
+      <h3>Login</h3>
+      <form id="loginForm" action="" method="POST">
+        <div class="msg-div"></div>
+        <div class="form-group">
+
+          <input type="email" name="email" placeholder="Email" autofocus required id="email" class="form-control">
+        </div>
+
+        <div class="form-group">
+
+          <input type="password" name="password" placeholder="Password" required id="password" class="form-control">
+        </div>
+
+        <div class="form-group">
+          <div class="form-link">
+            <label for=""><input type="checkbox" class="inline-checkbox"> Remember Me </label>
+            <a href="#" class="float-right forget">Forgot Password?</a>
+          </div>
+        </div>
+        <div class="form-group btn-div">
+          <input type="submit" value="LOGIN" class="login-btn">
+        </div>
+        <div class="loginLoader loader">
+          <img src="./assets/images/spinner.gif" alt="spinner">
+        </div>
+      </form>
+    </div>
+    <div class="account">
+      <p>Don't have an account yet?
+        <a href="register.html">Create an account</a>
+      </p>
+    </div>
+  </div>
+  <footer>
+    <p class="footer">Copyright &copy iReporter App 2018. All Rights Reserved.</p>
+  </footer>
+
+</body>
+
+</html>
