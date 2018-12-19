@@ -1,4 +1,7 @@
 import pool from '../models/database';
+import {
+  handleError
+} from '../utils/errorHandler';
 
 const validNameRegex = /^[A-Za-z]{3,30}$/;
 const othernamesRegex = /^[a-zA-Z]'?([a-zA-Z]|\.| |-){3,}$/;
@@ -10,22 +13,51 @@ const phoneNumberRegex = /^(\+?234|0)?[789]\d{9}$/;
 export default class ValidateUsers {
   static checkIfUserExists(request, response, next) {
     const {
-      email
+      email,
+      username
     } = request.body;
-
+    // try {
+    //   const emailExists = await pool.query('SELECT * FROM users WHERE email = $1', [email])
+    //   if (emailExists.rowCount === 1) {
+    //     return response.json({
+    //       error: 'Email already exists'
+    //     })
+    //   }
+    //   const usernameExists = await pool.query('SELECT * FROM users WHERE username = $1', [username])
+    //   if (usernameExists.rowCount === 1) {
+    //     return response.json({
+    //       error: 'Username already exists'
+    //     })
+    //   }
+    //   return next()
+    // } catch (error) {}
     pool.query('SELECT * FROM users WHERE email = $1', [email])
       .then((result) => {
-        const userExists = result.rows[0];
-        if (userExists) {
+        const emailExists = result.rows[0];
+        if (emailExists) {
           return response.status(409).json({
             status: 409,
             error: 'Email already exists'
           });
         }
-        return next();
+        pool.query('SELECT * FROM users WHERE username = $1', [username])
+          // eslint-disable-next-line no-shadow
+          .then((result) => {
+            const usernameExists = result.rows[0];
+            if (usernameExists) {
+              return response.status(409).json({
+                status: 409,
+                error: 'Username already exists'
+              });
+            }
+            return next();
+          }).catch(err => response.status(400).json({
+            status: 400,
+            error: 'Username must be unique'
+          }));
       }).catch(err => response.status(400).json({
         status: 400,
-        error: 'Email or Username must be unique'
+        error: 'Email must be unique'
       }));
   }
 
@@ -39,6 +71,9 @@ export default class ValidateUsers {
       phoneNumber,
       password
     } = request.body;
+    if (typeof firstname !== 'string') {
+      return handleError(response, 'Firstname must be a string');
+    }
     if (!(firstname && firstname.trim().length)) {
       return response.status(422).json({
         status: 422,
@@ -50,6 +85,9 @@ export default class ValidateUsers {
         status: 422,
         error: 'firstname must be between 3 and 30 characters only'
       });
+    }
+    if (typeof lastname !== 'string') {
+      return handleError(response, 'Lastname must be a string');
     }
     if (!(lastname && lastname.trim().length)) {
       return response.status(422).json({
@@ -64,6 +102,9 @@ export default class ValidateUsers {
       });
     }
 
+    if (typeof othernames !== 'string') {
+      return handleError(response, 'Othernames must be a string');
+    }
     if (!(othernames && othernames.trim().length)) {
       return response.status(422).json({
         status: 422,
@@ -78,6 +119,9 @@ export default class ValidateUsers {
       });
     }
 
+    if (typeof username !== 'string') {
+      return handleError(response, 'Username must be a string');
+    }
     if (!(username && username.trim().length)) {
       return response.status(422).json({
         status: 422,
@@ -90,6 +134,9 @@ export default class ValidateUsers {
         status: 422,
         error: 'username must contain between 3 and 30 alphanumeric characters only'
       });
+    }
+    if (typeof email !== 'string') {
+      return handleError(response, 'Email must be a string');
     }
     if (!(email && email.trim().length)) {
       return response.status(422).json({
@@ -104,7 +151,13 @@ export default class ValidateUsers {
         error: 'Please enter a valid email'
       });
     }
-
+    // if (typeof phoneNumber !== 'number') {
+    //   return handleError(response, 'Phone number must be a number');
+    // }
+    // check(phoneNumber)
+    //   .isMobilePhone()
+    //   .withMessage('Phone number must be a number');
+    // return handleError(response, 'Phone number must be a number');
     if (!(phoneNumber && phoneNumber.trim().length)) {
       return response.status(422).json({
         status: 422,
@@ -142,6 +195,9 @@ export default class ValidateUsers {
       email,
       password
     } = request.body;
+    if (typeof email !== 'string') {
+      return handleError(response, 'Email must be a string');
+    }
     if (!(email && email.trim().length)) {
       return response.status(422).json({
         status: 422,

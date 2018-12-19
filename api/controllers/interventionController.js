@@ -39,6 +39,7 @@ export default class InterventionController {
           status: 201,
           data: [{
             id: intervention.id,
+            intervention,
             message: 'Created intervention record'
           }]
         });
@@ -64,10 +65,10 @@ export default class InterventionController {
     pool.query('SELECT * FROM interventions')
       .then((data) => {
         const intervention = data.rows;
-        if (intervention.length === 0) {
+        if (intervention.rowCount < 1) {
           return response.status(200).json({
             status: 200,
-            data: [{}]
+            data: []
           });
         }
         return response.status(200).json({
@@ -134,7 +135,7 @@ export default class InterventionController {
         if (interventionId.rowCount < 1) {
           return response.status(404).json({
             status: 404,
-            error: 'The intervention with the given id does not exists'
+            error: 'The location with the given intervention id does not exists'
           });
         }
         const {
@@ -148,6 +149,7 @@ export default class InterventionController {
                 status: 200,
                 data: [{
                   id: editInterventionLocation.id,
+                  editInterventionLocation,
                   message: 'Updated intervention record’s location'
                 }]
               });
@@ -158,7 +160,7 @@ export default class InterventionController {
         } else {
           return response.status(403).json({
             status: 403,
-            error: 'Unauthorized'
+            error: 'You must signup or login to access this route'
           });
         }
       }).catch(error => response.status(400).json({
@@ -184,7 +186,7 @@ export default class InterventionController {
         if (intereventionId.rowCount < 1) {
           return response.status(404).json({
             status: 404,
-            error: 'The intervention with the given id does not exists'
+            error: 'The comment with the given intervention id does not exists'
           });
         }
         const {
@@ -198,6 +200,7 @@ export default class InterventionController {
                 status: 200,
                 data: [{
                   id: editComment.id,
+                  editComment,
                   message: 'Updated intervention record’s comment'
                 }]
               });
@@ -208,7 +211,7 @@ export default class InterventionController {
         } else {
           return response.status(401).json({
             status: 401,
-            error: 'Unauthorized'
+            error: 'You must signup or login to access this route'
           });
         }
       }).catch(error => response.status(400).send({
@@ -274,6 +277,7 @@ export default class InterventionController {
           status: 200,
           data: [{
             id: interventionStatus.id,
+            interventionStatus,
             message: 'Updated intervention record’s status'
 
           }]

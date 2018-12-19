@@ -136,6 +136,15 @@ export const users = [{
     email: 'duby35@yahoo.com',
     password: 'password',
     phoneNumber: '07056734563'
+  },
+  {
+    firstname: '',
+    lastname: '',
+    othernames: '',
+    username: 'Dubem20',
+    email: 'duby35@yahoo.com',
+    password: 'password',
+    phoneNumber: '07056734563'
   }
 ];
 
