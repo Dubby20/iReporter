@@ -27,7 +27,9 @@ export default class PostValidator {
       videos,
       comment
     } = request.body;
-
+    if (typeof location !== 'string') {
+      return handleError(response, 'Location must be a string');
+    }
     if (!(location && location.trim().length)) {
       return handleError(response, 'Please enter your location');
     }
@@ -43,9 +45,12 @@ export default class PostValidator {
       return handleError(response, 'Images must be an array');
     }
 
-    const notAString = images.filter(image => typeof image !== 'string');
+    const notAString = images.filter(image => typeof image !== 'string' || image.length < 1);
+    // if (typeof image !== 'string') {
+    //   return handleError(response, 'Please enter an image url...');
+    // }
     if (notAString.length >= 1) {
-      return handleError(response, 'image must be a string');
+      return handleError(response, 'image must be a string and not empty');
     }
 
     if (!videos) {
@@ -55,18 +60,25 @@ export default class PostValidator {
       return handleError(response, 'videos must be an array');
     }
 
-    const notAVideoString = videos.filter(video => typeof video !== 'string');
+    const notAVideoString = videos.filter(video => typeof video !== 'string' || video.length < 1);
+    // if (typeof video !== 'string') {
+    //   return handleError(response, 'Please enter a video url.......');
+    // }
     if (notAVideoString.length >= 1) {
-      return handleError(response, 'video must be a string');
+      return handleError(response, 'video must be a string and not empty');
     }
-
-    if (!(comment)) {
-      return handleError(response, 'Please enter a comment');
-    }
+    // if (!(notAVideoString && notAVideoString.trim().length)) {
+    //   return handleError(response, 'Please enter a video url');
+    // }`
 
     if (typeof comment !== 'string') {
       return handleError(response, 'comment must be a string of characters');
     }
+
+    if (!(comment && comment.trim().length)) {
+      return handleError(response, 'Please enter a comment');
+    }
+
     return next();
   }
 
@@ -75,6 +87,9 @@ export default class PostValidator {
     const {
       location
     } = request.body;
+    if (typeof location !== 'string') {
+      return handleError(response, 'Location must be a string');
+    }
     if (!(location && location.trim().length)) {
       return handleError(response, 'Please enter your location');
     }
@@ -88,6 +103,9 @@ export default class PostValidator {
     const {
       status
     } = request.body;
+    if (typeof status !== 'string') {
+      return handleError(response, 'Status must be a string');
+    }
     if (!(status && status.trim().length)) {
       return handleError(response, 'Status is required');
     }
@@ -101,13 +119,13 @@ export default class PostValidator {
     const {
       comment
     } = request.body;
-    if (!(comment)) {
-      return handleError(response, 'Please enter a comment');
-    }
-
     if (typeof comment !== 'string') {
       return handleError(response, 'comment must be a string of characters');
     }
+    if (!(comment && comment.trim().length)) {
+      return handleError(response, 'Please enter a comment');
+    }
+
     return next();
   }
 

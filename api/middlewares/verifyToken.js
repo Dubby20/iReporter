@@ -15,7 +15,7 @@ class verifyToken {
     if (!token) {
       return response.status(401).json({
         status: 401,
-        error: 'Unauthorized'
+        error: 'You must signup or login to access this route'
       });
     }
     try {
@@ -42,7 +42,7 @@ class verifyToken {
     if (request.user.isAdmin === false) {
       return response.status(403).json({
         status: 403,
-        error: 'Access denied'
+        error: 'You do not have the admin rights to perform this action'
       });
     }
     return next();

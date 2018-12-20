@@ -955,3 +955,7 @@ footer {
     width: calc(50% - 2rem);
   }
 }
+
+.msg-div {
+  padding: 4px;
+}
