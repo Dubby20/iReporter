@@ -138,6 +138,15 @@
 
 
   <script src="../js/app.js"></script>
+  <script>
+    (function () {
+      let user = localStorage.getItem('userToken')
+      user = JSON.parse(user)
+      if (!user.user.isAdmin) {
+        window.location.href = '/';
+      }
+    })()
+  </script>
 </body>
 
 </html>
