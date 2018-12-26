@@ -66,7 +66,7 @@ export default class UserController {
           }],
           message: 'User created successfully'
         });
-      }).catch((err) => {
+      }).catch((error) => {
         response.status(400).json({
           status: 400,
           error: errors.validationError

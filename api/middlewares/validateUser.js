@@ -16,21 +16,6 @@ export default class ValidateUsers {
       email,
       username
     } = request.body;
-    // try {
-    //   const emailExists = await pool.query('SELECT * FROM users WHERE email = $1', [email])
-    //   if (emailExists.rowCount === 1) {
-    //     return response.json({
-    //       error: 'Email already exists'
-    //     })
-    //   }
-    //   const usernameExists = await pool.query('SELECT * FROM users WHERE username = $1', [username])
-    //   if (usernameExists.rowCount === 1) {
-    //     return response.json({
-    //       error: 'Username already exists'
-    //     })
-    //   }
-    //   return next()
-    // } catch (error) {}
     pool.query('SELECT * FROM users WHERE email = $1', [email])
       .then((result) => {
         const emailExists = result.rows[0];
@@ -135,14 +120,14 @@ export default class ValidateUsers {
         error: 'username must contain between 3 and 30 alphanumeric characters only'
       });
     }
-    if (typeof email !== 'string') {
-      return handleError(response, 'Email must be a string');
-    }
     if (!(email && email.trim().length)) {
       return response.status(422).json({
         status: 422,
         error: 'Please enter your email'
       });
+    }
+    if (typeof email !== 'string') {
+      return handleError(response, 'Email must be a string');
     }
 
     if (!emailRegex.test(email)) {
@@ -151,13 +136,6 @@ export default class ValidateUsers {
         error: 'Please enter a valid email'
       });
     }
-    // if (typeof phoneNumber !== 'number') {
-    //   return handleError(response, 'Phone number must be a number');
-    // }
-    // check(phoneNumber)
-    //   .isMobilePhone()
-    //   .withMessage('Phone number must be a number');
-    // return handleError(response, 'Phone number must be a number');
     if (!(phoneNumber && phoneNumber.trim().length)) {
       return response.status(422).json({
         status: 422,
