@@ -455,6 +455,7 @@ label {
   font-weight: 700;
   border: 1px solid var(--main-color);
   margin-top: 8px;
+  outline: none;
 }
 
 .login-btn {
@@ -469,6 +470,7 @@ label {
   font-weight: 700;
   border: 1px solid var(--main-color);
   margin-top: 8px;
+  outline: none;
 }
 
 .btn-div {

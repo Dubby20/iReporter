@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 const editRedFlag = document.getElementById('edit-red-flag');
 const locationText = document.getElementById('location-code');
 
@@ -66,15 +67,6 @@ const closeModalForm = (elemID) => {
   };
 };
 
-// const closeModal = (elemID) => {
-//   document.getElementById(elemID).style.display = 'none';
-// };
-
-// const showModal = (elemID) => {
-//   document.getElementById(elemID).style.display = 'block';
-//   closeModalForm(elemID);
-// };
-
 const showButton = () => {
   const btn = document.getElementById('item');
   if (btn.style.display === 'none') {
@@ -83,3 +75,20 @@ const showButton = () => {
     btn.style.display = 'none';
   }
 };
+
+const hideBtn = document.querySelectorAll('.hideBtn');
+const showBtn = document.querySelectorAll('.showBtn');
+
+const hideDisplayBtn = () => {
+  if (localStorage.getItem('userToken') !== null) {
+    for (let i = 0; i < hideBtn.length; i++) {
+      hideBtn[i].style.display = 'none';
+    }
+  } else {
+    for (let i = 0; i < showBtn.length; i++) {
+      showBtn[i].style.display = 'none';
+    }
+  }
+};
+
+hideDisplayBtn();
