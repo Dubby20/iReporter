@@ -23,12 +23,12 @@
     <div>
       <nav id="nav" role="navigation">
         <ul>
-          <li> <a href="index.html" class="active">Home</a></li>
-          <li><a href="report.html">Report</a></li>
-          <li><a href="register.html">Register</a></li>
-          <li><a href="profile.html">My Profile</a></li>
-          <li><a href="#">Log out</a></li>
-          <!-- <li><i class="fas fa-phone-square"></i> <a href="#">Contact Us</a></li> -->
+          <li><a href="report.html" class="showBtn">Report</a></li>
+          <li><a href="login.html" class="hideBtn">Login</a></li>
+          <li><a href="profile.html" class="showBtn">My Profile</a></li>
+          <li><a href="register.html" class="hideBtn">Register</a></li>
+          <li><a href="#" class="showBtn logOut">Log out</a></li>
+          <!-- <li> <a href="#">Contact Us</a></li> -->
         </ul>
       </nav>
     </div>
@@ -46,9 +46,7 @@
           <div class="text-section">
             <h3>Reporting a red-flag</h3>
             <p>Information about how to report an incident linked to corruption</p>
-            <div class="btn-container">
-              <a href="report.html" class="btn">Report here</a>
-            </div>
+            <div class="btn-container"><a href="report.html" class="btn">Report here</a></div>
           </div>
         </div>
       </div>
@@ -56,25 +54,24 @@
         <div class="bg-color">
           <div class="text-section">
             <h3>Reporting an Intervention</h3>
-            <p class="p-text">Information about how to report for a government agency to intervene e.g
-              repair bad road sections, collapsed bridges, flooding e.t.c.</p>
-            <div class="btn-container">
-              <a href="report.html" class="btn">Report here</a>
-            </div>
+            <p class="p-text">
+              Information about how to report for a government agency to intervene e.g repair bad
+              road sections, collapsed bridges, flooding e.t.c.
+            </p>
+            <div class="btn-container"><a href="report.html" class="btn">Report here</a></div>
           </div>
         </div>
       </div>
     </div>
 
-
     <div class="menu-container menu-div">
       <div class="menu-section">
-        <h2 class='intervention'>Red Flag</h2>
+        <h2 class="intervention">Red Flag</h2>
         <div class="row">
           <div class="column">
             <div class="card">
               <div class="card-image" height="200" width="200">
-                <img src="./assets/images/bribery-and-corruption.jpg" alt="" class="img-fluid">
+                <img src="./assets/images/bribery-and-corruption.jpg" alt="" class="img-fluid" />
               </div>
               <div class="image-description">
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, provident.</p>
@@ -84,11 +81,9 @@
 
           <div class="column">
             <div class="card">
-              <div class="card-overlay">
-
-              </div>
+              <div class="card-overlay"></div>
               <div class="card-image">
-                <img src="./assets/images/businessman-receive-money.jpg" alt="" class="img-fluid">
+                <img src="./assets/images/businessman-receive-money.jpg" alt="" class="img-fluid" />
               </div>
               <div class="image-description">
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, provident.</p>
@@ -98,10 +93,9 @@
 
           <div class="column">
             <div class="card">
-              <div class="card-overlay">
-              </div>
+              <div class="card-overlay"></div>
               <div class="card-image">
-                <img src="./assets/images/money.jpg" alt="" class="img-fluid">
+                <img src="./assets/images/money.jpg" alt="" class="img-fluid" />
               </div>
               <div class="image-description">
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, provident.</p>
@@ -110,12 +104,12 @@
           </div>
         </div>
 
-        <h2 class='intervention'>Intervention</h2>
+        <h2 class="intervention">Intervention</h2>
         <div class="row">
           <div class="column">
             <div class="card">
               <div class="card-image">
-                <img src="./assets/images/bad-roads.jpg" alt="" class="img-fluid">
+                <img src="./assets/images/bad-roads.jpg" alt="" class="img-fluid" />
               </div>
               <div class="image-description">
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, provident.</p>
@@ -125,11 +119,9 @@
 
           <div class="column">
             <div class="card">
-              <div class="card-overlay">
-
-              </div>
+              <div class="card-overlay"></div>
               <div class="card-image">
-                <img src="./assets/images/floods.png" alt="" class="img-fluid">
+                <img src="./assets/images/floods.png" alt="" class="img-fluid" />
               </div>
               <div class="image-description">
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, provident.</p>
@@ -139,10 +131,9 @@
 
           <div class="column">
             <div class="card">
-              <div class="card-overlay">
-              </div>
+              <div class="card-overlay"></div>
               <div class="card-image">
-                <img src="./assets/images/broken-bridge.jpeg" alt="" class="img-fluid">
+                <img src="./assets/images/broken-bridge.jpeg" alt="" class="img-fluid" />
               </div>
               <div class="image-description">
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, provident.</p>
@@ -156,6 +147,8 @@
   <footer>
     <p class="footer">Copyright &copy iReporter App 2018. All Rights Reserved.</p>
   </footer>
+  <script src="./js/app.js"></script>
+  <script src="./js/logOut.js"></script>
 </body>
 
 </html>

@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import path from 'path';
 import logger from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../swagger.json';
@@ -21,6 +22,7 @@ app.use(
     extended: false
   })
 );
+app.use(express.static(path.join(__dirname, '../UI')));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get('/', (request, response) => response.status(200).json({
