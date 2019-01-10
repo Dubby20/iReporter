@@ -559,6 +559,7 @@ label {
   margin-bottom: 0;
   text-align: center;
   vertical-align: middle;
+  outline: none;
 }
 
 .view-btn {
@@ -570,16 +571,20 @@ label {
   text-align: center;
   background-color: var(--main-color);
   color: var(--text-color);
+  outline: none;
 }
 
 .location-btn {
-  border-radius: 4px;
-  margin-bottom: 8px;
   color: #007bff;
 }
 
 .location-btn:hover {
   color: var(--primary-color);
+}
+
+#location-code {
+  padding-top: 8px;
+  font-weight: 600;
 }
 
 .page-border {
@@ -621,6 +626,7 @@ div .heading {
   font-weight: 700;
   border: 1px solid var(--main-color);
   margin-top: 8px;
+  outline: none;
 }
 
 .img-fluid {
@@ -960,4 +966,10 @@ footer {
 
 .msg-div {
   padding: 4px;
+}
+
+#title {
+  text-align: center;
+  font-weight: 800;
+  font-size: 40px;
 }

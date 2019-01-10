@@ -81,37 +81,37 @@ describe('/POST interventions', () => {
       });
   });
 
-  it('it return an error if images is empty', (done) => {
-    chai
-      .request(server)
-      .post('/api/v1/interventions')
-      .set('Content-Type', 'application/json')
-      .set('Accept', 'application/json')
-      .set('x-access-token', userToken)
-      .send(records[2])
-      .end((error, response) => {
-        expect(response).to.have.status(422);
-        expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('Please enter an image url');
-        done();
-      });
-  });
+  // it('it return an error if images is empty', (done) => {
+  //   chai
+  //     .request(server)
+  //     .post('/api/v1/interventions')
+  //     .set('Content-Type', 'application/json')
+  //     .set('Accept', 'application/json')
+  //     .set('x-access-token', userToken)
+  //     .send(records[2])
+  //     .end((error, response) => {
+  //       expect(response).to.have.status(422);
+  //       expect(response.body).to.be.an('object');
+  //       expect(response.body).to.have.property('error').eql('Please enter an image url');
+  //       done();
+  //     });
+  // });
 
-  it('it return an error if videos is empty', (done) => {
-    chai
-      .request(server)
-      .post('/api/v1/interventions')
-      .set('Content-Type', 'application/json')
-      .set('Accept', 'application/json')
-      .set('x-access-token', userToken)
-      .send(records[3])
-      .end((error, response) => {
-        expect(response).to.have.status(422);
-        expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('Please enter a video url');
-        done();
-      });
-  });
+  // it('it return an error if videos is empty', (done) => {
+  //   chai
+  //     .request(server)
+  //     .post('/api/v1/interventions')
+  //     .set('Content-Type', 'application/json')
+  //     .set('Accept', 'application/json')
+  //     .set('x-access-token', userToken)
+  //     .send(records[3])
+  //     .end((error, response) => {
+  //       expect(response).to.have.status(422);
+  //       expect(response.body).to.be.an('object');
+  //       expect(response.body).to.have.property('error').eql('Please enter a video url');
+  //       done();
+  //     });
+  // });
 
   it('it return an error if comment is empty', (done) => {
     chai
@@ -154,7 +154,7 @@ describe('/POST interventions', () => {
       .end((error, response) => {
         expect(response).to.have.status(422);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('image must be a string and not empty');
+        expect(response.body).to.have.property('error').eql('image must be a string');
         done();
       });
   });
@@ -170,7 +170,7 @@ describe('/POST interventions', () => {
       .end((error, response) => {
         expect(response).to.have.status(422);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('video must be a string and not empty');
+        expect(response.body).to.have.property('error').eql('video must be a string');
 
         done();
       });

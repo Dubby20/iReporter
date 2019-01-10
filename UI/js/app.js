@@ -23,6 +23,10 @@ window.onclick = (event) => {
   }
 };
 
+const showPosition = (position) => {
+  locationText.innerHTML = `Location: <span id="location" style="color:#361f55">${position.coords.latitude}, ${position.coords.longitude}</span>`;
+};
+
 const getLocation = () => {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);
@@ -32,30 +36,26 @@ const getLocation = () => {
 };
 
 
-function showPosition(position) {
-  locationText.innerHTML = `Latitude: ${position.coords.latitude
-    }<br>Longitude: ${position.coords.longitude}`;
-}
-
-
-function initMap() {
+const initMap = (position) => {
   const myLocation = {
-    lat: 6.5243793,
-    lng: 3.3792057
+    lat: `${position.coords.latitude}`,
+    lng: `${position.coords.longitude}`
   };
+  // eslint-disable-next-line no-undef
   const map = new google.maps.Map(
     document.getElementById('map'), {
       zoom: 4,
       center: myLocation
     }
   );
+  // eslint-disable-next-line no-undef
   const marker = new google.maps.Marker({
     position: myLocation,
     map
   });
 
   marker.setMap(map);
-}
+};
 
 
 const closeModalForm = (elemID) => {
