@@ -37,35 +37,28 @@ export default class PostValidator {
       return handleError(response, 'location does not match a Lat Long coordinates');
     }
 
-    if (!images) {
-      return handleError(response, 'Please enter an image url');
-    }
-
     if (!Array.isArray(images)) {
       return handleError(response, 'Images must be an array');
     }
 
-    const notAString = images.filter(image => typeof image !== 'string' || image.length < 1);
+    const notAString = images.filter(image => typeof image !== 'string');
     // if (typeof image !== 'string') {
     //   return handleError(response, 'Please enter an image url...');
     // }
     if (notAString.length >= 1) {
-      return handleError(response, 'image must be a string and not empty');
+      return handleError(response, 'image must be a string');
     }
 
-    if (!videos) {
-      return handleError(response, 'Please enter a video url');
-    }
     if (!Array.isArray(videos)) {
       return handleError(response, 'videos must be an array');
     }
 
-    const notAVideoString = videos.filter(video => typeof video !== 'string' || video.length < 1);
+    const notAVideoString = videos.filter(video => typeof video !== 'string');
     // if (typeof video !== 'string') {
     //   return handleError(response, 'Please enter a video url.......');
     // }
     if (notAVideoString.length >= 1) {
-      return handleError(response, 'video must be a string and not empty');
+      return handleError(response, 'video must be a string');
     }
     // if (!(notAVideoString && notAVideoString.trim().length)) {
     //   return handleError(response, 'Please enter a video url');
