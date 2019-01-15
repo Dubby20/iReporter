@@ -169,7 +169,8 @@ const postRecord = (event) => {
     });
 };
 // render(recordList);
-const displayImage = document.getElementById('displayImage');
+// const displayImage = document.getElementById('displayImage');
+const images = document.querySelectorAll('image-upload');
 const uploadImage = (event) => {
   const file = event.target.files[0];
   const formData = new FormData();
@@ -193,5 +194,5 @@ const uploadImage = (event) => {
     });
 };
 
-displayImage.addEventListener('change', uploadImage, false);
+images.addEventListener('change', uploadImage, false);
 reportForm.addEventListener('submit', postRecord);
