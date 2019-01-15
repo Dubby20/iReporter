@@ -2,8 +2,7 @@
 const reportForm = document.getElementById('reportForm');
 const loader = document.querySelector('.loader');
 const msgDiv = document.getElementById('msg-error');
-const images = document.querySelectorAll('image-upload');
-const videos = document.querySelectorAll('video-upload');
+
 
 let getAllRecordsUrl;
 
@@ -109,6 +108,8 @@ const postRecord = (event) => {
   const comment = document.getElementById('comment').value;
   const select = document.getElementById('select');
   const reportType = select.options[select.selectedIndex].value;
+  const images = document.getElementById('image-upload');
+  const videos = document.querySelectorAll('video-upload');
   let location = document.getElementById('location');
   const reportImage = [imageUrl];
   const reportVideo = [];
@@ -170,7 +171,7 @@ const postRecord = (event) => {
 };
 // render(recordList);
 // const displayImage = document.getElementById('displayImage');
-// const images = document.getElementsByClassName('image-upload');
+const images = document.getElementById('image-upload');
 
 const uploadImage = (event) => {
   const file = event.target.files[0];
@@ -194,8 +195,8 @@ const uploadImage = (event) => {
       throw error;
     });
 };
-for (let i = 0; i < images.length; i++) {
-  images[i].addEventListener('change', uploadImage, false);
-}
-// images[image].addEventListener('change', uploadImage, false);
+// for (let i = 0; i < images.length; i++) {
+//   images[i].addEventListener('change', uploadImage, false);
+// }
+images.addEventListener('change', uploadImage, false);
 reportForm.addEventListener('submit', postRecord);
