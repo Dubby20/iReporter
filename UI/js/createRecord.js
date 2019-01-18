@@ -6,7 +6,6 @@ const msgDiv = document.getElementById('msg-error');
 const spinner = document.querySelector('.spinner');
 const spin = document.querySelector('.spin');
 
-
 // let getAllRecordsUrl;
 
 // window.addEventListener('load', (event) => {
