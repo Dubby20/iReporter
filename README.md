@@ -125,7 +125,7 @@ List of endpoints exposed by the service
 
 ## Demo
 
-A fully functional demo of this project hosted on Heroku is available at [iReporter](https://ireport247.herokuapp.com/)
+A fully functional demo of this project hosted on Heroku is available at [iReporter](https://ireporter247.herokuapp.com/)
 
 ### Testing the application
 

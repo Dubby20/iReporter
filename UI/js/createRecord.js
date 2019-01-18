@@ -1,10 +1,13 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable no-restricted-syntax */
 const reportForm = document.getElementById('reportForm');
 const loader = document.querySelector('.loader');
 const msgDiv = document.getElementById('msg-error');
+const spinner = document.querySelector('.spinner');
+const spin = document.querySelector('.spin');
 
 
-let getAllRecordsUrl;
+// let getAllRecordsUrl;
 
 // window.addEventListener('load', (event) => {
 //   event.preventDefault();
@@ -55,7 +58,6 @@ let getAllRecordsUrl;
 //   });
 // });
 
-
 const displayError = (message) => {
   const para = document.createElement('p');
   para.textContent = message;
@@ -90,29 +92,27 @@ const displayError = (message) => {
 
 const resetForm = () => {
   document.getElementById('comment').value = '';
-  document.getElementById('select').options.selectedIndex.value = '';
+  document.getElementById('select').value = '';
   document.getElementById('location').innerHTML = '';
-  document.querySelectorAll('image-upload').values = '';
-  document.querySelectorAll('video-upload').values = '';
+  document.getElementById('location-code').innerHTML = '';
+  document.getElementById('displayImages').innerHTML = '';
+  document.getElementById('displayVideos').innerHTML = '';
 };
 
 let postUrl;
 let imageUrl;
+let videoUrl;
 
-// let recordList = {};
 const postRecord = (event) => {
-  let user = localStorage.getItem('userToken');
-  // recordList = user ? JSON.parse(user) : {};
   event.preventDefault();
-  user = JSON.parse(user);
   const comment = document.getElementById('comment').value;
   const select = document.getElementById('select');
   const reportType = select.options[select.selectedIndex].value;
-  const images = document.getElementById('image-upload');
-  const videos = document.querySelectorAll('video-upload');
+  const imageInput = document.querySelectorAll('.image-uploads');
+  const videoInput = document.querySelectorAll('.video-uploads');
   let location = document.getElementById('location');
-  const reportImage = [imageUrl];
-  const reportVideo = [];
+  const reportImages = [];
+  const reportVideos = [];
 
   if (!(comment && comment.trim().length)) {
     return displayError('Please enter a comment');
@@ -124,15 +124,15 @@ const postRecord = (event) => {
     postUrl = 'https://ireporter247.herokuapp.com/api/v1/interventions';
   }
 
-  if (images.length > 0) {
-    for (const image of images) {
-      reportImage.push(images[image].innerHTML);
+  if (imageInput.length > 0) {
+    for (let i = 0; i < imageInput.length; i++) {
+      reportImages.push(imageInput[i].innerHTML);
     }
   }
 
-  if (videos.length > 0) {
-    for (const video of videos) {
-      reportVideo.push(videos[video].innerHTML);
+  if (videoInput.length > 0) {
+    for (let i = 0; i < videoInput.length; i++) {
+      reportVideos.push(videoInput[i].innerHTML);
     }
   }
 
@@ -145,10 +145,14 @@ const postRecord = (event) => {
   const info = {
     comment,
     reportType,
-    images: reportImage,
-    videos: reportVideo,
+    images: reportImages,
+    videos: reportVideos,
     location
   };
+  const user = JSON.parse(localStorage.getItem('userToken'));
+  if (!user) {
+    window.location.href = '/';
+  }
   loader.style.display = 'block';
   fetch(postUrl, {
       method: 'POST',
@@ -159,44 +163,128 @@ const postRecord = (event) => {
       },
       mode: 'cors',
       body: JSON.stringify(info)
-    }).then(response => response.json())
+    })
+    .then(response => response.json())
     .then((data) => {
       if (data.status === 201) {
         loader.style.display = 'none';
         resetForm();
+      } else if (data.status === 401 || data.status === 403) {
+        loader.style.display = 'none';
+        msgDiv.innerHTML = data.error;
+        window.location.href = '/login';
+      } else {
+        msgDiv.style.display = 'block';
+        msgDiv.style.color = 'red';
+        loader.style.display = 'none';
+        msgDiv.innerHTML = data.error;
       }
-    }).catch((error) => {
-      throw error;
-    });
-};
-// render(recordList);
-// const displayImage = document.getElementById('displayImage');
-const images = document.getElementById('image-upload');
-
-const uploadImage = (event) => {
-  const file = event.target.files[0];
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('upload_preset', 'yftnq9xd');
-  // eslint-disable-next-line no-undef
-  axios({
-      url: 'https://api.cloudinary.com/v1_1/djdsxql5q/image/upload',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      data: formData
-    })
-    .then((response) => {
-      document.getElementById('image').src = imageUrl;
-      imageUrl = response.data.secure_url;
     })
     .catch((error) => {
       throw error;
     });
 };
-// for (let i = 0; i < images.length; i++) {
-//   images[i].addEventListener('change', uploadImage, false);
-// }
-images.addEventListener('change', uploadImage, false);
+const imageUpload = document.getElementById('image-upload');
+const errMsg = document.querySelector('.image-msg');
+
+const uploadImage = (event) => {
+  spinner.style.display = 'block';
+  const displayImages = document.getElementById('displayImages');
+  const file = event.target.files[0];
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', 'yftnq9xd');
+  // eslint-disable-next-line no-undef
+  fetch('https://api.cloudinary.com/v1_1/djdsxql5q/image/upload', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then((data) => {
+      if (typeof data.secure_url !== 'undefined') {
+        // spinner.style.display = 'block';
+        imageUrl = data.secure_url;
+        // localStorage.setItem('imageLink', JSON.stringify(imageUrl));
+        displayImages.innerHTML += `<li class="image-list">
+        <img src=${imageUrl} height="50" width="50" id="img"><span class="del-btn">x</span><i class="image-uploads" style="display:none">${imageUrl}</i>
+
+</li>`;
+        spinner.style.display = 'none';
+        imageUpload.value = '';
+        handleUploads();
+      } else {
+        errMsg.style.display = 'block';
+        errMsg.style.color = 'red';
+        spinner.style.display = 'none';
+        errMsg.innerHTML = 'Image failed to upload';
+      }
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
+const videoUpload = document.getElementById('video-upload');
+const errorMsg = document.querySelector('.video-msg');
+
+const uploadVideo = (event) => {
+  spin.style.display = 'block';
+  const displayVideos = document.getElementById('displayVideos');
+  const file = event.target.files[0];
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', 'yftnq9xd');
+  // eslint-disable-next-line no-undef
+  fetch('https://api.cloudinary.com/v1_1/djdsxql5q/video/upload', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then((data) => {
+      if (typeof data.secure_url !== 'undefined') {
+        videoUrl = data.secure_url;
+        // localStorage.setItem('videoLink', videoUrl);
+        displayVideos.innerHTML += `<li class="video-list"><i class="video-uploads" style="display:none">${videoUrl}</i>
+        <video src="${videoUrl}" width="240" height="180" id="video"><span class="del-btn">x</span>
+</li>`;
+        spin.style.display = 'none';
+        videoUpload.value = '';
+        handleUploads();
+      } else {
+        errorMsg.style.display = 'block';
+        errorMsg.style.color = 'red';
+        spinner.style.display = 'none';
+        errorMsg.innerHTML = 'Video failed to upload';
+      }
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
+
+const handleUploads = () => {
+  const allImages = document.querySelectorAll('.image-uploads');
+  const allVideos = document.querySelectorAll('.video-uploads');
+
+  const imageCollection = [];
+  const videoCollection = [];
+
+  for (let i = 0; i < allImages.length; i++) {
+    imageCollection.push(allImages[i].innerHTML);
+  }
+  localStorage.setItem('saveImageUploads', JSON.stringify(imageCollection));
+
+  for (let i = 0; i < allVideos.length; i++) {
+    videoCollection.push(allVideos[i].innerHTML);
+  }
+  localStorage.setItem('saveVideoUploads', JSON.stringify(videoCollection));
+};
+
+window.addEventListener('click', (e) => {
+  if (e.target.className === 'del-btn') {
+    handleUploads();
+  }
+});
+
+imageUpload.addEventListener('change', uploadImage);
+videoUpload.addEventListener('change', uploadVideo);
 reportForm.addEventListener('submit', postRecord);
