@@ -1,13 +1,27 @@
 const loginForm = document.getElementById('loginForm');
 const loader = document.querySelector('.loader');
 const msgDiv = document.getElementById('msg-error');
-
+const displayError = (message) => {
+  const para = document.createElement('p');
+  para.textContent = message;
+  para.style.color = 'red';
+  para.style.paddingBottom = '8px';
+  msgDiv.appendChild(para);
+};
 
 const loginUrl = 'https://ireporter247.herokuapp.com/api/v1/auth/login';
 const loginUser = (event) => {
   event.preventDefault();
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
+
+  if (!email) {
+    return displayError('Email is required');
+  }
+  if (!password) {
+    return displayError('Password is required');
+  }
+
   const info = {
     email,
     password

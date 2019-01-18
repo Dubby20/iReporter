@@ -3,6 +3,8 @@
 const reportForm = document.getElementById('reportForm');
 const loader = document.querySelector('.loader');
 const msgDiv = document.getElementById('msg-error');
+const spinner = document.querySelector('.spinner');
+const spin = document.querySelector('.spin');
 
 // let getAllRecordsUrl;
 
@@ -92,6 +94,8 @@ const resetForm = () => {
   document.getElementById('select').value = '';
   document.getElementById('location').innerHTML = '';
   document.getElementById('location-code').innerHTML = '';
+  document.getElementById('displayImages').innerHTML = '';
+  document.getElementById('displayVideos').innerHTML = '';
 };
 
 let postUrl;
@@ -183,6 +187,7 @@ const imageUpload = document.getElementById('image-upload');
 const errMsg = document.querySelector('.image-msg');
 
 const uploadImage = (event) => {
+  spinner.style.display = 'block';
   const displayImages = document.getElementById('displayImages');
   const file = event.target.files[0];
   const formData = new FormData();
@@ -196,18 +201,20 @@ const uploadImage = (event) => {
     .then(response => response.json())
     .then((data) => {
       if (typeof data.secure_url !== 'undefined') {
+        // spinner.style.display = 'block';
         imageUrl = data.secure_url;
         // localStorage.setItem('imageLink', JSON.stringify(imageUrl));
         displayImages.innerHTML += `<li class="image-list">
         <img src=${imageUrl} height="50" width="50" id="img"><span class="del-btn">x</span><i class="image-uploads" style="display:none">${imageUrl}</i>
 
 </li>`;
+        spinner.style.display = 'none';
         imageUpload.value = '';
         handleUploads();
       } else {
         errMsg.style.display = 'block';
         errMsg.style.color = 'red';
-        loader.style.display = 'none';
+        spinner.style.display = 'none';
         errMsg.innerHTML = 'Image failed to upload';
       }
     })
@@ -219,6 +226,7 @@ const videoUpload = document.getElementById('video-upload');
 const errorMsg = document.querySelector('.video-msg');
 
 const uploadVideo = (event) => {
+  spin.style.display = 'block';
   const displayVideos = document.getElementById('displayVideos');
   const file = event.target.files[0];
   const formData = new FormData();
@@ -237,12 +245,13 @@ const uploadVideo = (event) => {
         displayVideos.innerHTML += `<li class="video-list"><i class="video-uploads" style="display:none">${videoUrl}</i>
         <video src="${videoUrl}" width="240" height="180" id="video"><span class="del-btn">x</span>
 </li>`;
+        spin.style.display = 'none';
         videoUpload.value = '';
         handleUploads();
       } else {
         errorMsg.style.display = 'block';
         errorMsg.style.color = 'red';
-        loader.style.display = 'none';
+        spinner.style.display = 'none';
         errorMsg.innerHTML = 'Video failed to upload';
       }
     })
