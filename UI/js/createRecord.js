@@ -170,8 +170,7 @@ const postRecord = (event) => {
         resetForm();
       } else if (data.status === 401 || data.status === 403) {
         loader.style.display = 'none';
-        msgDiv.innerHTML = data.error;
-        window.location.href = '/login';
+        window.location.href = '/login.html';
       } else {
         msgDiv.style.display = 'block';
         msgDiv.style.color = 'red';
@@ -212,9 +211,9 @@ const uploadImage = (event) => {
         imageUpload.value = '';
         handleUploads();
       } else {
+        spinner.style.display = 'none';
         errMsg.style.display = 'block';
         errMsg.style.color = 'red';
-        spinner.style.display = 'none';
         errMsg.innerHTML = 'Image failed to upload';
       }
     })
@@ -249,9 +248,9 @@ const uploadVideo = (event) => {
         videoUpload.value = '';
         handleUploads();
       } else {
+        spinner.style.display = 'none';
         errorMsg.style.display = 'block';
         errorMsg.style.color = 'red';
-        spinner.style.display = 'none';
         errorMsg.innerHTML = 'Video failed to upload';
       }
     })
