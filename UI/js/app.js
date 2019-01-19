@@ -1,5 +1,5 @@
 /* eslint-disable no-plusplus */
-const editRedFlag = document.getElementById('edit-red-flag');
+const editedFlagComment = document.getElementById('edit-red-flag');
 const locationText = document.getElementById('location-code');
 
 
