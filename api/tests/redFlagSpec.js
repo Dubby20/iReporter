@@ -382,16 +382,6 @@ describe('/PATCH red-flags/:id/location', () => {
 });
 
 describe('/PATCH red-flags/:id/comment', () => {
-  // before((done) => {
-  //   chai
-  //     .request(server)
-  //     .post('/api/v1/auth/login')
-  //     .send(user)
-  //     .end((error, response) => {
-  //       userToken = response.body.data[0].token;
-  //       done();
-  //     });
-  // });
   it('it should UPDATE comment of a specific red-flag id', (done) => {
     const redFlagComment = {
       comment: '24 billion NNPC contract scam'

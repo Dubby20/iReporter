@@ -26,8 +26,8 @@ let adminToken;
 const intervention = {
   location: '6.524379, 3.379206',
   images: [
-    'https://static.pulse.ng/img/incoming/origs7532087/2036362149-w644-h960/babachir-lawal.jpg',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVtbtjMiVvbOLVc7dA53s3_st7BjF-wtTxNu8Tq_-5al0IZBId.jpg'
+    'https://res.cloudinary.com/djdsxql5q/image/upload/v1547738828/ireporter/tfxf6rwbqcmevzgkr3vg.jpg',
+    'https://res.cloudinary.com/djdsxql5q/image/upload/v1547738885/ireporter/hqem8cqf5g3e5ehu50hv.jpg'
   ],
   videos: [
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVtbtjMiVvbOLVc7dA53s3_st7BjF-wtTxNu8Tq_-5al0IZBId',
@@ -80,38 +80,6 @@ describe('/POST interventions', () => {
         done();
       });
   });
-
-  // it('it return an error if images is empty', (done) => {
-  //   chai
-  //     .request(server)
-  //     .post('/api/v1/interventions')
-  //     .set('Content-Type', 'application/json')
-  //     .set('Accept', 'application/json')
-  //     .set('x-access-token', userToken)
-  //     .send(records[2])
-  //     .end((error, response) => {
-  //       expect(response).to.have.status(422);
-  //       expect(response.body).to.be.an('object');
-  //       expect(response.body).to.have.property('error').eql('Please enter an image url');
-  //       done();
-  //     });
-  // });
-
-  // it('it return an error if videos is empty', (done) => {
-  //   chai
-  //     .request(server)
-  //     .post('/api/v1/interventions')
-  //     .set('Content-Type', 'application/json')
-  //     .set('Accept', 'application/json')
-  //     .set('x-access-token', userToken)
-  //     .send(records[3])
-  //     .end((error, response) => {
-  //       expect(response).to.have.status(422);
-  //       expect(response.body).to.be.an('object');
-  //       expect(response.body).to.have.property('error').eql('Please enter a video url');
-  //       done();
-  //     });
-  // });
 
   it('it return an error if comment is empty', (done) => {
     chai
@@ -267,7 +235,7 @@ describe('/GET all interventions', () => {
 describe('/GET/interventions/:id', () => {
   it('it should GET an intervention by the given id', (done) => {
     chai.request(server)
-      .get('/api/v1/interventions/1')
+      .get('/api/v1/interventions/257')
       .set('x-access-token', userToken)
       .end((error, response) => {
         expect(response).to.have.status(200);
@@ -292,7 +260,7 @@ describe('/GET/interventions/:id', () => {
 
   it('it should return an error message when the given ID is not found', (done) => {
     chai.request(server)
-      .get('/api/v1/interventions/170')
+      .get('/api/v1/interventions/70')
       .set('x-access-token', userToken)
       .end((error, response) => {
         expect(response).to.have.status(404);
@@ -309,7 +277,7 @@ describe('/PATCH interventions/:id/location', () => {
       location: '9.076479, 7.398574'
     };
     chai.request(server)
-      .patch('/api/v1/interventions/2/location')
+      .patch('/api/v1/interventions/258/location')
       .set('content-Type', 'application/json')
       .set('accept', 'application/json')
       .set('x-access-token', userToken)
@@ -415,7 +383,7 @@ describe('/PATCH interventions/:id/comment', () => {
       comment: '24 billion NNPC contract scam'
     };
     chai.request(server)
-      .patch('/api/v1/interventions/1/comment')
+      .patch('/api/v1/interventions/258/comment')
       .set('content-Type', 'application/json')
       .set('accept', 'application/json')
       .set('x-access-token', userToken)
@@ -575,7 +543,7 @@ describe('/PATCH interventions/:id/status', () => {
       status: 'resolved'
     };
     chai.request(server)
-      .patch('/api/v1/interventions/1/status')
+      .patch('/api/v1/interventions/258/status')
       .set('content-Type', 'application/json')
       .set('accept', 'application/json')
       .set('x-access-token', adminToken)
@@ -643,7 +611,7 @@ describe('/PATCH interventions/:id/status', () => {
 
   it('it should return an error if the intervention id is not found', (done) => {
     chai.request(server)
-      .patch('/api/v1/interventions/500/status')
+      .patch('/api/v1/interventions/50/status')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', adminToken)
