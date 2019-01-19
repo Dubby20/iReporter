@@ -152,11 +152,11 @@ export const users = [{
 export const records = [{
     location: '6.524379, 3.379206',
     images: [
-      'https://static.pulse.ng/img/incoming/origs7532087/2036362149-w644-h960/babachir-lawal.jpg',
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVtbtjMiVvbOLVc7dA53s3_st7BjF-wtTxNu8Tq_-5al0IZBId.jpg'
+      'https://res.cloudinary.com/djdsxql5q/image/upload/v1547901789/ireporter/p2g9vey9mncmzektg6px.png',
+      'https://res.cloudinary.com/djdsxql5q/image/upload/v1547878793/ireporter/d8pi4oa8rdlqnemvta8r.jpg'
     ],
     videos: [
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVtbtjMiVvbOLVc7dA53s3_st7BjF-wtTxNu8Tq_-5al0IZBId',
+      'https://res.cloudinary.com/djdsxql5q/video/upload/v1547901891/ireporter/u5wuyshxuygocxprvnqu.mp4',
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVtbtjMiVvbOLVc7dA53s3_st7BjF-wtTxNu8Tq_-5al0IZBId'
     ],
     comment: 'Grass Cutting” scandal of ex-secretary to the Federal Government'

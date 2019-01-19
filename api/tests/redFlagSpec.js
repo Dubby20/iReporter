@@ -66,39 +66,6 @@ describe('/POST red-flags', () => {
         done();
       });
   });
-
-  // it('it return an error if images is empty', (done) => {
-  //   chai
-  //     .request(server)
-  //     .post('/api/v1/red-flags')
-  //     .set('Content-Type', 'application/json')
-  //     .set('Accept', 'application/json')
-  //     .set('x-access-token', userToken)
-  //     .send(records[2])
-  //     .end((error, response) => {
-  //       expect(response).to.have.status(422);
-  //       expect(response.body).to.be.an('object');
-  //       expect(response.body).to.have.property('error').eql('Please enter an image url');
-  //       done();
-  //     });
-  // });
-
-  // it('it return an error if videos is empty', (done) => {
-  //   chai
-  //     .request(server)
-  //     .post('/api/v1/red-flags')
-  //     .set('Content-Type', 'application/json')
-  //     .set('Accept', 'application/json')
-  //     .set('x-access-token', userToken)
-  //     .send(records[3])
-  //     .end((error, response) => {
-  //       expect(response).to.have.status(422);
-  //       expect(response.body).to.be.an('object');
-  //       expect(response.body).to.have.property('error').eql('Please enter a video url');
-  //       done();
-  //     });
-  // });
-
   it('it return an error if comment is empty', (done) => {
     chai
       .request(server)
@@ -271,7 +238,7 @@ describe('/GET all red-flags', () => {
 describe('/GET/red-flags/:id', () => {
   it('it should GET a red-flag by the given id', (done) => {
     chai.request(server)
-      .get('/api/v1/red-flags/1')
+      .get('/api/v1/red-flags/267')
       .set('x-access-token', userToken)
       .end((error, response) => {
         expect(response).to.have.status(200);
@@ -313,7 +280,7 @@ describe('/PATCH red-flags/:id/location', () => {
       location: '9.076479, 7.398574'
     };
     chai.request(server)
-      .patch('/api/v1/red-flags/1/location')
+      .patch('/api/v1/red-flags/270/location')
       .set('content-Type', 'application/json')
       .set('accept', 'application/json')
       .set('x-access-token', userToken)
@@ -415,12 +382,22 @@ describe('/PATCH red-flags/:id/location', () => {
 });
 
 describe('/PATCH red-flags/:id/comment', () => {
+  // before((done) => {
+  //   chai
+  //     .request(server)
+  //     .post('/api/v1/auth/login')
+  //     .send(user)
+  //     .end((error, response) => {
+  //       userToken = response.body.data[0].token;
+  //       done();
+  //     });
+  // });
   it('it should UPDATE comment of a specific red-flag id', (done) => {
     const redFlagComment = {
       comment: '24 billion NNPC contract scam'
     };
     chai.request(server)
-      .patch('/api/v1/red-flags/1/comment')
+      .patch('/api/v1/red-flags/270/comment')
       .set('content-Type', 'application/json')
       .set('accept', 'application/json')
       .set('x-access-token', userToken)
@@ -488,7 +465,7 @@ describe('/PATCH red-flags/:id/comment', () => {
 
   it('it should return an error if the red-flag id is not found', (done) => {
     chai.request(server)
-      .patch('/api/v1/red-flags/100/comment')
+      .patch('/api/v1/red-flags/10/comment')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', userToken)
@@ -537,7 +514,7 @@ describe('/DELETE red-flags/:id', () => {
       });
   });
 
-  it('it should not DELETE an intervention id that is not available', (done) => {
+  it('it should not DELETE a red-flag id that is not available', (done) => {
     chai.request(server)
       .delete('/api/v1/red-flags/45')
       .set('Content-Type', 'application/json')
@@ -582,7 +559,7 @@ describe('/PATCH red-flags/:id/status', () => {
       status: 'resolved'
     };
     chai.request(server)
-      .patch('/api/v1/red-flags/1/status')
+      .patch('/api/v1/red-flags/266/status')
       .set('content-Type', 'application/json')
       .set('accept', 'application/json')
       .set('x-access-token', adminToken)
@@ -614,7 +591,7 @@ describe('/PATCH red-flags/:id/status', () => {
       });
   });
 
-  it('it should return an error if the comment is invalid', (done) => {
+  it('it should return an error if the status is invalid', (done) => {
     chai.request(server)
       .patch('/api/v1/red-flags/1/status')
       .set('Content-Type', 'application/json')
@@ -650,7 +627,7 @@ describe('/PATCH red-flags/:id/status', () => {
 
   it('it should return an error if the red-flag id is not found', (done) => {
     chai.request(server)
-      .patch('/api/v1/red-flags/800/status')
+      .patch('/api/v1/red-flags/80/status')
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
       .set('x-access-token', adminToken)
