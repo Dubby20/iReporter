@@ -1,5 +1,6 @@
 const loader = document.querySelector('.loader');
 
+
 const redFlag = 'https://ireporter247.herokuapp.com/api/v1/red-flags';
 
 window.addEventListener('load', (event) => {
@@ -16,37 +17,13 @@ window.addEventListener('load', (event) => {
       const eachRecord = `<li class="list">
       <div>
       <p class="type">Type:<span>Red-Flag</span></p>
-      <p class="status-p">Status:<span class="status-type">${item.status}</span></p>
-    </div>
-    <div>
-      <p id=location-code>Location: <span>${item.location}</span></p>
-    </div>
-    <div class="comment-div">
-      <p class="comment">Comment: <span>${item.comment}</span>
-        <a class="bg-purple" onclick="showModal('edit-red-flag')">
-          Edit Comment</a>
-      </p>
     </div>
     <div id="image-frame">
-      <ul class="image-layout">
-<li class="image-list">
-        ${imgArry(item.images)}
-  </li>
-
-      </ul>
+    <a href="record.html" target="_self">${imgArry(item.images.slice(0, 1))}</a>
     </div>
-    <div class="video-frame">
-      <ul class="video-layout">
-    <li class="video-list">
-        ${videoArry(item.videos)}
-        </li>
-
-      </ul>
-    </div>
-    <div class="delete-record">
-      <button class="bg-red">Delete Record <i class="fas fa-trash fa-color"></i></button>
-    </div>
-    </li>
+    <div class="comment-div"><a href="record.html" target="_self"><p class="comment">${item.comment.slice(0, 150)}...</p></a>
+ </div>
+</li>
     `;
 
       recordItems.innerHTML += eachRecord;
@@ -64,10 +41,15 @@ window.addEventListener('load', (event) => {
     })
     .then(response => response.json())
     .then((data) => {
-      const recordList = data.data[0].redFlag;
-      loader.style.display = 'none';
-      record(recordList);
-      console.log(data);
+      if (data.status === 200) {
+        const recordList = data.data[0].redFlag;
+        loader.style.display = 'none';
+        record(recordList);
+        console.log(data);
+      } else {
+        loader.style.display = 'none';
+        window.location.href = '/login';
+      }
     }).catch((error) => {
       throw error;
     });
@@ -84,14 +66,14 @@ const imgArry = (image) => {
   return displayImage;
 };
 
-const videoArry = (video) => {
-  if (video.length === 0) {
-    return 'No Video Uploaded';
-  }
-  const displayVideo = video.map((vid, i) => `
-    <video width="240" height="180" controls>
-      <source src="${vid}">
-    </video>
-`);
-  return displayVideo;
-};
+// const videoArry = (video) => {
+//   if (video.length === 0) {
+//     return 'No Video Uploaded';
+//   }
+//   const displayVideo = video.map((vid, i) => `
+//     <video width="240" height="180" controls>
+//       <source src="${vid}">
+//     </video>
+// `);
+//   return displayVideo;
+// };

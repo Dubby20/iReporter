@@ -13,17 +13,17 @@ const imgArry = (image) => {
   return displayImage;
 };
 
-const videoArry = (video) => {
-  if (video.length === 0) {
-    return 'No Video Uploaded';
-  }
-  const displayVideo = video.map((vid, i) => `
-    <video width="240" height="180" controls>
-      <source src="${vid}">
-    </video>
-`);
-  return displayVideo;
-};
+// const videoArry = (video) => {
+//   if (video.length === 0) {
+//     return 'No Video Uploaded';
+//   }
+//   const displayVideo = video.map((vid, i) => `
+//     <video width="240" height="180" controls>
+//       <source src="${vid}">
+//     </video>
+// `);
+//   return displayVideo;
+// };
 
 window.addEventListener('load', (event) => {
   event.preventDefault();
@@ -43,38 +43,14 @@ window.addEventListener('load', (event) => {
     } else {
       items.forEach((item) => {
         const eachRecord = `<li class="list">
-      <div>
-      <p class="type">Type:<span>Intervention</span></p>
-      <p class="status-p">Status:<span class="status-type">${item.status}</span></p>
-    </div>
-    <div>
-      <p id=location-code>Location: <span>${item.location}</span></p>
-    </div>
-    <div class="comment-div">
-      <p class="comment">Comment: <span>${item.comment}</span>
-        <a class="bg-purple" onclick="showModal('edit-red-flag')">
-          Edit Comment</a>
-      </p>
-    </div>
-    <div id="image-frame">
-      <ul class="image-layout">
-<li class="image-list">
-        ${imgArry(item.images)}
-  </li>
-
-      </ul>
-    </div>
-    <div class="video-frame">
-      <ul class="video-layout">
-    <li class="video-list">
-        ${videoArry(item.videos)}
-        </li>
-
-      </ul>
-    </div>
-    <div class="delete-record">
-      <button class="bg-red">Delete Record <i class="fas fa-trash fa-color"></i></button>
-    </div>
+        <div>
+        <p class="type">Type:<span>Intervention</span></p>
+      </div>
+      <div id="image-frame">
+      <a href="record.html" target="_self">${imgArry(item.images.slice(0, 1))}</a>
+      </div>
+      <div class="comment-div"><a href="record.html" target="_self"><p class="comment">${item.comment.slice(0, 150)}...</p></a>
+   </div>
     </li>
     `;
 
@@ -94,10 +70,15 @@ window.addEventListener('load', (event) => {
     })
     .then(response => response.json())
     .then((data) => {
-      const recordList = data.data[0].intervention;
-      loader.style.display = 'none';
-      record(recordList);
-      console.log(data);
+      if (data.status === 200) {
+        const recordList = data.data[0].intervention;
+        loader.style.display = 'none';
+        record(recordList);
+        console.log(data);
+      } else {
+        loader.style.display = 'none';
+        window.location.href = '/login';
+      }
     }).catch((error) => {
       throw error;
     });
