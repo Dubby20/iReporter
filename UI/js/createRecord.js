@@ -170,7 +170,7 @@ const postRecord = (event) => {
         resetForm();
       } else if (data.status === 401 || data.status === 403) {
         loader.style.display = 'none';
-        window.location.href = '/login.html';
+        window.location.href = '/login';
       } else {
         msgDiv.style.display = 'block';
         msgDiv.style.color = 'red';
