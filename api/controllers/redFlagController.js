@@ -39,6 +39,7 @@ export default class RedFlagController {
         return response.status(201).json({
           status: 201,
           data: [{
+            id: redFlag.id,
             redFlag,
             message: 'Created red-flag record'
           }]
@@ -98,8 +99,8 @@ export default class RedFlagController {
   static redFlagId(request, response) {
     pool.query('SELECT * FROM red_flags where id = $1', [request.params.id])
       .then((data) => {
-        const redFlag = data.rows[0];
-        if (!redFlag) {
+        const report = data.rows[0];
+        if (!report) {
           return response.status(404).json({
             status: 404,
             error: 'The id of the given red-flag was not found'
@@ -108,7 +109,7 @@ export default class RedFlagController {
         return response.status(200).json({
           status: 200,
           data: [{
-            redFlag,
+            report,
             message: 'Get a specific red-flag was successful'
           }]
         });

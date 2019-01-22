@@ -92,3 +92,11 @@ const hideDisplayBtn = () => {
 };
 
 hideDisplayBtn();
+
+// const editBtn = document.querySelectorAll('.edit-btn');
+
+// const displayBtn = () => {
+//   for (let i = 0; i < editBtn.length; i++) {
+//     if ()
+//   }
+// }

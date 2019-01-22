@@ -64,8 +64,8 @@ export default class InterventionController {
   static allInterventions(request, response) {
     pool.query('SELECT * FROM interventions')
       .then((data) => {
-        const intervention = data.rows;
-        if (intervention.rowCount < 1) {
+        const report = data.rows;
+        if (report.rowCount < 1) {
           return response.status(200).json({
             status: 200,
             data: []
@@ -74,7 +74,7 @@ export default class InterventionController {
         return response.status(200).json({
           status: 200,
           data: [{
-            intervention,
+            report,
             message: 'All interventions was retrieved successfully'
           }]
         });

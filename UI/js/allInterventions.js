@@ -1,7 +1,10 @@
 const loader = document.querySelector('.loader');
 
 const interventions = 'https://ireporter247.herokuapp.com/api/v1/interventions';
-
+const getId = (record) => {
+  localStorage.setItem('Id', record.id);
+  localStorage.setItem('reportType', record.title);
+};
 
 const imgArry = (image) => {
   if (image.length === 0) {
@@ -13,23 +16,12 @@ const imgArry = (image) => {
   return displayImage;
 };
 
-// const videoArry = (video) => {
-//   if (video.length === 0) {
-//     return 'No Video Uploaded';
-//   }
-//   const displayVideo = video.map((vid, i) => `
-//     <video width="240" height="180" controls>
-//       <source src="${vid}">
-//     </video>
-// `);
-//   return displayVideo;
-// };
 
 window.addEventListener('load', (event) => {
   event.preventDefault();
   const user = JSON.parse(localStorage.getItem('userToken'));
   if (!user) {
-    window.location.href = '/';
+    window.location.href = '/login';
   }
   const recordItems = document.querySelector('.record-items');
   loader.style.display = 'block';
@@ -47,9 +39,9 @@ window.addEventListener('load', (event) => {
         <p class="type">Type:<span>Intervention</span></p>
       </div>
       <div id="image-frame">
-      <a href="record.html" target="_self">${imgArry(item.images.slice(0, 1))}</a>
+      <a href="record.html" class="interventions">${imgArry(item.images.slice(0, 1))}</a>
       </div>
-      <div class="comment-div"><a href="record.html" target="_self"><p class="comment">${item.comment.slice(0, 150)}...</p></a>
+      <div class="comment-div"><a href="./record.html" title="intervention" class="comment" id=${item.id} onclick="getId(this)">${item.comment.slice(0, 150)}...</a>
    </div>
     </li>
     `;
