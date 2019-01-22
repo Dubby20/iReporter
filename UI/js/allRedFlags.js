@@ -1,6 +1,5 @@
 const loader = document.querySelector('.loader');
 
-
 const redFlag = 'https://ireporter247.herokuapp.com/api/v1/red-flags';
 
 window.addEventListener('load', (event) => {
@@ -19,9 +18,10 @@ window.addEventListener('load', (event) => {
       <p class="type">Type:<span>Red-Flag</span></p>
     </div>
     <div id="image-frame">
-    <a href="record.html" target="_self">${imgArry(item.images.slice(0, 1))}</a>
+    <a href="" target="_self" class="red-flag">${imgArry(item.images.slice(0, 1))}</a>
     </div>
-    <div class="comment-div"><a href="record.html" target="_self"><p class="comment">${item.comment.slice(0, 150)}...</p></a>
+    <div class="comment-div"><a href="./record.html" id=${item.id} class="red-flag">
+    <p class="comment" id=${item.id}>${item.comment.slice(0, 150)}...</p>${item.id}</a>
  </div>
 </li>
     `;
@@ -50,19 +50,21 @@ window.addEventListener('load', (event) => {
         loader.style.display = 'none';
         window.location.href = '/login';
       }
-    }).catch((error) => {
+    })
+    .catch((error) => {
       throw error;
     });
 });
-
 
 const imgArry = (image) => {
   if (image.length === 0) {
     return 'No Image Uploaded';
   }
-  const displayImage = image.map(img => `
+  const displayImage = image.map(
+    img => `
   <img src="${img}" alt="" class="item" height="200" width="240">
-  `);
+  `
+  );
   return displayImage;
 };
 

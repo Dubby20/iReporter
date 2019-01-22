@@ -39,6 +39,7 @@ export default class RedFlagController {
         return response.status(201).json({
           status: 201,
           data: [{
+            id: redFlag.id,
             redFlag,
             message: 'Created red-flag record'
           }]

@@ -168,6 +168,8 @@ const postRecord = (event) => {
       if (data.status === 201) {
         loader.style.display = 'none';
         resetForm();
+        localStorage.setItem('id', data.data[0].id);
+        localStorage.setItem('urlType', postUrl);
       } else if (data.status === 401 || data.status === 403) {
         loader.style.display = 'none';
         window.location.href = '/login';
