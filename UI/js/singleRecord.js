@@ -1,23 +1,5 @@
 const loader = document.querySelector('.loader');
-console.log('Hey there', window.location.search);
-// const myFunc = (event) => {
-//   const recordId = event.currentTarget.getAttribute('id');
-//   console.log(recordId);
-// };
 
-// const recordId = document.querySelector('a').getAttribute('id');
-// document.querySelector('.testing').innerHTML = recordId;
-// console.log(recordId);
-// window.addEventListener('click', myFunc);
-// window.addEventListener('click', (e) => {
-//   if (e.target.className === 'comment') {
-//     localStorage.setItem('recordId', e.target.id);
-// localStorage.setItem('record-type', 'intervention');
-// } else if (e.target.className === 'redflag-link') {
-//   localStorage.setItem('recordId', e.target.id);
-//   localStorage.setItem('record-type', 'red-flag');
-//   }
-// });
 const imgArry = (image) => {
   if (image.length === 0) {
     return 'No Image Uploaded';
@@ -80,8 +62,8 @@ window.addEventListener('load', (event) => {
       if (data.status === 200) {
         console.log(data);
         // data.data.forEach((item) => {
-        const records = data.data[0].report;
-        console.log(records.status);
+        const records = data.data[0];
+        // console.log(records.status);
         const {
           status,
           location,
