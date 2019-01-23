@@ -32,7 +32,7 @@ window.addEventListener('load', (event) => {
   event.preventDefault();
   const user = JSON.parse(localStorage.getItem('userToken'));
   if (!user) {
-    window.location.href = '/login';
+    window.location.href = './login.html';
   }
   const reportId = localStorage.getItem('Id');
   const reportType = localStorage.getItem('reportType');

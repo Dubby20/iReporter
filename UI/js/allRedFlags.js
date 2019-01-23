@@ -23,7 +23,7 @@ window.addEventListener('load', (event) => {
   event.preventDefault();
   const user = JSON.parse(localStorage.getItem('userToken'));
   if (!user) {
-    window.location.href = '/';
+    window.location.href = './index.html';
   }
   const recordItems = document.querySelector('.record-items');
   loader.style.display = 'block';
@@ -64,7 +64,7 @@ window.addEventListener('load', (event) => {
         console.log(data);
       } else {
         loader.style.display = 'none';
-        window.location.href = '/login';
+        window.location.href = './login.html';
       }
     })
     .catch((error) => {
