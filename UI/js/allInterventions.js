@@ -1,7 +1,10 @@
 const loader = document.querySelector('.loader');
 
 const interventions = 'https://ireporter247.herokuapp.com/api/v1/interventions';
-
+const getId = (record) => {
+  localStorage.setItem('Id', record.id);
+  localStorage.setItem('reportType', record.title);
+};
 
 const imgArry = (image) => {
   if (image.length === 0) {
@@ -38,7 +41,11 @@ window.addEventListener('load', (event) => {
       <div id="image-frame">
       <a href="record.html" class="interventions">${imgArry(item.images.slice(0, 1))}</a>
       </div>
+<<<<<<< HEAD
+      <div class="comment-div"><a href="./record.html" title="intervention" class="comment" id=${item.id} onclick="getId(this)">${item.comment.slice(0, 150)}...</a>
+=======
       <div class="comment-div"><a href="./record.html?id=3" class="comment">${item.comment.slice(0, 150)}...</a>
+>>>>>>> 5b1b29cbd9405df776d12f50e16b00b82b54a940
    </div>
     </li>
     `;

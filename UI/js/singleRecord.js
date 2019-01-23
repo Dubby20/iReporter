@@ -1,25 +1,5 @@
 const loader = document.querySelector('.loader');
 
-console.log('Hey there', window.location.search);
-// const myFunc = (e) => {
-//   // if (e.target.className === 'comment') {
-//   const recordId = e.target.parentNode.id;
-//   localStorage.setItem('id', recordId);
-//   console.log(e.target);
-//   console.log(recordId);
-//   // }
-// };
-
-// window.addEventListener('click', myFunc);
-window.addEventListener('click', (e) => {
-  if (e.target.className === 'comment') {
-    localStorage.setItem('recordId', e.target.id);
-    // localStorage.setItem('record-type', 'intervention');
-    // } else if (e.target.className === 'redflag-link') {
-    //   localStorage.setItem('recordId', e.target.id);
-    //   localStorage.setItem('record-type', 'red-flag');
-  }
-});
 const imgArry = (image) => {
   if (image.length === 0) {
     return 'No Image Uploaded';
@@ -47,28 +27,23 @@ const videoArry = (video) => {
 };
 
 let recordUrl;
-
+let recordType;
 window.addEventListener('load', (event) => {
   event.preventDefault();
   const user = JSON.parse(localStorage.getItem('userToken'));
   if (!user) {
     window.location.href = '/login';
   }
-  // const reportId = localStorage.getItem('id');
-  // const reportUrl = localStorage.getItem('urlType');
-  // const redFlagUrl = 'https://ireporter247.herokuapp.com/api/v1/red-flags';
-  // const interventionUrl = 'https://ireporter247.herokuapp.com/api/v1/interventions';
-  // if (reportUrl === redFlagUrl) {
-  //   recordUrl = `${redFlagUrl}/${reportId}`;
-  // } else if (reportUrl === interventionUrl) {
-  //   recordUrl = `${interventionUrl}/${reportId}`;
-  // }
+  const reportId = localStorage.getItem('Id');
+  const reportType = localStorage.getItem('reportType');
+  if (reportType === 'red-flag') {
+    recordUrl = `https://ireporter247.herokuapp.com/api/v1/red-flags/${reportId}`;
+    recordType = 'Red-Flag';
+  } else if (reportType === 'intervention') {
+    recordUrl = `https://ireporter247.herokuapp.com/api/v1/interventions/${reportId}`;
+    recordType = 'Intervention';
+  }
 
-  // if (event.target.className === 'red-flag') {
-  //   recordUrl = `https://ireporter247.herokuapp.com/api/v1/red-flags/${recordId}`;
-  // } else if (event.target.className === 'interventions') {
-  //   recordUrl = `https://ireporter247.herokuapp.com/api/v1/interventions/${recordId}`;
-  // }
 
   const displayItems = document.querySelector('.display-item');
   loader.style.display = 'block';
@@ -86,24 +61,37 @@ window.addEventListener('load', (event) => {
     .then((data) => {
       if (data.status === 200) {
         console.log(data);
-        data.data.forEach((item) => {
-          const eachRecord = `<li class="list">
+        // data.data.forEach((item) => {
+        const records = data.data[0];
+        // console.log(records.status);
+        const {
+          status,
+          location,
+          comment,
+          images,
+          videos
+        } = records;
+        const eachRecord = `<li class="list">
+          <div>
+        <p class="type">Type:<span>${recordType}</span></p>
+      </div>
       <div>
-      <p class="status-p">Status:<span class="status-type">${item.status}</span></p>
+      <p class="status-p">Status:<span class="status-type">${status}</span></p>
     </div>
     <div>
-      <p id=location-code>Location: <span>${item.location}</span></p>
+      <p id=location-code>Location: <span>${location}</span><a href="#" onclick="getLocation()" class="edit-btn change-location">
+      Change location</a></p>
     </div>
     <div class="comment-div">
-      <p class="comment">${item.comment}
-        <a class="bg-purple" onclick="showModal('edit-red-flag')">
+      <p class="comment">${comment}
+        <a class="edit-btn" onclick="showModal('edit-comment')">
           Edit Comment</a>
       </p>
     </div>
     <div id="image-frame">
       <ul class="image-layout">
 <li class="image-list">
-        ${imgArry(item.images)}
+        ${images}
   </li>
 
       </ul>
@@ -111,7 +99,7 @@ window.addEventListener('load', (event) => {
     <div class="video-frame">
       <ul class="video-layout">
     <li class="video-list">
-        ${videoArry(item.videos)}
+        ${videos}
         </li>
 
       </ul>
@@ -121,8 +109,9 @@ window.addEventListener('load', (event) => {
     </div>
     </li>
     `;
-          displayItems.innerHTML += eachRecord;
-        });
+        loader.style.display = 'none';
+        displayItems.innerHTML += eachRecord;
+        // });
       }
     })
     .catch((error) => {

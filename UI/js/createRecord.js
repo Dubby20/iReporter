@@ -168,7 +168,6 @@ const postRecord = (event) => {
       if (data.status === 201) {
         loader.style.display = 'none';
         resetForm();
-        localStorage.setItem('id', data.data[0].id);
         localStorage.setItem('urlType', postUrl);
       } else if (data.status === 401 || data.status === 403) {
         loader.style.display = 'none';
@@ -202,16 +201,14 @@ const uploadImage = (event) => {
     .then(response => response.json())
     .then((data) => {
       if (typeof data.secure_url !== 'undefined') {
-        // spinner.style.display = 'block';
         imageUrl = data.secure_url;
-        // localStorage.setItem('imageLink', JSON.stringify(imageUrl));
         displayImages.innerHTML += `<li class="image-list">
         <img src=${imageUrl} height="50" width="50" id="img"><span class="del-btn">x</span><i class="image-uploads" style="display:none">${imageUrl}</i>
 
 </li>`;
         spinner.style.display = 'none';
         imageUpload.value = '';
-        handleUploads();
+        // handleUploads();
       } else {
         spinner.style.display = 'none';
         errMsg.style.display = 'block';
@@ -242,13 +239,12 @@ const uploadVideo = (event) => {
     .then((data) => {
       if (typeof data.secure_url !== 'undefined') {
         videoUrl = data.secure_url;
-        // localStorage.setItem('videoLink', videoUrl);
         displayVideos.innerHTML += `<li class="video-list"><i class="video-uploads" style="display:none">${videoUrl}</i>
         <video src="${videoUrl}" width="240" height="180" id="video"><span class="del-btn">x</span>
 </li>`;
         spin.style.display = 'none';
         videoUpload.value = '';
-        handleUploads();
+        // handleUploads();
       } else {
         spinner.style.display = 'none';
         errorMsg.style.display = 'block';
@@ -261,29 +257,29 @@ const uploadVideo = (event) => {
     });
 };
 
-const handleUploads = () => {
-  const allImages = document.querySelectorAll('.image-uploads');
-  const allVideos = document.querySelectorAll('.video-uploads');
+// const handleUploads = () => {
+//   const allImages = document.querySelectorAll('.image-uploads');
+//   const allVideos = document.querySelectorAll('.video-uploads');
 
-  const imageCollection = [];
-  const videoCollection = [];
+//   const imageCollection = [];
+//   const videoCollection = [];
 
-  for (let i = 0; i < allImages.length; i++) {
-    imageCollection.push(allImages[i].innerHTML);
-  }
-  localStorage.setItem('saveImageUploads', JSON.stringify(imageCollection));
+//   for (let i = 0; i < allImages.length; i++) {
+//     imageCollection.push(allImages[i].innerHTML);
+//   }
+//   localStorage.setItem('saveImageUploads', JSON.stringify(imageCollection));
 
-  for (let i = 0; i < allVideos.length; i++) {
-    videoCollection.push(allVideos[i].innerHTML);
-  }
-  localStorage.setItem('saveVideoUploads', JSON.stringify(videoCollection));
-};
+//   for (let i = 0; i < allVideos.length; i++) {
+//     videoCollection.push(allVideos[i].innerHTML);
+//   }
+//   localStorage.setItem('saveVideoUploads', JSON.stringify(videoCollection));
+// };
 
-window.addEventListener('click', (e) => {
-  if (e.target.className === 'del-btn') {
-    handleUploads();
-  }
-});
+// window.addEventListener('click', (e) => {
+//   if (e.target.className === 'del-btn') {
+//     handleUploads();
+//   }
+// });
 
 imageUpload.addEventListener('change', uploadImage);
 videoUpload.addEventListener('change', uploadVideo);

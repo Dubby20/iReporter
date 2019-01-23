@@ -155,34 +155,34 @@ body {
 }
 
 @media (max-width: 768px) {
-  .table-responsive > .table {
+  .table-responsive>.table {
     margin-bottom: 0;
     background-color: transparent;
   }
 
-  .table-responsive > .table > thead,
-  .table-responsive > .table > tfoot {
+  .table-responsive>.table>thead,
+  .table-responsive>.table>tfoot {
     display: none;
   }
 
-  .table-responsive > .table > tbody {
+  .table-responsive>.table>tbody {
     display: block;
   }
 
-  .table-responsive > .table > tbody > tr {
+  .table-responsive>.table>tbody>tr {
     display: block;
     border: 1px solid #e0e0e0;
     border-radius: 2px;
     margin-bottom: 1.6rem;
   }
 
-  .table-responsive > .table > tbody > tr > td {
+  .table-responsive>.table>tbody>tr>td {
     background-color: #fff;
     display: block;
     text-align: right;
   }
 
-  .table-responsive > .table > tbody > tr > td[item-data]:before {
+  .table-responsive>.table>tbody>tr>td[item-data]:before {
     content: attr(item-data);
     float: left;
     font-size: inherit;
@@ -190,34 +190,34 @@ body {
     color: #757575;
   }
 
-  .table-responsive > .table-border {
+  .table-responsive>.table-border {
     border: 0;
   }
 
-  .table-responsive > .table-border > tbody > tr > td {
+  .table-responsive>.table-border>tbody>tr>td {
     border: 0;
     border-bottom: 1px solid #e0e0e0;
   }
 
-  .table-responsive > .table-border > tbody > tr > td:last-child {
+  .table-responsive>.table-border>tbody>tr>td:last-child {
     border-bottom: 0;
   }
 
-  .table-responsive > .table-border > tbody > tr > td,
-  .table-responsive > .table-border > tbody > tr:nth-child(odd) {
+  .table-responsive>.table-border>tbody>tr>td,
+  .table-responsive>.table-border>tbody>tr:nth-child(odd) {
     background-color: #fff;
   }
 
-  .table-responsive > .table-border > tbody > tr > td:nth-child(odd) {
+  .table-responsive>.table-border>tbody>tr>td:nth-child(odd) {
     background-color: #f5f5f5;
   }
 
-  .table-responsive > tbody > tr:hover > td,
-  .table-responsive > tbody > tr:hover {
+  .table-responsive>tbody>tr:hover>td,
+  .table-responsive>tbody>tr:hover {
     background-color: #fff;
   }
 
-  .table-responsive > tbody > tr > td:hover {
+  .table-responsive>tbody>tr>td:hover {
     background-color: rgba(0, 0, 0, 0.12);
   }
 }
@@ -326,7 +326,7 @@ nav ul li a {
   padding: 0.37rem 0.75rem;
 }
 
-ul li:hover > ul,
+ul li:hover>ul,
 ul li ul:hover {
   visibility: visible;
   opacity: 1;
@@ -719,13 +719,14 @@ img {
   top: 20px;
 }
 
-.bg-purple {
+.edit-btn {
   color: var(--main-color);
   float: right;
   font-weight: 600;
   font: bold;
   padding: 4px;
   cursor: pointer;
+  display: none;
 }
 
 .bg-purple:hover {
@@ -831,12 +832,12 @@ img {
   border-collapse: collapse;
 }
 
-.table > thead > tr > th,
-.table > tbody > tr > th,
-.table > tfoot > tr > th,
-.table > thead > tr > td,
-.table > tbody > tr > td,
-.table > tfoot > tr > td {
+.table>thead>tr>th,
+.table>tbody>tr>th,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>tbody>tr>td,
+.table>tfoot>tr>td {
   text-align: left;
   padding: 1rem;
   vertical-align: top;
@@ -844,7 +845,7 @@ img {
   transition: all 0.3s ease;
 }
 
-.table > thead > tr > th {
+.table>thead>tr>th {
   font-weight: 400;
   color: #757575;
   vertical-align: bottom;
@@ -867,8 +868,8 @@ td {
   box-shadow: 0 2px 6px 0 hsla(0, 0%, 0%, 0.2);
 }
 
-.table-striped > tbody > tr:nth-child(odd) > td,
-.table-striped > tbody > tr:nth-child(odd) > th {
+.table-striped>tbody>tr:nth-child(odd)>td,
+.table-striped>tbody>tr:nth-child(odd)>th {
   background-color: #f1f1f1;
 }
 
@@ -1019,7 +1020,7 @@ footer {
 /* .record-items {} */
 
 .list {
-  /* border: 1px solid red; */
+  list-style-type: none;
   border-radius: 4px;
   text-align: center;
   margin-bottom: 32px;
@@ -1027,7 +1028,6 @@ footer {
   padding: 16px;
   border: 1px solid #e5e5e5;
   /* margin: 20px 8px; */
-  /* border-radius: 4px; */
   box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 5px 0px;
 }
 
