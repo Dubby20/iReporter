@@ -150,7 +150,7 @@ const postRecord = (event) => {
   };
   const user = JSON.parse(localStorage.getItem('userToken'));
   if (!user) {
-    window.location.href = '/';
+    window.location.href = './index.html';
   }
   loader.style.display = 'block';
   fetch(postUrl, {
@@ -171,7 +171,7 @@ const postRecord = (event) => {
         localStorage.setItem('urlType', postUrl);
       } else if (data.status === 401 || data.status === 403) {
         loader.style.display = 'none';
-        window.location.href = '/login';
+        window.location.href = './login.html';
       } else {
         msgDiv.style.display = 'block';
         msgDiv.style.color = 'red';

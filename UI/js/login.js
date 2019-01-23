@@ -49,13 +49,13 @@ const loginUser = (event) => {
         msgDiv.style.color = 'green';
         loader.style.display = 'none';
         msgDiv.innerHTML = data.message;
-        window.location.href = data.data[0].user.isAdmin ? '/admin/admin' : '/';
+        window.location.href = data.data[0].user.isAdmin ? './admin/admin.html' : './index.html';
       } else {
         msgDiv.style.display = 'block';
         msgDiv.style.color = 'red';
         loader.style.display = 'none';
         msgDiv.innerHTML = data.error;
-        window.location.href = '/login';
+        window.location.href = './login.html';
       }
     }).catch((error) => {
       throw error;
