@@ -64,8 +64,8 @@ export default class InterventionController {
   static allInterventions(request, response) {
     pool.query('SELECT * FROM interventions')
       .then((data) => {
-        const report = data.rows;
-        if (report.rowCount < 1) {
+        const intervention = data.rows;
+        if (intervention.rowCount < 1) {
           return response.status(200).json({
             status: 200,
             data: []
@@ -74,7 +74,7 @@ export default class InterventionController {
         return response.status(200).json({
           status: 200,
           data: [{
-            report,
+            intervention,
             message: 'All interventions was retrieved successfully'
           }]
         });
@@ -97,8 +97,8 @@ export default class InterventionController {
   static interventionId(request, response) {
     pool.query('SELECT * FROM interventions where id = $1', [request.params.id])
       .then((data) => {
-        const intervention = data.rows[0];
-        if (!intervention) {
+        const report = data.rows[0];
+        if (!report) {
           return response.status(404).json({
             status: 404,
             error: 'The id of the given intervention was not found'
@@ -107,7 +107,7 @@ export default class InterventionController {
         return response.status(200).json({
           status: 200,
           data: [{
-            intervention,
+            report,
             message: 'Get a specific intervention was successful'
           }]
         });
