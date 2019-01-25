@@ -128,6 +128,7 @@ const cancelComment = () => {
   document.getElementById('comment').style.display = 'block';
 };
 
+
 const saveComment = () => {
   const commentError = document.getElementById('comment-error');
   let recordUrl;
@@ -149,7 +150,6 @@ const saveComment = () => {
   }
 
   updatedComment.innerHTML = newComment;
-  document.getElementById('comment').style.display = 'block';
 
   const info = {
     comment: newComment
@@ -168,7 +168,7 @@ const saveComment = () => {
     .then(response => response.json())
     .then((data) => {
       if (data.status === 200) {
-        console.log(data);
+        document.getElementById('comment').style.display = 'block';
         hideDiv.style.display = 'none';
       } else {
         hideDiv.style.display = 'none';

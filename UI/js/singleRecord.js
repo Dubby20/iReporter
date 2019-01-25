@@ -33,7 +33,6 @@ let recordType;
 window.addEventListener('load', (event) => {
   event.preventDefault();
 
-
   const user = JSON.parse(localStorage.getItem('userToken'));
   if (!user) {
     window.location.href = './login.html';
@@ -80,9 +79,17 @@ window.addEventListener('load', (event) => {
       <p class="status-p">Status:<span class="status-type">${status}</span></p>
     </div>
     <div class="action-btn">
-      <p>Location: <span>${location}</span><a href="#" onclick="getLocation()" class="edit-btn change-location">
+      <p>Location: <span id="location">${location}</span><a href="#" onclick="getNewLocation()" class="edit-btn change-location">
       Change location</a></p>
     </div>
+    <div id="location-error" style="margin:8px";></div>
+    <div class="hidden">
+    <div class="form-group locate">
+    <input type="text" id="input-location" class="form-control"></input>
+    </div>
+  <button class="c-btn outline" onclick="cancelLocation()">Cancel</button>
+  <button class="c-btn primary" onclick="saveLocation()">Update Location</button>
+</div>
     <div class="comment-div">
     <p id="comment">${comment}</p>
     <button class="edit-btn action-btn comment-btn" onclick="editComment()">Edit Comment</button>
@@ -117,7 +124,7 @@ window.addEventListener('load', (event) => {
     </li>
     `;
         loader.style.display = 'none';
-        checkUser();
+        // checkUser();
         displayItems.innerHTML += eachRecord;
       }
     })
