@@ -3,10 +3,8 @@ const editedFlagComment = document.getElementById('edit-red-flag');
 const locationText = document.getElementById('location-code');
 // const loader = document.querySelector('.loader');
 
-
 const modalPage = document.getElementById('modalPage');
 const closeBtn = document.querySelector('.close-btn');
-
 
 const modalBtn = document.querySelectorAll('.modalBtn');
 for (let i = 0; i < modalBtn.length; i++) {
@@ -25,7 +23,9 @@ window.onclick = (event) => {
 };
 
 const showPosition = (position) => {
-  locationText.innerHTML = `Location: <span id="location" style="color:#361f55">${position.coords.latitude}, ${position.coords.longitude}</span>`;
+  locationText.innerHTML = `Location: <span id="location" style="color:#361f55">${
+    position.coords.latitude
+  }, ${position.coords.longitude}</span>`;
 };
 
 const getLocation = () => {
@@ -36,19 +36,16 @@ const getLocation = () => {
   }
 };
 
-
 const initMap = (position) => {
   const myLocation = {
     lat: `${position.coords.latitude}`,
     lng: `${position.coords.longitude}`
   };
   // eslint-disable-next-line no-undef
-  const map = new google.maps.Map(
-    document.getElementById('map'), {
-      zoom: 4,
-      center: myLocation
-    }
-  );
+  const map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 4,
+    center: myLocation
+  });
   // eslint-disable-next-line no-undef
   const marker = new google.maps.Marker({
     position: myLocation,
@@ -57,7 +54,6 @@ const initMap = (position) => {
 
   marker.setMap(map);
 };
-
 
 const closeModalForm = (elemID) => {
   const modal = document.getElementById(elemID);
@@ -93,7 +89,6 @@ const hideDisplayBtn = () => {
 };
 
 hideDisplayBtn();
-
 
 const checkToken = () => {
   const user = JSON.parse(localStorage.getItem('userToken'));
@@ -150,7 +145,7 @@ const saveComment = () => {
   const updatedComment = document.getElementById('comment');
   const hideDiv = document.querySelector('.hide-div');
   if (!(newComment && newComment.trim().length)) {
-    return commentError.innerHTML = '<p style="color:red";>Please enter a comment</p>';
+    return (commentError.innerHTML = '<p style="color:red";>Please enter a comment</p>');
   }
 
   updatedComment.innerHTML = newComment;
@@ -169,7 +164,8 @@ const saveComment = () => {
       },
       mode: 'cors',
       body: JSON.stringify(info)
-    }).then(response => response.json())
+    })
+    .then(response => response.json())
     .then((data) => {
       if (data.status === 200) {
         console.log(data);
@@ -199,6 +195,5 @@ const saveComment = () => {
 //   }
 // };
 // parseJwt(token);
-
 
 // export default parseJwt;

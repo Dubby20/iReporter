@@ -74,3 +74,12 @@ window.addEventListener('load', (event) => {
       throw error;
     });
 });
+
+
+// window.addEventListener('load', () => {
+//   const reportId = localStorage.getItem('Id');
+//   const reportType = localStorage.getItem('reportType');
+//   if (reportId && reportType) {
+//     fetchRecord();
+//   }
+// });

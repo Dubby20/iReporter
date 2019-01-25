@@ -117,6 +117,7 @@ window.addEventListener('load', (event) => {
     </li>
     `;
         loader.style.display = 'none';
+        checkUser();
         displayItems.innerHTML += eachRecord;
       }
     })
