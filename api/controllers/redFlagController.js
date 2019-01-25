@@ -249,6 +249,7 @@ export default class RedFlagController {
               status: 202,
               data: [{
                 id: delRedFlag.id,
+                type: 'red-flag',
                 message: 'red-flag record has been deleted'
               }]
             });

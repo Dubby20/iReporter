@@ -63,6 +63,7 @@ window.addEventListener('load', (event) => {
     .then(response => response.json())
     .then((data) => {
       if (data.status === 200) {
+        console.log(data);
         const recordList = data.data[0].intervention;
         loader.style.display = 'none';
         record(recordList);
@@ -74,12 +75,3 @@ window.addEventListener('load', (event) => {
       throw error;
     });
 });
-
-
-// window.addEventListener('load', () => {
-//   const reportId = localStorage.getItem('Id');
-//   const reportType = localStorage.getItem('reportType');
-//   if (reportId && reportType) {
-//     fetchRecord();
-//   }
-// });

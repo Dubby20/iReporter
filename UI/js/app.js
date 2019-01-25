@@ -2,9 +2,10 @@
 const editedFlagComment = document.getElementById('edit-red-flag');
 const locationText = document.getElementById('location-code');
 // const loader = document.querySelector('.loader');
-
 const modalPage = document.getElementById('modalPage');
-const closeBtn = document.querySelector('.close-btn');
+const closeBtn = document.querySelectorAll('.close-btn');
+// const closePage = document.querySelectorAll('.close-page');
+
 
 const modalBtn = document.querySelectorAll('.modalBtn');
 for (let i = 0; i < modalBtn.length; i++) {
@@ -12,13 +13,32 @@ for (let i = 0; i < modalBtn.length; i++) {
     modalPage.style.display = 'block';
   });
 }
-// closeBtn.onclick = () => {
-//   modalPage.style.display = 'none';
-// };
+
+const deleteBtn = () => {
+  const deleteModal = document.getElementById('delete-modal');
+  deleteModal.style.display = 'block';
+};
+
+closeBtn.onclick = () => {
+  modalPage.style.display = 'none';
+};
+
+const closePage = () => {
+  const deleteModal = document.getElementById('delete-modal');
+  deleteModal.style.display = 'none';
+};
+
 
 window.onclick = (event) => {
   if (event.target === modalPage) {
     modalPage.style.display = 'none';
+  }
+};
+
+window.onclick = (event) => {
+  const deleteModal = document.getElementById('delete-modal');
+  if (event.target === deleteModal) {
+    deleteModal.style.display = 'none';
   }
 };
 
@@ -113,7 +133,6 @@ const checkUser = () => {
 const editComment = () => {
   const hideDiv = document.querySelector('.hide-div');
   const currentComment = document.getElementById('comment').innerHTML;
-  // const commentBtn = document.querySelector('.comment-btn');
   const commentText = document.getElementById('comment-area');
   hideDiv.style.display = 'block';
   commentText.value = currentComment;
@@ -129,54 +148,32 @@ const cancelComment = () => {
 };
 
 
-const saveComment = () => {
-  const commentError = document.getElementById('comment-error');
-  let recordUrl;
+const showNewPosition = (position) => {
+  const newLocation = document.getElementById('input-location');
+  newLocation.value = `${position.coords.latitude}, ${position.coords.longitude}`;
+};
 
-  const user = JSON.parse(localStorage.getItem('userToken'));
-  checkToken();
-  const reportId = localStorage.getItem('Id');
-  const reportType = localStorage.getItem('reportType');
-  if (reportType === 'red-flag') {
-    recordUrl = `https://ireporter247.herokuapp.com/api/v1/red-flags/${reportId}/comment`;
-  } else if (reportType === 'intervention') {
-    recordUrl = `https://ireporter247.herokuapp.com/api/v1/interventions/${reportId}/comment`;
+const getNewLocation = () => {
+  const hidden = document.querySelector('.hidden');
+  const newLocation = document.getElementById('input-location');
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showNewPosition);
+    hidden.style.display = 'block';
+  } else {
+    newLocation.value = 'Geolocation is not supported by this browser.';
   }
-  const newComment = document.getElementById('comment-area').value;
-  const updatedComment = document.getElementById('comment');
-  const hideDiv = document.querySelector('.hide-div');
-  if (!(newComment && newComment.trim().length)) {
-    return (commentError.innerHTML = '<p style="color:red";>Please enter a comment</p>');
-  }
+};
 
-  updatedComment.innerHTML = newComment;
+const cancelLocation = () => {
+  const hidden = document.querySelector('.hidden');
+  const newLocation = document.getElementById('input-location');
+  newLocation.value = '';
+  hidden.style.display = 'none';
+};
 
-  const info = {
-    comment: newComment
-  };
-
-  fetch(recordUrl, {
-      method: 'PATCH',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'x-access-token': user.token
-      },
-      mode: 'cors',
-      body: JSON.stringify(info)
-    })
-    .then(response => response.json())
-    .then((data) => {
-      if (data.status === 200) {
-        document.getElementById('comment').style.display = 'block';
-        hideDiv.style.display = 'none';
-      } else {
-        hideDiv.style.display = 'none';
-        commentError.style.display = 'block';
-        commentError.style.color = 'red';
-        commentError.innerHTML = 'Access denied';
-      }
-    });
+const cancelDelete = () => {
+  const deleteModal = document.getElementById('delete-modal');
+  deleteModal.style.display = 'none';
 };
 
 // const parseJwt = (token) => {

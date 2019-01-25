@@ -247,6 +247,7 @@ export default class InterventionController {
               status: 202,
               data: [{
                 id: delIntervention.id,
+                type: 'intervention',
                 message: 'intervention record has been deleted'
               }]
             });

@@ -119,9 +119,26 @@ window.addEventListener('load', (event) => {
       </ul>
     </div>
     <div class="delete-record action-btn">
-      <button class="bg-red ">Delete Record <i class="fas fa-trash fa-color"></i></button>
+      <button class="trash"><i class="fas fa-trash fa-color fa-2x" onclick="deleteBtn()"></i></button>
     </div>
     </li>
+
+    <div id="delete-modal" class="modal">
+    <div class="del-content animate">
+      <span class="close-page" onclick="closePage()">&times;</span>
+      <div class="del-body">
+      <div class="title-background"><h4>Delete Record</h4></div>
+        <p class="del-question">Are you sure you want to delete the selected record?</p>
+        <hr/>
+<div class="display-btn">
+<button class="bg-cancel" onclick="cancelDelete()">Cancel</button>
+<button class="bg-red" onclick="deleteRecord()">Delete</button>
+</div>
+      </div>
+    </div>
+
+  </div>
+
     `;
         loader.style.display = 'none';
         // checkUser();
