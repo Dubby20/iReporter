@@ -1057,6 +1057,10 @@ footer {
   display: none;
 }
 
+.hidden {
+  display: none;
+}
+
 .edit-btn:hover {
   color: #007a5a;
 }
@@ -1095,4 +1099,15 @@ footer {
   color: #fff;
   font-weight: 900;
   box-shadow: none;
+}
+
+#input-location {
+  width: 25%;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.locate {
+  margin: 8px 0px;
 }

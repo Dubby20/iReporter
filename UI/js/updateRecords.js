@@ -1,27 +1,51 @@
-alert('update me');
+const showNewPosition = (position) => {
+  const newLocation = document.getElementById('input-location');
+  newLocation.value = `${position.coords.latitude}, ${position.coords.longitude}`;
+};
 
+const getNewLocation = () => {
+  const hidden = document.querySelector('.hidden');
+  const newLocation = document.getElementById('input-location');
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showNewPosition);
+    hidden.style.display = 'block';
+  } else {
+    newLocation.value = 'Geolocation is not supported by this browser.';
+  }
+};
 
-let recordUrl;
-saveComment.addEventListener('click', (event) => {
-  alert('save me');
-  console.log(saveComment);
-  event.preventDefault();
+const cancelLocation = () => {
+  const hidden = document.querySelector('.hidden');
+  const newLocation = document.getElementById('input-location');
+  newLocation.value = '';
+  hidden.style.display = 'none';
+};
+
+const saveLocation = () => {
+  const locationError = document.getElementById('location-error');
+  let recordUrl;
+
   const user = JSON.parse(localStorage.getItem('userToken'));
   checkToken();
   const reportId = localStorage.getItem('Id');
   const reportType = localStorage.getItem('reportType');
   if (reportType === 'red-flag') {
-    recordUrl = `https://ireporter247.herokuapp.com/api/v1/red-flags/${reportId}/comment`;
+    recordUrl = `https://ireporter247.herokuapp.com/api/v1/red-flags/${reportId}/location`;
   } else if (reportType === 'intervention') {
-    recordUrl = `https://ireporter247.herokuapp.com/api/v1/interventions/${reportId}/comment`;
+    recordUrl = `https://ireporter247.herokuapp.com/api/v1/interventions/${reportId}/location`;
   }
-  const newComment = document.getElementById('comment-area').value;
-  const updatedComment = document.getElementById('comment');
-  if (!(newComment && newComment.trim().length)) {
-    commentError.innerHTML = '<p>Please enter a comment</p>';
+  const newLocation = document.getElementById('input-location').value;
+  const updatedLocation = document.getElementById('location');
+  const hidden = document.querySelector('.hidden');
+  if (!(newLocation && newLocation.trim().length)) {
+    return (locationError.innerHTML = '<p style="color:red";>Please choose a location</p>');
   }
+
+  updatedLocation.innerHTML = newLocation;
+  // document.getElementById('comment').style.display = 'block';
+
   const info = {
-    newComment
+    location: newLocation
   };
 
   fetch(recordUrl, {
@@ -33,13 +57,17 @@ saveComment.addEventListener('click', (event) => {
       },
       mode: 'cors',
       body: JSON.stringify(info)
-    }).then(response => response.json())
+    })
+    .then(response => response.json())
     .then((data) => {
       if (data.status === 200) {
+        hidden.style.display = 'none';
         console.log(data);
-        updatedComment.innerHTML = newComment;
+      } else {
+        hidden.style.display = 'none';
+        locationError.style.display = 'block';
+        locationError.style.color = 'red';
+        locationError.innerHTML = 'Access denied';
       }
     });
-});
-
-console.log(saveComment);
+};
