@@ -1,11 +1,10 @@
 /* eslint-disable no-plusplus */
 const editedFlagComment = document.getElementById('edit-red-flag');
 const locationText = document.getElementById('location-code');
-
+// const loader = document.querySelector('.loader');
 
 const modalPage = document.getElementById('modalPage');
 const closeBtn = document.querySelector('.close-btn');
-
 
 const modalBtn = document.querySelectorAll('.modalBtn');
 for (let i = 0; i < modalBtn.length; i++) {
@@ -24,7 +23,9 @@ window.onclick = (event) => {
 };
 
 const showPosition = (position) => {
-  locationText.innerHTML = `Location: <span id="location" style="color:#361f55">${position.coords.latitude}, ${position.coords.longitude}</span>`;
+  locationText.innerHTML = `Location: <span id="location" style="color:#361f55">${
+    position.coords.latitude
+  }, ${position.coords.longitude}</span>`;
 };
 
 const getLocation = () => {
@@ -35,19 +36,16 @@ const getLocation = () => {
   }
 };
 
-
 const initMap = (position) => {
   const myLocation = {
     lat: `${position.coords.latitude}`,
     lng: `${position.coords.longitude}`
   };
   // eslint-disable-next-line no-undef
-  const map = new google.maps.Map(
-    document.getElementById('map'), {
-      zoom: 4,
-      center: myLocation
-    }
-  );
+  const map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 4,
+    center: myLocation
+  });
   // eslint-disable-next-line no-undef
   const marker = new google.maps.Marker({
     position: myLocation,
@@ -56,7 +54,6 @@ const initMap = (position) => {
 
   marker.setMap(map);
 };
-
 
 const closeModalForm = (elemID) => {
   const modal = document.getElementById(elemID);
@@ -100,10 +97,23 @@ const checkToken = () => {
   }
 };
 
+const checkUser = () => {
+  const actionBtn = document.querySelector('.action-btn');
+  const user = JSON.parse(localStorage.getItem('userToken'));
+  for (let i = 0; i < actionBtn.length; i++) {
+    if (user.id !== report.user_id) {
+      actionBtn[i].style.display = 'none';
+    } else {
+      actionBtn[i].style.display = 'block';
+    }
+  }
+  console.log(actionBtn);
+};
+
 const editComment = () => {
   const hideDiv = document.querySelector('.hide-div');
   const currentComment = document.getElementById('comment').innerHTML;
-  const commentBtn = document.querySelector('.comment-btn');
+  // const commentBtn = document.querySelector('.comment-btn');
   const commentText = document.getElementById('comment-area');
   hideDiv.style.display = 'block';
   commentText.value = currentComment;
@@ -119,11 +129,9 @@ const cancelComment = () => {
 };
 
 const saveComment = () => {
-  // event.preventDefault();
   const commentError = document.getElementById('comment-error');
   let recordUrl;
 
-  // const savedComment = document.getElementById('save-comment');
   const user = JSON.parse(localStorage.getItem('userToken'));
   checkToken();
   const reportId = localStorage.getItem('Id');
@@ -135,11 +143,16 @@ const saveComment = () => {
   }
   const newComment = document.getElementById('comment-area').value;
   const updatedComment = document.getElementById('comment');
+  const hideDiv = document.querySelector('.hide-div');
   if (!(newComment && newComment.trim().length)) {
-    return commentError.innerHTML = '<p style="color:red";>Please enter a comment</p>';
+    return (commentError.innerHTML = '<p style="color:red";>Please enter a comment</p>');
   }
+
+  updatedComment.innerHTML = newComment;
+  document.getElementById('comment').style.display = 'block';
+
   const info = {
-    newComment
+    comment: newComment
   };
 
   fetch(recordUrl, {
@@ -151,53 +164,20 @@ const saveComment = () => {
       },
       mode: 'cors',
       body: JSON.stringify(info)
-    }).then(response => response.json())
+    })
+    .then(response => response.json())
     .then((data) => {
       if (data.status === 200) {
         console.log(data);
-        // updatedComment.innerHTML = newComment;
+        hideDiv.style.display = 'none';
+      } else {
+        hideDiv.style.display = 'none';
+        commentError.style.display = 'block';
+        commentError.style.color = 'red';
+        commentError.innerHTML = 'Access denied';
       }
     });
 };
-
-// saveComment.addEventListener('click', (event) => {
-//   console.log(saveComment);
-//   const user = JSON.parse(localStorage.getItem('userToken'));
-//   checkToken();
-//   const reportId = localStorage.getItem('Id');
-//   const reportType = localStorage.getItem('reportType');
-//   if (reportType === 'red-flag') {
-//     recordUrl = `https://ireporter247.herokuapp.com/api/v1/red-flags/${reportId}/comment`;
-//   } else if (reportType === 'intervention') {
-//     recordUrl = `https://ireporter247.herokuapp.com/api/v1/interventions/${reportId}/comment`;
-//   }
-//   const newComment = document.getElementById('comment-area').value;
-//   const updatedComment = document.getElementById('comment');
-//   if (!(newComment && newComment.trim().length)) {
-//     commentError.innerHTML = '<p>Please enter a comment</p>';
-//   }
-//   const info = {
-//     newComment
-//   };
-
-//   fetch(recordUrl, {
-//       method: 'PATCH',
-//       headers: {
-//         Accept: 'application/json',
-//         'Content-Type': 'application/json',
-//         'x-access-token': user.token
-//       },
-//       mode: 'cors',
-//       body: JSON.stringify(info)
-//     }).then(response => response.json())
-//     .then((data) => {
-//       if (data.status === 200) {
-//         console.log(data);
-//         updatedComment.innerHTML = newComment;
-//       }
-//     });
-// });
-
 
 // const parseJwt = (token) => {
 //   try {
@@ -215,6 +195,5 @@ const saveComment = () => {
 //   }
 // };
 // parseJwt(token);
-
 
 // export default parseJwt;

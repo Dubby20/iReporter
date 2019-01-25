@@ -26,24 +26,14 @@ const videoArry = (video) => {
   return displayVideo;
 };
 
-const checkUser = () => {
-  const actionBtn = document.querySelectorAll('.action-btn');
-  const user = JSON.parse(localStorage.getItem('userToken'));
-  for (let i = 0; i < actionBtn.length; i++) {
-    if (user.id !== report.user_id) {
-      actionBtn[i].style.display = 'none';
-    } else {
-      actionBtn[i].style.display = 'block';
-    }
-  }
-};
-
 
 let recordUrl;
 let recordType;
 
 window.addEventListener('load', (event) => {
   event.preventDefault();
+
+
   const user = JSON.parse(localStorage.getItem('userToken'));
   if (!user) {
     window.location.href = './login.html';
@@ -58,7 +48,6 @@ window.addEventListener('load', (event) => {
     recordUrl = `https://ireporter247.herokuapp.com/api/v1/interventions/${reportId}`;
     recordType = 'Intervention';
   }
-
 
   const displayItems = document.querySelector('.display-item');
   loader.style.display = 'block';
@@ -75,7 +64,6 @@ window.addEventListener('load', (event) => {
     .then(response => response.json())
     .then((data) => {
       if (data.status === 200) {
-        console.log(data);
         const records = data.data[0].report;
         const {
           status,
@@ -91,17 +79,17 @@ window.addEventListener('load', (event) => {
       <div>
       <p class="status-p">Status:<span class="status-type">${status}</span></p>
     </div>
-    <div>
-      <p>Location: <span>${location}</span><a href="#" onclick="getLocation()" class="edit-btn change-location action-btn">
+    <div class="action-btn">
+      <p>Location: <span>${location}</span><a href="#" onclick="getLocation()" class="edit-btn change-location">
       Change location</a></p>
     </div>
     <div class="comment-div">
     <p id="comment">${comment}</p>
     <button class="edit-btn action-btn comment-btn" onclick="editComment()">Edit Comment</button>
     </div>
+    <div id="comment-error" style="margin:8px";></div>
     <div class="hide-div">
     <div class="form-group">
-    <div id="comment-error" style="margin:8px";></div>
     <textarea name="comment" id="comment-area" cols="40" rows="10" maxlength="2000" autofocus required class="form-control"></textarea>
   </div>
   <button class="c-btn outline" onclick="cancelComment()">Cancel</button>
@@ -123,8 +111,8 @@ window.addEventListener('load', (event) => {
 
       </ul>
     </div>
-    <div class="delete-record">
-      <button class="bg-red action-btn">Delete Record <i class="fas fa-trash fa-color"></i></button>
+    <div class="delete-record action-btn">
+      <button class="bg-red ">Delete Record <i class="fas fa-trash fa-color"></i></button>
     </div>
     </li>
     `;
