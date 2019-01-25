@@ -139,6 +139,7 @@ export default class UserController {
           data: [{
             token,
             user: {
+              id: user.id,
               email: user.email,
               isAdmin: user.is_admin
             }
