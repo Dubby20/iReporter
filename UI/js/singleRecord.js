@@ -26,14 +26,19 @@ const videoArry = (video) => {
   return displayVideo;
 };
 
+
 let recordUrl;
 let recordType;
+
 window.addEventListener('load', (event) => {
   event.preventDefault();
+
+
   const user = JSON.parse(localStorage.getItem('userToken'));
   if (!user) {
     window.location.href = './login.html';
   }
+
   const reportId = localStorage.getItem('Id');
   const reportType = localStorage.getItem('reportType');
   if (reportType === 'red-flag') {
@@ -43,7 +48,6 @@ window.addEventListener('load', (event) => {
     recordUrl = `https://ireporter247.herokuapp.com/api/v1/interventions/${reportId}`;
     recordType = 'Intervention';
   }
-
 
   const displayItems = document.querySelector('.display-item');
   loader.style.display = 'block';
@@ -60,10 +64,7 @@ window.addEventListener('load', (event) => {
     .then(response => response.json())
     .then((data) => {
       if (data.status === 200) {
-        console.log(data);
-        // data.data.forEach((item) => {
-        const records = data.data[0];
-        // console.log(records.status);
+        const records = data.data[0].report;
         const {
           status,
           location,
@@ -78,20 +79,26 @@ window.addEventListener('load', (event) => {
       <div>
       <p class="status-p">Status:<span class="status-type">${status}</span></p>
     </div>
-    <div>
-      <p id=location-code>Location: <span>${location}</span><a href="#" onclick="getLocation()" class="edit-btn change-location">
+    <div class="action-btn">
+      <p>Location: <span>${location}</span><a href="#" onclick="getLocation()" class="edit-btn change-location">
       Change location</a></p>
     </div>
     <div class="comment-div">
-      <p class="comment">${comment}
-        <a class="edit-btn" onclick="showModal('edit-comment')">
-          Edit Comment</a>
-      </p>
+    <p id="comment">${comment}</p>
+    <button class="edit-btn action-btn comment-btn" onclick="editComment()">Edit Comment</button>
     </div>
+    <div id="comment-error" style="margin:8px";></div>
+    <div class="hide-div">
+    <div class="form-group">
+    <textarea name="comment" id="comment-area" cols="40" rows="10" maxlength="2000" autofocus required class="form-control"></textarea>
+  </div>
+  <button class="c-btn outline" onclick="cancelComment()">Cancel</button>
+  <button class="c-btn primary" onclick="saveComment()">Save Changes</button>
+</div>
     <div id="image-frame">
       <ul class="image-layout">
 <li class="image-list">
-        ${images}
+        ${imgArry(images)}
   </li>
 
       </ul>
@@ -99,19 +106,18 @@ window.addEventListener('load', (event) => {
     <div class="video-frame">
       <ul class="video-layout">
     <li class="video-list">
-        ${videos}
+        ${videoArry(videos)}
         </li>
 
       </ul>
     </div>
-    <div class="delete-record">
-      <button class="bg-red">Delete Record <i class="fas fa-trash fa-color"></i></button>
+    <div class="delete-record action-btn">
+      <button class="bg-red ">Delete Record <i class="fas fa-trash fa-color"></i></button>
     </div>
     </li>
     `;
         loader.style.display = 'none';
         displayItems.innerHTML += eachRecord;
-        // });
       }
     })
     .catch((error) => {

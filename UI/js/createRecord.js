@@ -203,7 +203,7 @@ const uploadImage = (event) => {
       if (typeof data.secure_url !== 'undefined') {
         imageUrl = data.secure_url;
         displayImages.innerHTML += `<li class="image-list">
-        <img src=${imageUrl} height="50" width="50" id="img"><span class="del-btn">x</span><i class="image-uploads" style="display:none">${imageUrl}</i>
+        <img src=${imageUrl} height="50" width="50" id="img"><span class="del-btn">&times;</span><i class="image-uploads" style="display:none">${imageUrl}</i>
 
 </li>`;
         spinner.style.display = 'none';
@@ -240,7 +240,7 @@ const uploadVideo = (event) => {
       if (typeof data.secure_url !== 'undefined') {
         videoUrl = data.secure_url;
         displayVideos.innerHTML += `<li class="video-list"><i class="video-uploads" style="display:none">${videoUrl}</i>
-        <video src="${videoUrl}" width="240" height="180" id="video"><span class="del-btn">x</span>
+        <video src="${videoUrl}" width="240" height="180" id="video"><span class="del-btn">&times;</span>
 </li>`;
         spin.style.display = 'none';
         videoUpload.value = '';

@@ -42,9 +42,7 @@ export default class PostValidator {
     }
 
     const notAString = images.filter(image => typeof image !== 'string');
-    // if (typeof image !== 'string') {
-    //   return handleError(response, 'Please enter an image url...');
-    // }
+
     if (notAString.length >= 1) {
       return handleError(response, 'image must be a string');
     }
@@ -54,15 +52,11 @@ export default class PostValidator {
     }
 
     const notAVideoString = videos.filter(video => typeof video !== 'string');
-    // if (typeof video !== 'string') {
-    //   return handleError(response, 'Please enter a video url.......');
-    // }
+
     if (notAVideoString.length >= 1) {
       return handleError(response, 'video must be a string');
     }
-    // if (!(notAVideoString && notAVideoString.trim().length)) {
-    //   return handleError(response, 'Please enter a video url');
-    // }`
+
 
     if (typeof comment !== 'string') {
       return handleError(response, 'comment must be a string of characters');
@@ -112,6 +106,7 @@ export default class PostValidator {
     const {
       comment
     } = request.body;
+
     if (typeof comment !== 'string') {
       return handleError(response, 'comment must be a string of characters');
     }

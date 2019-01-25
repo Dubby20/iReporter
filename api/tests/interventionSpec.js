@@ -397,7 +397,7 @@ describe('/PATCH interventions/:id/comment', () => {
       });
   });
 
-  it('it should return an error if the location is empty', (done) => {
+  it('it should return an error if the comment is empty', (done) => {
     chai.request(server)
       .patch('/api/v1/interventions/2/comment')
       .set('Content-Type', 'application/json')
