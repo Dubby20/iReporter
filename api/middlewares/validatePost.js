@@ -112,9 +112,6 @@ export default class PostValidator {
     const {
       comment
     } = request.body;
-    if (typeof comment !== 'string') {
-      return handleError(response, 'comment must be a string of characters');
-    }
     if (!(comment && comment.trim().length)) {
       return handleError(response, 'Please enter a comment');
     }

@@ -93,10 +93,128 @@ const hideDisplayBtn = () => {
 
 hideDisplayBtn();
 
-// const editBtn = document.querySelectorAll('.edit-btn');
+const checkToken = () => {
+  const user = JSON.parse(localStorage.getItem('userToken'));
+  if (!user) {
+    window.location.href = './login.html';
+  }
+};
 
-// const displayBtn = () => {
-//   for (let i = 0; i < editBtn.length; i++) {
-//     if ()
+const editComment = () => {
+  const hideDiv = document.querySelector('.hide-div');
+  const currentComment = document.getElementById('comment').innerHTML;
+  const commentBtn = document.querySelector('.comment-btn');
+  const commentText = document.getElementById('comment-area');
+  hideDiv.style.display = 'block';
+  commentText.value = currentComment;
+  document.getElementById('comment').style.display = 'none';
+};
+
+const cancelComment = () => {
+  const hideDiv = document.querySelector('.hide-div');
+  const commentText = document.getElementById('comment-area');
+  commentText.value = '';
+  hideDiv.style.display = 'none';
+  document.getElementById('comment').style.display = 'block';
+};
+
+const saveComment = () => {
+  // event.preventDefault();
+  const commentError = document.getElementById('comment-error');
+  let recordUrl;
+
+  // const savedComment = document.getElementById('save-comment');
+  const user = JSON.parse(localStorage.getItem('userToken'));
+  checkToken();
+  const reportId = localStorage.getItem('Id');
+  const reportType = localStorage.getItem('reportType');
+  if (reportType === 'red-flag') {
+    recordUrl = `https://ireporter247.herokuapp.com/api/v1/red-flags/${reportId}/comment`;
+  } else if (reportType === 'intervention') {
+    recordUrl = `https://ireporter247.herokuapp.com/api/v1/interventions/${reportId}/comment`;
+  }
+  const newComment = document.getElementById('comment-area').value;
+  const updatedComment = document.getElementById('comment');
+  if (!(newComment && newComment.trim().length)) {
+    return commentError.innerHTML = '<p style="color:red";>Please enter a comment</p>';
+  }
+  const info = {
+    newComment
+  };
+
+  fetch(recordUrl, {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'x-access-token': user.token
+      },
+      mode: 'cors',
+      body: JSON.stringify(info)
+    }).then(response => response.json())
+    .then((data) => {
+      if (data.status === 200) {
+        console.log(data);
+        // updatedComment.innerHTML = newComment;
+      }
+    });
+};
+
+// saveComment.addEventListener('click', (event) => {
+//   console.log(saveComment);
+//   const user = JSON.parse(localStorage.getItem('userToken'));
+//   checkToken();
+//   const reportId = localStorage.getItem('Id');
+//   const reportType = localStorage.getItem('reportType');
+//   if (reportType === 'red-flag') {
+//     recordUrl = `https://ireporter247.herokuapp.com/api/v1/red-flags/${reportId}/comment`;
+//   } else if (reportType === 'intervention') {
+//     recordUrl = `https://ireporter247.herokuapp.com/api/v1/interventions/${reportId}/comment`;
 //   }
-// }
+//   const newComment = document.getElementById('comment-area').value;
+//   const updatedComment = document.getElementById('comment');
+//   if (!(newComment && newComment.trim().length)) {
+//     commentError.innerHTML = '<p>Please enter a comment</p>';
+//   }
+//   const info = {
+//     newComment
+//   };
+
+//   fetch(recordUrl, {
+//       method: 'PATCH',
+//       headers: {
+//         Accept: 'application/json',
+//         'Content-Type': 'application/json',
+//         'x-access-token': user.token
+//       },
+//       mode: 'cors',
+//       body: JSON.stringify(info)
+//     }).then(response => response.json())
+//     .then((data) => {
+//       if (data.status === 200) {
+//         console.log(data);
+//         updatedComment.innerHTML = newComment;
+//       }
+//     });
+// });
+
+
+// const parseJwt = (token) => {
+//   try {
+//     const base64HeaderUrl = token.split('.')[0];
+//     const base64Header = base64HeaderUrl.replace('-', '+').replace('_', '/');
+//     const headerData = JSON.parse(window.atob(base64Header));
+
+//     const base64Url = token.split('.')[1];
+//     const base64 = base64Url.replace('-', '+').replace('_', '/');
+//     const dataJWT = JSON.parse(window.atob(base64));
+//     dataJWT.header = headerData;
+//     return dataJWT;
+//   } catch (err) {
+//     return false;
+//   }
+// };
+// parseJwt(token);
+
+
+// export default parseJwt;
