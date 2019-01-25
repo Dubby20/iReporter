@@ -722,11 +722,25 @@ img {
 .bg-red {
   background: var(--primary-color);
   color: var(--text-color);
-  padding: 0.375rem 0.75rem;
   border-radius: 4px;
   cursor: pointer;
   border: none;
-  height: 32px;
+  font-size: 14px;
+  line-height: 18px;
+  padding: 10px 16px;
+  outline: none;
+}
+
+.bg-cancel {
+  background: #e4ebf1;
+  color: #5a616a;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  font-size: 14px;
+  line-height: 18px;
+  padding: 10px 16px;
+  outline: none;
 }
 
 .fas {
@@ -734,9 +748,22 @@ img {
   cursor: pointer;
 }
 
-.fa-color {
-  color: var(--text-color);
+.fa-trash {
+  color: #5b616a;
+  outline: none;
 }
+
+.trash {
+  border: none;
+}
+
+.fa-trash:hover {
+  color: var(--primary-color);
+}
+
+/* .fa-color {
+  color: var(--text-color);
+} */
 
 .card ul li a {
   height: auto;
@@ -884,30 +911,38 @@ td {
   border-radius: 12px;
 }
 
-.close-btn {
+.close-btn,
+.close-page {
   top: 0;
   color: #000;
   float: right;
   font-size: 30px;
   font-weight: bold;
+  padding-right: 8px;
 }
 
-.del-btn {
+/* .del-btn {
   top: 0;
   color: #000;
-  /* float: right; */
   font-size: 8px;
   cursor: pointer;
-  /* font-weight: bold; */
+
 }
 
 .del-btn:hover {
   color: var(--primary-color);
-}
+} */
 
 .close-btn:hover,
 .close-btn:focus {
   color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.close-page:hover,
+.close-page:focus {
+  color: var(--primary-color);
   text-decoration: none;
   cursor: pointer;
 }
@@ -1111,3 +1146,43 @@ footer {
 .locate {
   margin: 8px 0px;
 }
+
+.title-background {
+  background: #e4ebf1;
+  padding: 20px;
+  line-height: 1.25;
+  border-radius: 8px 8px 0px 0px;
+
+}
+
+.del-question {
+  line-height: 18px;
+  padding: 20px;
+}
+
+/* .del-body {
+} */
+
+.del-content {
+  border-radius: 8px;
+  background: #fff;
+  width: 500px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.display-btn {
+  padding: 1rem 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+/* margin: 5% auto 15% auto;
+padding: 8px;
+box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2),
+0 7px 20px 0 rgba(0, 0, 0, 0.17);
+animation-name: modalopen;
+animation-duration: 1s;
+border: none; */

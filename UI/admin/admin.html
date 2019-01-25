@@ -115,7 +115,7 @@
   </footer>
   <div id="modalPage" class="modal">
     <div class="modal-content animate">
-      <span class="close-btn">x</span>
+      <span class="close-btn">&times;</span>
       <div class="modal-body">
         <form action="" method="POST">
           <label for="comment">Comment:</label>
@@ -152,40 +152,3 @@
 </body>
 
 </html>
-
-`<li class="list">
-      <div>
-      <p class="type">Type:<span>Red-Flag</span></p>
-      <p class="status-p">Status:<span class="status-type">${item.status}</span></p>
-    </div>
-    <div>
-      <p id=location-code>Location: <span>${item.location}</span></p>
-    </div>
-    <div class="comment-div">
-      <p class="comment">Comment: <span>${item.comment}</span>
-        <a class="bg-purple" onclick="showModal('edit-red-flag')">
-          Edit Comment</a>
-      </p>
-    </div>
-    <div id="image-frame">
-      <ul class="image-layout">
-<li class="image-list">
-        ${imgArry(item.images)}
-  </li>
-
-      </ul>
-    </div>
-    <div class="video-frame">
-      <ul class="video-layout">
-    <li class="video-list">
-        ${videoArry(item.videos)}
-        </li>
-
-      </ul>
-    </div>
-    <div class="delete-record">
-      <button class="bg-red">Delete Record <i class="fas fa-trash fa-color"></i></button>
-    </div>
-    </li>
-    `;
-
