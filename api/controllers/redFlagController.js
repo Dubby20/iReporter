@@ -242,21 +242,28 @@ export default class RedFlagController {
             error: 'The red-flag with the given id does not exists'
           });
         }
-        pool.query('DELETE FROM red_flags WHERE red_flags.id = $1 RETURNING *', [request.params.id])
-          .then((data) => {
-            const delRedFlag = data.rows[0];
-            response.status(202).json({
-              status: 202,
-              data: [{
-                id: delRedFlag.id,
-                type: 'red-flag',
-                message: 'red-flag record has been deleted'
-              }]
-            });
-          }).catch(error => response.status(400).json({
-            status: 400,
-            error: errors.validationError
-          }));
+        if (request.user.id === redFlagId.rows[0].user_id) {
+          pool.query('DELETE FROM red_flags WHERE red_flags.id = $1 RETURNING *', [request.params.id])
+            .then((data) => {
+              const delRedFlag = data.rows[0];
+              response.status(202).json({
+                status: 202,
+                data: [{
+                  id: delRedFlag.id,
+                  type: 'red-flag',
+                  message: 'red-flag record has been deleted'
+                }]
+              });
+            }).catch(error => response.status(400).json({
+              status: 400,
+              error: errors.validationError
+            }));
+        } else {
+          return response.status(401).json({
+            status: 401,
+            error: 'You must signup or login to access this route'
+          });
+        }
       }).catch(error => response.status(400).json({
         status: 400,
         error: errors.validationError

@@ -63,6 +63,7 @@ window.addEventListener('load', (event) => {
     .then(response => response.json())
     .then((data) => {
       if (data.status === 200) {
+        console.log(data);
         const records = data.data[0].report;
         const {
           status,
