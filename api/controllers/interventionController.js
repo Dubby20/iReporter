@@ -182,8 +182,8 @@ export default class InterventionController {
        */
   static editInterventionComment(request, response) {
     pool.query('SELECT  * FROM interventions WHERE interventions.id = $1', [request.params.id])
-      .then((intereventionId) => {
-        if (intereventionId.rowCount < 1) {
+      .then((interventionId) => {
+        if (interventionId.rowCount < 1) {
           return response.status(404).json({
             status: 404,
             error: 'The comment with the given intervention id does not exists'
@@ -192,7 +192,7 @@ export default class InterventionController {
         const {
           comment
         } = request.body;
-        if (request.user.id === intereventionId.rows[0].user_id) {
+        if (request.user.id === interventionId.rows[0].user_id) {
           pool.query(`UPDATE interventions SET comment = '${comment}' WHERE interventions.id = $1 RETURNING *`, [request.params.id])
             .then((data) => {
               const editComment = data.rows[0];
@@ -240,21 +240,28 @@ export default class InterventionController {
             error: 'The intervention with the given id does not exists'
           });
         }
-        pool.query('DELETE FROM interventions WHERE interventions.id = $1 RETURNING *', [request.params.id])
-          .then((data) => {
-            const delIntervention = data.rows[0];
-            response.status(202).json({
-              status: 202,
-              data: [{
-                id: delIntervention.id,
-                type: 'intervention',
-                message: 'intervention record has been deleted'
-              }]
-            });
-          }).catch(error => response.status(400).json({
-            status: 400,
-            error: errors.validationError
-          }));
+        if (request.user.id === interventionId.rows[0].user_id) {
+          pool.query('DELETE FROM interventions WHERE interventions.id = $1 RETURNING *', [request.params.id])
+            .then((data) => {
+              const delIntervention = data.rows[0];
+              response.status(202).json({
+                status: 202,
+                data: [{
+                  id: delIntervention.id,
+                  type: 'intervention',
+                  message: 'intervention record has been deleted'
+                }]
+              });
+            }).catch(error => response.status(400).json({
+              status: 400,
+              error: errors.validationError
+            }));
+        } else {
+          return response.status(401).json({
+            status: 401,
+            error: 'You must signup or login to access this route'
+          });
+        }
       }).catch(error => response.status(400).json({
         status: 400,
         error: errors.validationError

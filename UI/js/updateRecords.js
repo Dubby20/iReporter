@@ -143,4 +143,4 @@ const deleteRecord = () => {
         redirect(recordType);
       }
     });
-}
+};
