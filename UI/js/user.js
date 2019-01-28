@@ -1,7 +1,16 @@
-// eslint-disable-next-line func-names
+/* eslint-disable func-names */
+
 (function () {
   const user = JSON.parse(localStorage.getItem('userToken'));
   if (!user) {
+    window.location.href = '/';
+  }
+}());
+
+(function () {
+  let user = localStorage.getItem('userToken');
+  user = JSON.parse(user);
+  if (user.user.isAdmin) {
     window.location.href = '/';
   }
 }());
