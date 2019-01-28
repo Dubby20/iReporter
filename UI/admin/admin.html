@@ -28,29 +28,63 @@
       </nav>
     </div>
 
-    <div class="admin-container">
-      <div class="status status-box">
-        <div class="status-div draft-bg">
-          <h2>103</h2>
-          <h3>Draft</h3>
+    <div class="loader">
+      <img src="../assets/images/spinner.gif" alt="spinner" class="">
+    </div>
+    <div>
+      <h2 class="status-title">Red-Flags Status</h2>
+      <div class="admin-container">
+        <div class="status status-box">
+          <div class="status-div draft-bg">
+            <h2 id="red-flag-draft"></h2>
+            <h3>Draft</h3>
+          </div>
+        </div>
+        <div class="status status-box">
+          <div class="status-div investigation-bg">
+            <h2 id="red-flag-under-investigation"></h2>
+            <h3>Under Investigation</h3>
+          </div>
+        </div>
+        <div class="status status-box">
+          <div class="status-div resolved-bg">
+            <h2 id="red-flag-resolved"></h2>
+            <h3>Resolved</h3>
+          </div>
+        </div>
+        <div class="status status-box">
+          <div class="status-div rejected-bg">
+            <h2 id="red-flag-rejected"></h2>
+            <h3>Rejected</h3>
+          </div>
         </div>
       </div>
-      <div class="status status-box">
-        <div class="status-div investigation-bg">
-          <h2>50</h2>
-          <h3>Under Investigation</h3>
+
+      <h2 class="status-title">Interventions Status</h2>
+      <div class="admin-container">
+        <div class="status status-box">
+          <div class="status-div draft-bg">
+            <h2 id="intervention-draft"></h2>
+            <h3>Draft</h3>
+          </div>
         </div>
-      </div>
-      <div class="status status-box">
-        <div class="status-div resolved-bg">
-          <h2>70</h2>
-          <h3>Resolved</h3>
+        <div class="status status-box">
+          <div class="status-div investigation-bg">
+            <h2 id="intervention-under-investigation"></h2>
+            <h3>Under Investigation</h3>
+          </div>
         </div>
-      </div>
-      <div class="status status-box">
-        <div class="status-div rejected-bg">
-          <h2>11</h2>
-          <h3>Rejected</h3>
+        <div class="status status-box">
+          <div class="status-div resolved-bg">
+            <h2 id="intervention-resolved"></h2>
+            <h3>Resolved</h3>
+          </div>
+        </div>
+        <div class="status status-box">
+          <div class="status-div rejected-bg">
+            <h2 id="intervention-rejected"></h2>
+            <h3>Rejected</h3>
+          </div>
         </div>
       </div>
     </div>
@@ -64,6 +98,7 @@
             <th>Record Type</th>
             <th>Report</th>
             <th>Status</th>
+            <th>Update</th>
 
           </tr>
         </thead>
@@ -75,13 +110,15 @@
             <td item-data="Action"><button class="view-btn modalBtn">View Report</button>
             </td>
             <td item-data="Item"><select name="status" id="status" class="form-control">
+                <option value="draft">Draft</option>
                 <option value="under investigation">Under Investigation</option>
                 <option value="resolved">Resolved</option>
                 <option value="rejected">Rejected</option>
               </select></td>
+            <td><button id="update-btn">Update Status</button></td>
           </tr>
 
-          <tr>
+          <!-- <tr>
             <td item-data="Item">987</td>
             <td item-data="Image">Alex</td>
             <td item-data="Item">Red-flag</td>
@@ -104,7 +141,7 @@
                 <option value="resolved">Under Investigation</option>
                 <option value="rejected">Rejected</option>
               </select></td>
-          </tr>
+          </tr> -->
         </tbody>
       </table>
     </div>
@@ -120,12 +157,16 @@
         <form action="" method="POST">
           <label for="comment">Comment:</label>
           <div class="form-group">
-            <textarea name="" id="" cols="20" rows="10" maxlength="300" placeholder="Enter comments about your report"
-              required class="form-control">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quidem cumque quo quam sint culpa necessitatibus.</textarea>
+            <textarea name="" id="" cols="20" rows="10" maxlength="2000" required class="form-control">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quidem cumque quo quam sint culpa necessitatibus.</textarea>
           </div>
-          <label for="image">Image/Video:</label>
-          <div class="form-group">
-            <img src="../assets/images/bribery-and-corruption.jpg" alt="" id="image" class="img-fluid">
+          <label for="image">Images:</label>
+          <div id="image-frame">
+            <ul class="image-layout">
+              <li class="image-list">
+                <img src="../assets/images/bribery-and-corruption.jpg" alt="" id="image" class="img-fluid" height="200"
+                  width="240">
+              </li>
+            </ul>
           </div>
           <div class="form-group location-div">
             <p id=location-code></p>
@@ -138,7 +179,7 @@
 
 
   <script src="../js/app.js"></script>
-  <!-- <script src="../js/admin.js"></script> -->
+  <script src="../js/admin.js"></script>
   <script src="../js/logOut.js"></script>
   <script>
     (function () {

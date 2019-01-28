@@ -4,7 +4,6 @@ const locationText = document.getElementById('location-code');
 // const loader = document.querySelector('.loader');
 const modalPage = document.getElementById('modalPage');
 const closeBtn = document.querySelectorAll('.close-btn');
-// const closePage = document.querySelectorAll('.close-page');
 
 
 const modalBtn = document.querySelectorAll('.modalBtn');
