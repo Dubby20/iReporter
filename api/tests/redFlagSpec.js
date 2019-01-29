@@ -97,6 +97,23 @@ describe('/POST red-flags', () => {
       });
   });
 
+  it('it should return an error if the location is not a string', (done) => {
+    chai.request(server)
+      .post('/api/v1/red-flags')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', userToken)
+      .send({
+        location: 234
+      })
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('Location must be a string');
+        done();
+      });
+  });
+
   it('it should return an error if the image is not a string', (done) => {
     chai.request(server)
       .post('/api/v1/red-flags')
@@ -598,6 +615,23 @@ describe('/PATCH red-flags/:id/status', () => {
       });
   });
 
+  it('it should return an error if the status is not a string', (done) => {
+    chai.request(server)
+      .patch('/api/v1/red-flags/1/status')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', adminToken)
+      .send({
+        status: 10
+      })
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body).to.be.an('object');
+        expect(response.body).to.have.property('error').eql('Status must be a string');
+        done();
+      });
+  });
+
   it('it should return an error if the red-flag id is not a number', (done) => {
     chai.request(server)
       .patch('/api/v1/red-flags/ab/status')
@@ -661,6 +695,59 @@ describe('/PATCH red-flags/:id/status', () => {
         expect(response).to.have.status(403);
         expect(response.body).to.be.an('object');
         expect(response.body).to.have.property('error').eql('You do not have the admin rights to perform this action');
+        done();
+      });
+  });
+});
+
+describe('/GET/users/:id/red-flags/', () => {
+  it('it should GET a user red-flag recordd', (done) => {
+    chai.request(server)
+      .get('/api/v1/users/1/red-flags')
+      .set('x-access-token', userToken)
+      .end((error, response) => {
+        expect(response).to.have.status(200);
+        expect(response.body.data[0]).to.have.property('message').equal('Successful');
+        expect(response.body).to.be.an('object');
+        expect(response.body.data).to.be.an('array');
+        done();
+      });
+  });
+
+  it('it should return an error message if the id is not a number', (done) => {
+    chai.request(server)
+      .get('/api/v1/users/xy/red-flags')
+      .set('x-access-token', userToken)
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body.error).to.equal('The given id is not a number');
+        expect(response.body).to.be.an('object');
+        done();
+      });
+  });
+
+  it('it should return an error message when the given ID is not found', (done) => {
+    chai.request(server)
+      .get('/api/v1/users/2/red-flags')
+      .set('x-access-token', userToken)
+      .end((error, response) => {
+        expect(response).to.have.status(404);
+        expect(response.body.error).to.equal('User has no red-flag record');
+        expect(response.body).to.be.an('object');
+        done();
+      });
+  });
+});
+
+describe('/GET/red-flags/', () => {
+  it('it should return an error message if the endpoint is not found', (done) => {
+    chai.request(server)
+      .get('/api/v1/users/xy/red-fla')
+      .set('x-access-token', userToken)
+      .end((error, response) => {
+        expect(response).to.have.status(404);
+        expect(response.body.error).to.equal('Endpoint not found');
+        expect(response.body).to.be.an('object');
         done();
       });
   });
