@@ -17,7 +17,8 @@ router.get('/red-flags', verifyToken.userAuthentication, RedFlagController.allRe
 router.get('/interventions', verifyToken.userAuthentication, InterventionController.allInterventions);
 router.get('/red-flags/:id', verifyToken.userAuthentication, PostValidator.validateId, RedFlagController.redFlagId);
 router.get('/interventions/:id', verifyToken.userAuthentication, PostValidator.validateId, InterventionController.interventionId);
-router.get('/users/:id/red-flags/', verifyToken.userAuthentication, PostValidator.validateId, RedFlagController.userRedFlagfRecords);
+router.get('/users/:id/red-flags/', verifyToken.userAuthentication, PostValidator.validateId, RedFlagController.userRedFlagRecords);
+router.get('/users/:id/interventions/', verifyToken.userAuthentication, PostValidator.validateId, InterventionController.userInterventionfRecords);
 router.patch('/red-flags/:id/location', verifyToken.userAuthentication, PostValidator.validateId, PostValidator.validateLocation, RedFlagController.editRedFlag);
 router.patch('/interventions/:id/location', verifyToken.userAuthentication, PostValidator.validateId, PostValidator.validateLocation, InterventionController.interventionLocation);
 router.patch('/red-flags/:id/comment', verifyToken.userAuthentication, PostValidator.validateId, PostValidator.validateComment, RedFlagController.editRedFlagComment);
