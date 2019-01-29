@@ -38,6 +38,20 @@ describe('User', () => {
         });
     });
 
+    it('It should not create a user if firstname is not a string', (done) => {
+      chai.request(server)
+        .post('/api/v1/auth/signup')
+        .set('Content-Type', 'application/json')
+        .set('Accept', 'application/json')
+        .send(users[18])
+        .end((error, response) => {
+          expect(response).to.status(422);
+          expect(response.body).to.be.an('object');
+          expect(response.body).to.have.property('error').eql('Firstname must be a string');
+          done();
+        });
+    });
+
     it('It should not create a user with no lastname', (done) => {
       chai.request(server)
         .post('/api/v1/auth/signup')
@@ -66,6 +80,20 @@ describe('User', () => {
         });
     });
 
+    it('It should return an error if othername is not a string', (done) => {
+      chai.request(server)
+        .post('/api/v1/auth/signup')
+        .set('Content-Type', 'application/json')
+        .set('Accept', 'application/json')
+        .send(users[17])
+        .end((error, response) => {
+          expect(response).to.status(422);
+          expect(response.body).to.be.an('object');
+          expect(response.body).to.have.property('error').eql('Othernames must be a string');
+          done();
+        });
+    });
+
     it('It should not create a user with no username', (done) => {
       chai.request(server)
         .post('/api/v1/auth/signup')
@@ -80,6 +108,20 @@ describe('User', () => {
         });
     });
 
+    it('It should not create an invalid username', (done) => {
+      chai.request(server)
+        .post('/api/v1/auth/signup')
+        .set('Content-Type', 'application/json')
+        .set('Accept', 'application/json')
+        .send(users[20])
+        .end((error, response) => {
+          expect(response).to.status(422);
+          expect(response.body).to.be.an('object');
+          expect(response.body).to.have.property('error').eql('Username must be a string');
+          done();
+        });
+    });
+
     it('It should not create a user with no email', (done) => {
       chai.request(server)
         .post('/api/v1/auth/signup')
@@ -90,6 +132,20 @@ describe('User', () => {
           expect(response).to.status(422);
           expect(response.body).to.be.an('object');
           expect(response.body).to.have.property('error').eql('Please enter your email');
+          done();
+        });
+    });
+
+    it('It should not create a user with invalid email', (done) => {
+      chai.request(server)
+        .post('/api/v1/auth/signup')
+        .set('Content-Type', 'application/json')
+        .set('Accept', 'application/json')
+        .send(users[19])
+        .end((error, response) => {
+          expect(response).to.status(422);
+          expect(response.body).to.be.an('object');
+          expect(response.body).to.have.property('error').eql('Email must be a string');
           done();
         });
     });

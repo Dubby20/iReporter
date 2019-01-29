@@ -61,7 +61,7 @@ export default class RedFlagController {
     * @memberof RedFlagController
 
     * @returns {object} List of all red-flags records
-    */
+ */
 
   static allRedFlags(request, response) {
     pool.query('SELECT * FROM red_flags')
@@ -271,6 +271,19 @@ export default class RedFlagController {
       }));
   }
 
+
+  /**
+      * @description update red-flag status
+      *
+      * @static update a red-flag status
+      * @memberof RedFlagController
+      * @param {object} request The request.
+      * @param {object} response The response.
+      *@function update red-flag status
+
+      * @returns {object} response.
+      */
+
   static updateRedFlagStatus(request, response) {
     const {
       status
@@ -294,6 +307,41 @@ export default class RedFlagController {
           }]
         });
       }).catch(err => response.status(400).json({
+        status: 400,
+        error: errors.validationError
+      }));
+  }
+
+  static userRedFlagfRecords(request, response) {
+    /**
+    * @description gets a user red-flags record
+
+    * @static userRedFlagfRecords
+    * @memberof RedFlagController
+    * @param {object} request object
+    * @param {object} response object
+    *@function userRedFlagfRecords
+
+    * @returns {object} object
+    */
+    pool.query('SELECT  * FROM red_flags WHERE user_id = $1', [request.params.id])
+      .then((data) => {
+        const redFlags = data.rows;
+        if (redFlags.length === 0) {
+          return response.status(404).json({
+            status: 404,
+            error: 'User has no red-flag record'
+          });
+        }
+        return response.status(200).json({
+          status: 200,
+          data: [{
+            redFlags,
+            type: 'Red-flag',
+            message: 'Successful'
+          }]
+        });
+      }).catch(error => response.status(400).json({
         status: 400,
         error: errors.validationError
       }));

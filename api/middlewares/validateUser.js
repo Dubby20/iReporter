@@ -90,6 +90,7 @@ export default class ValidateUsers {
     if (typeof othernames !== 'string') {
       return handleError(response, 'Othernames must be a string');
     }
+
     if (!(othernames && othernames.trim().length)) {
       return response.status(422).json({
         status: 422,
@@ -120,14 +121,16 @@ export default class ValidateUsers {
         error: 'username must contain between 3 and 30 alphanumeric characters only'
       });
     }
+
+    if (typeof email !== 'string') {
+      return handleError(response, 'Email must be a string');
+    }
+
     if (!(email && email.trim().length)) {
       return response.status(422).json({
         status: 422,
         error: 'Please enter your email'
       });
-    }
-    if (typeof email !== 'string') {
-      return handleError(response, 'Email must be a string');
     }
 
     if (!emailRegex.test(email)) {

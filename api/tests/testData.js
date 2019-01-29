@@ -145,7 +145,45 @@ export const users = [{
     email: 'duby35@yahoo.com',
     password: 'password',
     phoneNumber: '07056734563'
+  },
+  {
+    firstname: 'Dubby',
+    lastname: 'Alex',
+    othernames: 39,
+    username: 'Dubem20',
+    email: 'duby35@yahoo.com',
+    password: 'password',
+    phoneNumber: '07056734563'
+  },
+  {
+    firstname: 20,
+    lastname: 'Alex',
+    othernames: 'Dubem',
+    username: 'Dubem20',
+    email: 'duby35@yahoo.com',
+    password: 'password',
+    phoneNumber: '07056734563'
+  },
+  {
+
+    firstname: 'Dubby',
+    lastname: 'Alex',
+    othernames: 'Dubem',
+    username: 'Dubem20',
+    email: 79,
+    password: 'password',
+    phoneNumber: '07056734563'
+  },
+  {
+    firstname: 'Dubby',
+    lastname: 'Alex',
+    othernames: 'Dubem',
+    username: 20,
+    email: 'duby35@yahoo.com',
+    password: 'password',
+    phoneNumber: '07056734563'
   }
+
 ];
 
 
