@@ -77,7 +77,7 @@ export default class RedFlagController {
           status: 200,
           data: [{
             redFlag,
-            type: 'red-flag',
+            type: 'Red-flag',
             message: 'All red-flags was retrieved successfully'
           }]
         });

@@ -108,22 +108,20 @@ const redirect = (reportType) => {
 
 const deleteRecord = () => {
   let recordUrl;
-
   const user = JSON.parse(localStorage.getItem('userToken'));
   checkToken();
   const reportId = localStorage.getItem('Id');
   const reportType = localStorage.getItem('reportType');
   if (reportType === 'red-flag') {
-    recordUrl = `https://ireporter247.herokuapp.com/api/v1/red-flags/${reportId}`;
+    recordUrl = `https://ireporter247.herokuapp.com/api/v1/red-flags/${reportId}/status`;
   } else if (reportType === 'intervention') {
-    recordUrl = `https://ireporter247.herokuapp.com/api/v1/interventions/${reportId}`;
+    recordUrl = `https://ireporter247.herokuapp.com/api/v1/interventions/${reportId}/status`;
   }
 
   const displayItems = document.querySelector('.display-item');
   const deleteModal = document.getElementById('delete-modal');
 
   loader.style.display = 'block';
-
 
   fetch(recordUrl, {
       method: 'DELETE',
@@ -141,6 +139,55 @@ const deleteRecord = () => {
         displayItems.innerHTML = '';
         const recordType = data.data[0].type;
         redirect(recordType);
+      }
+    });
+};
+
+const updateStatus = () => {
+  let recordUrl;
+  let newStatus;
+  const user = JSON.parse(localStorage.getItem('userToken'));
+  checkToken();
+  const reportId = localStorage.getItem('Id');
+  const reportType = localStorage.getItem('reportType');
+  if (reportType === 'red-flag') {
+    recordUrl = `https://ireporter247.herokuapp.com/api/v1/red-flags/${reportId}`;
+  } else if (reportType === 'intervention') {
+    recordUrl = `https://ireporter247.herokuapp.com/api/v1/interventions/${reportId}`;
+  }
+
+  const select = document.getElementById('select');
+  const statusType = select.options[select.selectedIndex].value;
+
+  if (statusType === 'under investigation') {
+    newStatus = 'under investigation';
+  } else if (statusType === 'resolved') {
+    newStatus = 'resolved';
+  } else if (statusType === 'rejected') {
+    newStatus = 'rejected';
+  }
+
+  const info = {
+    status: newStatus
+  };
+  loader.style.display = 'block';
+
+  fetch(recordUrl, {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'x-access-token': user.token
+      },
+      mode: 'cors',
+      body: JSON.stringify(info)
+    })
+    .then(response => response.json())
+    .then((data) => {
+      if (data.status === 200) {
+        loader.style.display = 'none';
+        console.log(data);
+        document.getElementById('select').options[select.selectedIndex].value = newStatus;
       }
     });
 };

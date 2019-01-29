@@ -3,6 +3,10 @@ const interventions = 'https://ireporter247.herokuapp.com/api/v1/interventions';
 
 const getId = (record) => {
   localStorage.setItem('Id', record.id);
+  // localStorage.setItem('comment', record.id);
+  // localStorage.setItem('location', record.id);
+  // localStorage.setItem('images', record.id);
+  // localStorage.setItem('videos', record.id);
   localStorage.setItem('reportType', record.title);
 };
 
