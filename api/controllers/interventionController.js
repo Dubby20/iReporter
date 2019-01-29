@@ -75,7 +75,7 @@ export default class InterventionController {
           status: 200,
           data: [{
             intervention,
-            type: 'intervention',
+            type: 'Intervention',
             message: 'All interventions was retrieved successfully'
           }]
         });

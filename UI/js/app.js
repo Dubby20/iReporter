@@ -1,37 +1,35 @@
 /* eslint-disable no-plusplus */
-const editedFlagComment = document.getElementById('edit-red-flag');
+// const editedFlagComment = document.getElementById('edit-red-flag');
 const locationText = document.getElementById('location-code');
 // const loader = document.querySelector('.loader');
-const modalPage = document.getElementById('modalPage');
-const closeBtn = document.querySelectorAll('.close-btn');
+// const modalPage = document.getElementById('modalPage');
 
 
-const modalBtn = document.querySelectorAll('.modalBtn');
-for (let i = 0; i < modalBtn.length; i++) {
-  modalBtn[i].addEventListener('click', () => {
-    modalPage.style.display = 'block';
-  });
-}
+const viewReport = (recordId) => {
+  document.getElementById(recordId).style.display = 'block';
+};
+
+
+const closeBtn = () => {
+  const modalPage = document.getElementById('modalPage');
+  modalPage.style.display = 'none';
+};
+
+window.onclick = (event) => {
+  const modalPage = document.getElementById('modalPage');
+  if (event.target === modalPage) {
+    modalPage.style.display = 'none';
+  }
+};
 
 const deleteBtn = () => {
   const deleteModal = document.getElementById('delete-modal');
   deleteModal.style.display = 'block';
 };
 
-closeBtn.onclick = () => {
-  modalPage.style.display = 'none';
-};
-
 const closePage = () => {
   const deleteModal = document.getElementById('delete-modal');
   deleteModal.style.display = 'none';
-};
-
-
-window.onclick = (event) => {
-  if (event.target === modalPage) {
-    modalPage.style.display = 'none';
-  }
 };
 
 window.onclick = (event) => {
@@ -74,14 +72,14 @@ const initMap = (position) => {
   marker.setMap(map);
 };
 
-const closeModalForm = (elemID) => {
-  const modal = document.getElementById(elemID);
-  window.onclick = (event) => {
-    if (event.target == modal) {
-      modal.style.display = 'none';
-    }
-  };
-};
+// const closeModalForm = (elemID) => {
+//   const modal = document.getElementById(elemID);
+//   window.onclick = (event) => {
+//     if (event.target == modal) {
+//       modal.style.display = 'none';
+//     }
+//   };
+// };
 
 const showButton = () => {
   const btn = document.getElementById('item');
@@ -173,6 +171,32 @@ const cancelLocation = () => {
 const cancelDelete = () => {
   const deleteModal = document.getElementById('delete-modal');
   deleteModal.style.display = 'none';
+};
+
+const imgArry = (image) => {
+  if (image.length === 0) {
+    return 'No Image Uploaded';
+  }
+  const displayImage = image.map(
+    img => `
+  <img src="${img}" alt="" class="item" height="200" width="240">
+  `
+  );
+  return displayImage;
+};
+
+const videoArry = (video) => {
+  if (video.length === 0) {
+    return 'No Video Uploaded';
+  }
+  const displayVideo = video.map(
+    (vid, i) => `
+    <video width="240" height="180" controls>
+      <source src="${vid}">
+    </video>
+`
+  );
+  return displayVideo;
 };
 
 // const parseJwt = (token) => {
