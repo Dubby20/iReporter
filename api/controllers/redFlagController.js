@@ -312,7 +312,7 @@ export default class RedFlagController {
       }));
   }
 
-  static userRedFlagfRecords(request, response) {
+  static userRedFlagRecords(request, response) {
     /**
     * @description gets a user red-flags record
 

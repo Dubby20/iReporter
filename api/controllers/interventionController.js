@@ -296,4 +296,39 @@ export default class InterventionController {
         error: err.message
       }));
   }
+
+  static userInterventionfRecords(request, response) {
+    /**
+    * @description gets a user interventions record
+
+    * @static userInterventionfRecords
+    * @memberof InterventionController
+    * @param {object} request object
+    * @param {object} response object
+    *@function userInterventionfRecords
+
+    * @returns {object} object
+    */
+    pool.query('SELECT  * FROM interventions WHERE user_id = $1', [request.params.id])
+      .then((data) => {
+        const interventions = data.rows;
+        if (interventions.length === 0) {
+          return response.status(404).json({
+            status: 404,
+            error: 'User has no interventions record'
+          });
+        }
+        return response.status(200).json({
+          status: 200,
+          data: [{
+            interventions,
+            type: 'Intervention',
+            message: 'Successful'
+          }]
+        });
+      }).catch(error => response.status(400).json({
+        status: 400,
+        error: errors.validationError
+      }));
+  }
 }

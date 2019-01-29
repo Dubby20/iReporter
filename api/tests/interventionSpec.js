@@ -660,3 +660,42 @@ describe('/PATCH interventions/:id/status', () => {
       });
   });
 });
+
+describe('/GET/users/:id/interventions/', () => {
+  it('it should GET a user red-flag recordd', (done) => {
+    chai.request(server)
+      .get('/api/v1/users/1/interventions')
+      .set('x-access-token', userToken)
+      .end((error, response) => {
+        expect(response).to.have.status(200);
+        expect(response.body.data[0]).to.have.property('message').equal('Successful');
+        expect(response.body).to.be.an('object');
+        expect(response.body.data).to.be.an('array');
+        done();
+      });
+  });
+
+  it('it should return an error message if the id is not a number', (done) => {
+    chai.request(server)
+      .get('/api/v1/users/xy/interventions')
+      .set('x-access-token', userToken)
+      .end((error, response) => {
+        expect(response).to.have.status(422);
+        expect(response.body.error).to.equal('The given id is not a number');
+        expect(response.body).to.be.an('object');
+        done();
+      });
+  });
+
+  it('it should return an error message when the given ID is not found', (done) => {
+    chai.request(server)
+      .get('/api/v1/users/2/interventions')
+      .set('x-access-token', userToken)
+      .end((error, response) => {
+        expect(response).to.have.status(404);
+        expect(response.body.error).to.equal('User has no interventions record');
+        expect(response.body).to.be.an('object');
+        done();
+      });
+  });
+});
