@@ -1,30 +1,30 @@
 const loader = document.querySelector('.loader');
 
-const imgArry = (image) => {
-  if (image.length === 0) {
-    return 'No Image Uploaded';
-  }
-  const displayImage = image.map(
-    img => `
-  <img src="${img}" alt="" class="item" height="200" width="240">
-  `
-  );
-  return displayImage;
-};
+// const imgArry = (image) => {
+//   if (image.length === 0) {
+//     return 'No Image Uploaded';
+//   }
+//   const displayImage = image.map(
+//     img => `
+//   <img src="${img}" alt="" class="item" height="200" width="240">
+//   `
+//   );
+//   return displayImage;
+// };
 
-const videoArry = (video) => {
-  if (video.length === 0) {
-    return 'No Video Uploaded';
-  }
-  const displayVideo = video.map(
-    (vid, i) => `
-    <video width="240" height="180" controls>
-      <source src="${vid}">
-    </video>
-`
-  );
-  return displayVideo;
-};
+// const videoArry = (video) => {
+//   if (video.length === 0) {
+//     return 'No Video Uploaded';
+//   }
+//   const displayVideo = video.map(
+//     (vid, i) => `
+//     <video width="240" height="180" controls>
+//       <source src="${vid}">
+//     </video>
+// `
+//   );
+//   return displayVideo;
+// };
 
 
 let recordUrl;

@@ -7,23 +7,23 @@ const getId = (record) => {
   localStorage.setItem('reportType', record.title);
 };
 
-const imgArry = (image) => {
-  if (image.length === 0) {
-    return 'No Image Uploaded';
-  }
-  const displayImage = image.map(
-    img => `
-  <img src="${img}" alt="" class="item" height="200" width="240">
-  `
-  );
-  return displayImage;
-};
+// const imgArry = (image) => {
+//   if (image.length === 0) {
+//     return 'No Image Uploaded';
+//   }
+//   const displayImage = image.map(
+//     img => `
+//   <img src="${img}" alt="" class="item" height="200" width="240">
+//   `
+//   );
+//   return displayImage;
+// };
 
 window.addEventListener('load', (event) => {
   event.preventDefault();
   const user = JSON.parse(localStorage.getItem('userToken'));
   if (!user) {
-    window.location.href = './index.html';
+    window.location.href = './login.html';
   }
   const recordItems = document.querySelector('.record-items');
   loader.style.display = 'block';

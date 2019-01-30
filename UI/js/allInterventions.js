@@ -3,22 +3,18 @@ const interventions = 'https://ireporter247.herokuapp.com/api/v1/interventions';
 
 const getId = (record) => {
   localStorage.setItem('Id', record.id);
-  // localStorage.setItem('comment', record.id);
-  // localStorage.setItem('location', record.id);
-  // localStorage.setItem('images', record.id);
-  // localStorage.setItem('videos', record.id);
   localStorage.setItem('reportType', record.title);
 };
 
-const imgArry = (image) => {
-  if (image.length === 0) {
-    return 'No Image Uploaded';
-  }
-  const displayImage = image.map(img => `
-  <img src="${img}" alt="" class="item" height="200" width="240">
-  `);
-  return displayImage;
-};
+// const imgArry = (image) => {
+//   if (image.length === 0) {
+//     return 'No Image Uploaded';
+//   }
+//   const displayImage = image.map(img => `
+//   <img src="${img}" alt="" class="item" height="200" width="240">
+//   `);
+//   return displayImage;
+// };
 
 
 window.addEventListener('load', (event) => {

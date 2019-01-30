@@ -4,11 +4,10 @@ const locationText = document.getElementById('location-code');
 // const loader = document.querySelector('.loader');
 // const modalPage = document.getElementById('modalPage');
 
-
 const viewReport = (recordId) => {
-  document.getElementById(recordId).style.display = 'block';
+  document.getElementById(`modalPage_${recordId}`).style.display = 'block';
+  console.log(recordId);
 };
-
 
 const closeBtn = () => {
   const modalPage = document.getElementById('modalPage');
@@ -71,15 +70,6 @@ const initMap = (position) => {
 
   marker.setMap(map);
 };
-
-// const closeModalForm = (elemID) => {
-//   const modal = document.getElementById(elemID);
-//   window.onclick = (event) => {
-//     if (event.target == modal) {
-//       modal.style.display = 'none';
-//     }
-//   };
-// };
 
 const showButton = () => {
   const btn = document.getElementById('item');

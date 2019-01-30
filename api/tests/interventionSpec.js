@@ -26,8 +26,8 @@ let adminToken;
 const intervention = {
   location: '6.524379, 3.379206',
   images: [
-    'https://res.cloudinary.com/djdsxql5q/image/upload/v1547738828/ireporter/tfxf6rwbqcmevzgkr3vg.jpg',
-    'https://res.cloudinary.com/djdsxql5q/image/upload/v1547738885/ireporter/hqem8cqf5g3e5ehu50hv.jpg'
+    'https://res.cloudinary.com/djdsxql5q/image/upload/v1547824487/ireporter/rgnwqour4xrutefh3h7k.jpg',
+    'https://res.cloudinary.com/djdsxql5q/image/upload/v1547824435/ireporter/opwhvhdarrereig1ockq.jpg'
   ],
   videos: [
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVtbtjMiVvbOLVc7dA53s3_st7BjF-wtTxNu8Tq_-5al0IZBId',

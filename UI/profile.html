@@ -32,129 +32,91 @@
         </ul>
       </nav>
     </div>
+    <div class="loader">
+      <img src="./assets/images/spinner.gif" alt="spinner" class="">
+    </div>
     <div>
-      <img src="" alt="" class=profile-pix>
-    </div>
-    <div class="admin-container">
-      <div class="status status-box">
-        <div class="status-div draft-bg">
-          <h2>15</h2>
-          <h3>Draft</h3>
-        </div>
-      </div>
-      <div class="status status-box">
-        <div class="status-div investigation-bg">
-          <h2>10</h2>
-          <h3>Under Investigation</h3>
-        </div>
-      </div>
-      <div class="status status-box">
-        <div class="status-div resolved-bg">
-          <h2>5</h2>
-          <h3>Resolved</h3>
-        </div>
-      </div>
-      <div class="status status-box">
-        <div class="status-div rejected-bg">
-          <h2>1</h2>
-          <h3>Rejected</h3>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="column">
-        <div class="card">
-          <div class="img-frame">
-            <img src="./assets/images/Apapa-Ijora-Bridge2.jpg" alt="" class="" height="280" width="500">
-          </div>
-          <div class="icon"></div>
-          <ul class="hide" id="menu1">
-            <li onclick="showModal('edit-red-flag')"><a class="bg-purple" href="javascript:void(0);"><i class="fas fa-edit"></i>
-                Edit</a></li>
-            <li onclick="showModal('del-red-flag')"><a class="bg-red" href="javascript:void(0);"><i class="fas fa-trash fa-color"></i>
-                Delete</a></li>
-          </ul>
-          <div class="media-body">
-            <p class="type ">Type:<span>Intervention</span></p>
-            <p class="lat">Latittude:<span>6.5243793</span></p>
-            <p class="lat">Longitude:<span>3.3792057</span></p>
-            <p class="status-p">Status:<span>Draft</span></p>
-            <p class="comment">Comment: <span>Bribery and Corruption case in the Civil service</span></p>
+      <h2 class="status-title">Red-Flags Status</h2>
+      <div class="admin-container">
+        <div class="status status-box">
+          <div class="status-div draft-bg">
+            <h2 id="red-flag-draft"></h2>
+            <h3>Draft</h3>
           </div>
         </div>
-      </div>
-      <div class="column">
-        <div class="card">
-          <div class="img-frame">
-            <img src="./assets/images/bad-roads.jpg" alt="" class="" height="280" width="500">
+        <div class="status status-box">
+          <div class="status-div investigation-bg">
+            <h2 id="red-flag-under-investigation"></h2>
+            <h3>Under Investigation</h3>
           </div>
-          <div class="icon"></div>
-          <ul class="hide" id="menu1">
-            <li onclick="showModal('edit-red-flag')"><a class="bg-purple" href="javascript:void(0);"><i class="fas fa-edit"></i>
-                Edit</a></li>
-            <li onclick="showModal('del-red-flag')"><a class="bg-red" href="javascript:void(0);"><i class="fas fa-trash fa-color"></i>
-                Delete</a></li>
-          </ul>
-          <div class="media-body">
-            <p class="type">Type: <span>Intervention</span></p>
-            <p class="lat">Latittude: <span>6.5243793</span></p>
-            <p class="lat">Longitude: <span>3.3792057</span></p>
-            <p class="status-p">Status: <span>Draft</span></p>
-            <p class="comment">Comment: <span>Commenting on the incident</span></p>
+        </div>
+        <div class="status status-box">
+          <div class="status-div resolved-bg">
+            <h2 id="red-flag-resolved"></h2>
+            <h3>Resolved</h3>
+          </div>
+        </div>
+        <div class="status status-box">
+          <div class="status-div rejected-bg">
+            <h2 id="red-flag-rejected"></h2>
+            <h3>Rejected</h3>
           </div>
         </div>
       </div>
 
-      <div class="column">
-        <div class="card">
-          <div class="img-frame">
-            <img src="./assets/images/handcuffs.jpg" alt="" class="" height="280" width="500">
+      <h2 class="status-title">Interventions Status</h2>
+      <div class="admin-container">
+        <div class="status status-box">
+          <div class="status-div draft-bg">
+            <h2 id="intervention-draft"></h2>
+            <h3>Draft</h3>
           </div>
-          <div class="icon"></div>
-          <ul class="hide" id="menu1">
-            <li onclick="showModal('edit-red-flag')"><a class="bg-purple" href="javascript:void(0);"><i class="fas fa-edit fa-color"></i>
-                Edit</a></li>
-            <li onclick="showModal('del-red-flag')"><a class="bg-red" href="javascript:void(0);"><i class="fas fa-trash fa-color"></i>
-                Delete</a></li>
-          </ul>
-          <div class="media-body">
-            <p class="type">Type:<span>Red-flag</span></p>
-            <p class="lat">Latittude:<span>6.5243793</span></p>
-            <p class="lat">Longitude:<span>3.3792057</span></p>
-            <p class="status-p">Status:<span>Draft</span></p>
-            <p class="comment">Comment: <span>Court orders for the arrest of officials in</span></p>
+        </div>
+        <div class="status status-box">
+          <div class="status-div investigation-bg">
+            <h2 id="intervention-under-investigation"></h2>
+            <h3>Under Investigation</h3>
+          </div>
+        </div>
+        <div class="status status-box">
+          <div class="status-div resolved-bg">
+            <h2 id="intervention-resolved"></h2>
+            <h3>Resolved</h3>
+          </div>
+        </div>
+        <div class="status status-box">
+          <div class="status-div rejected-bg">
+            <h2 id="intervention-rejected"></h2>
+            <h3>Rejected</h3>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="column">
-        <div class="card">
-          <div class="img-frame">
-            <img src="./assets/images/money.jpg" alt="" class="" height="280" width="500">
-          </div>
-          <div class="icon"></div>
-          <ul class="hide" id="menu1">
-            <li onclick="showModal('edit-red-flag')"><a class="bg-purple" href="javascript:void(0);"><i class="fas fa-edit fa-color"></i>
-                Edit</a></li>
-            <li onclick="showModal('del-red-flag')"><a class="bg-red" href="javascript:void(0);"><i class="fas fa-trash fa-color"></i>
-                Delete</a></li>
-          </ul>
-          <div class="media-body">
-            <p class="type">Type:<span>Red-flag</span></p>
-            <p class="lat">Latittude:<span>6.5243793</span></p>
-            <p class="lat">Longitude:<span>3.3792057</span></p>
-            <p class="status-p">Status:<span>Draft</span></p>
-            <p class="comment">Comment: <span>Commenting on the incident</span></p>
-          </div>
-        </div>
-      </div>
+
+    <div class="table-responsive">
+      <table class="table table-border table-striped">
+        <thead>
+          <tr>
+            <th>Record ID</th>
+            <th>Record Type</th>
+            <th>Report</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="tablebody"></tbody>
+      </table>
     </div>
   </div>
   <footer>
     <p class="footer">Copyright &copy iReporter App 2018. All Rights Reserved.</p>
   </footer>
-  <script src="../js/logOut.js"></script>
+
+  <script src="./js/profile.js"></script>
+  <script src="./js/app.js"></script>
+  <!-- <script src="./js/updateRecords.js"></script> -->
   <script src="./js/user.js"></script>
+  <script src="./js/logOut.js"></script>
 
 </body>
 
