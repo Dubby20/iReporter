@@ -113,9 +113,9 @@ const deleteRecord = () => {
   const reportId = localStorage.getItem('Id');
   const reportType = localStorage.getItem('reportType');
   if (reportType === 'red-flag') {
-    recordUrl = `https://ireporter247.herokuapp.com/api/v1/red-flags/${reportId}/status`;
+    recordUrl = `https://ireporter247.herokuapp.com/api/v1/red-flags/${reportId}`;
   } else if (reportType === 'intervention') {
-    recordUrl = `https://ireporter247.herokuapp.com/api/v1/interventions/${reportId}/status`;
+    recordUrl = `https://ireporter247.herokuapp.com/api/v1/interventions/${reportId}`;
   }
 
   const displayItems = document.querySelector('.display-item');
@@ -151,9 +151,9 @@ const updateStatus = () => {
   const reportId = localStorage.getItem('Id');
   const reportType = localStorage.getItem('reportType');
   if (reportType === 'red-flag') {
-    recordUrl = `https://ireporter247.herokuapp.com/api/v1/red-flags/${reportId}`;
-  } else if (reportType === 'intervention') {
-    recordUrl = `https://ireporter247.herokuapp.com/api/v1/interventions/${reportId}`;
+    recordUrl = `https://ireporter247.herokuapp.com/api/v1/red-flags/${reportId}/status`;
+  } else if (reportType === 'Intervention') {
+    recordUrl = `https://ireporter247.herokuapp.com/api/v1/interventions/${reportId}/status`;
   }
 
   const select = document.getElementById('select');

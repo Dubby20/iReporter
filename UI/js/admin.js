@@ -4,7 +4,7 @@ window.addEventListener('load', (event) => {
   event.preventDefault();
   const user = JSON.parse(localStorage.getItem('userToken'));
   if (!user) {
-    window.location.href = './login.html';
+    window.location.href = '/';
   }
 
   const urls = [
@@ -25,7 +25,6 @@ window.addEventListener('load', (event) => {
   }).then(response => response.json()));
   Promise.all(promises).then((datas) => {
     loader.style.display = 'none';
-
     const tablebody = document.getElementById('tablebody');
 
     const intervention = datas[0].data[0].intervention;
@@ -41,7 +40,6 @@ window.addEventListener('load', (event) => {
     const redFlagRejected = redFlag.filter(i => i.status === 'rejected').length;
 
     const merge = intervention.concat(redFlag);
-    console.log(merge);
     const totalRecords = merge.length;
     console.log(totalRecords);
     document.getElementById('red-flag-draft').innerHTML = redFlagDraft;
@@ -54,7 +52,10 @@ window.addEventListener('load', (event) => {
     document.getElementById('intervention-resolved').innerHTML = interventionResolved;
     document.getElementById('intervention-rejected').innerHTML = interventionRejected;
 
+    const modalsHolder = document.getElementById('modals-holder');
+
     const sortedArray = merge.sort((a, b) => a.id - b.id);
+    let modals = '';
     merge.forEach((record) => {
       const eachRecord = `
       <tr>
@@ -69,14 +70,12 @@ window.addEventListener('load', (event) => {
                 <option value="resolved">resolved</option>
                 <option value="rejected">rejected</option>
               </select></td>
-              <td>${record.comment}</td>
-            <td><button id="update-btn" onclick="updateStatus()">Update Status</button></td>
-          </tr>       
-
+            <td><button class="update-btn" id=${record.id} onclick="updateStatus()">Update Status</button></td>
+          </tr>            
 `;
-      `<div id="modalPage_${record.id}" class="modal"> 
+      modals += `<div id="modalPage_${record.id}" class="modal">
       <div class="modal-content animate">
-      <span class="close-btn" onclick="closeBtn()">&times;</span>
+      <span class="close-btn" onclick="closeBtn('modalPage_${record.id}')">&times;</span>
       <div class="modal-body">
         <form action="" method="POST">
           <label for="comment">Comment:</label>
@@ -104,10 +103,12 @@ window.addEventListener('load', (event) => {
           </div>
         </form>
       </div>
-      </div>
+  </div>
+</div>
       `;
       tablebody.insertAdjacentHTML('beforeend', eachRecord);
     });
+    modalsHolder.innerHTML = modals;
   }).catch((error) => {
     throw error;
   });

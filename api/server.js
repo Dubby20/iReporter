@@ -4,11 +4,12 @@ import cors from 'cors';
 import path from 'path';
 import logger from 'morgan';
 import swaggerUi from 'swagger-ui-express';
+// import 'dotenv/config';
+
 import swaggerDocument from '../swagger.json';
 
 import router from './routes/routes';
 
-require('dotenv').config();
 
 const app = express();
 app.use(cors());

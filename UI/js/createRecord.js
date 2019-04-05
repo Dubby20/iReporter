@@ -6,57 +6,6 @@ const msgDiv = document.getElementById('msg-error');
 const spinner = document.querySelector('.spinner');
 const spin = document.querySelector('.spin');
 
-// let getAllRecordsUrl;
-
-// window.addEventListener('load', (event) => {
-//   event.preventDefault();
-//   const user = JSON.parse(localStorage.getItem('userToken'));
-//   const title = document.getElementById('title');
-//   const records = document.getElementById('records');
-
-//   const record = (items) => {
-//     if (!items.length) {
-//       records.innerHTML = 'No post created yet';
-//     } else {
-//       items.forEach((item) => {
-//         const displayRecords = `<div class="media-body">
-//         <p class="type">Report Type:<span>${item.reportType}</span></p>
-//         <p class="status-p">Status:<span>${item.status}</span></p>
-//         <p class="comment">Comment:<span>${item.comment}</span></p>
-//         <p class="">Location:<span>${item.location}</span></p>
-//       </div>
-//         <div class="">
-//             <img src="${item.reportImage}" alt="Image Evidence" class="" height="280" width="500">
-//           </div>
-//           <div>
-//             <video width="320" height="240" controls src="${item.reportVideo}"></video>
-//           </div>
-//           `;
-//         records.innerHTML += displayRecords;
-//       });
-//     }
-//   };
-// if (redFlagUrl) {
-//   getAllRecordsUrl = 'https://ireporter247.herokuapp.com/api/v1/red-flags';
-// } else if (interventionUrl) {
-//   getAllRecordsUrl = 'https://ireporter247.herokuapp.com/api/v1/interventions';
-// }
-// fetch(getAllRecordsUrl, {
-//     method: 'GET',
-//     headers: {
-//       Accept: 'application/json',
-//       'Content-Type': 'application/json',
-//       'x-access-token': user.token
-//     },
-//     mode: 'cors'
-//   }).then(response => response.json())
-//   .then((data) => {
-//     if (data.data.length > 0) {
-//       records.appendChild(record);
-//     }
-//   });
-// });
-
 const displayError = (message) => {
   const para = document.createElement('p');
   para.textContent = message;
@@ -65,29 +14,13 @@ const displayError = (message) => {
   msgDiv.appendChild(para);
 };
 
-// const render = (record) => {
-//   const title = document.getElementById('title');
-//   if (!record.length) {
-//     title.innerHTML = 'No post created yet';
-//   } else {
-//     const displayRecords = record.map((post, i) => {
-//       return `
-//        <div class="">
-//           <img src="${post.reportImage}" alt="Image Evidence" class="" height="280" width="500">
-//         </div>
-//         <div>
-//           <video width="320" height="240" controls src="${post.reportVideo}"></video>
-//         </div>
-//         <div class="media-body">
-//           <p class="type">Report Type:<span>${post.reportType}</span></p>
-//           <p class="">Location:<span>${post.location}</span></p>
-//           <p class="status-p">Status:<span>{post.status}</span></p>
-//           <p class="comment">Comment:<span>${post.comment}</span></p>
-//         </div>`;
-//     });
-//     records.appendChild(displayRecords);
-//   }
-// };
+const redirect = (reportType) => {
+  if (reportType === 'red-flag') {
+    window.location.href = './redFlag.html';
+  } else if (reportType === 'intervention') {
+    window.location.href = './intervention.html';
+  }
+};
 
 const resetForm = () => {
   document.getElementById('comment').value = '';
@@ -169,6 +102,7 @@ const postRecord = (event) => {
         loader.style.display = 'none';
         resetForm();
         localStorage.setItem('urlType', postUrl);
+        redirect(reportType);
       } else if (data.status === 401 || data.status === 403) {
         loader.style.display = 'none';
         window.location.href = './login.html';

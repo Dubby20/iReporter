@@ -15,13 +15,13 @@ chai.use(chaiHttp);
 
 
 describe('User', () => {
-  before((done) => {
-    pool.query(('DELETE from users where email = \'duby@yahoo.com\''));
-    pool.query(('DELETE from users where username = \'Dubem20\''))
-      .then(() => {
-        done();
-      }).catch(() => done());
-  });
+  // before((done) => {
+  //   pool.query(('DELETE from users where email = \'duby@yahoo.com\''));
+  //   pool.query(('DELETE from users where username = \'Dubem20\''))
+  //     .then(() => {
+  //       done();
+  //     }).catch(() => done());
+  // });
 
   describe('User signup', () => {
     it('It should not create a user with no firstname', (done) => {
@@ -150,7 +150,7 @@ describe('User', () => {
         });
     });
 
-    it('It should not create a user with no firstname', (done) => {
+    it('It should not create a user with no password', (done) => {
       chai.request(server)
         .post('/api/v1/auth/signup')
         .set('Content-Type', 'application/json')
@@ -164,7 +164,7 @@ describe('User', () => {
         });
     });
 
-    it('It should not create a user with no firstname', (done) => {
+    it('It should not create a user with no phone number', (done) => {
       chai.request(server)
         .post('/api/v1/auth/signup')
         .set('Content-Type', 'application/json')
