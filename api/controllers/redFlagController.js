@@ -252,7 +252,7 @@ export default class RedFlagController {
                 data: [{
                   id: delRedFlag.id,
                   type: 'red-flag',
-                  message: 'red-flag record has been deleted'
+                  message: 'Red-flag record has been deleted'
                 }]
               });
             }).catch(error => response.status(400).json({

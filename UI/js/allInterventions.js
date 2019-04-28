@@ -35,8 +35,8 @@ window.addEventListener('load', (event) => {
     } else {
       items.forEach((item) => {
         const eachRecord = `<li class="list">
-        <div>
-        <p class="type">Type:<span>Intervention</span></p>
+        <div class="post">
+        <p class="type">Type:<span> Intervention</span></p>
       </div>
       <div id="image-frame">
       <a href="record.html" class="interventions">${imgArry(item.images.slice(0, 1))}</a>
@@ -63,7 +63,6 @@ window.addEventListener('load', (event) => {
     .then(response => response.json())
     .then((data) => {
       if (data.status === 200) {
-        console.log(data);
         const recordList = data.data[0].intervention;
         loader.style.display = 'none';
         record(recordList);

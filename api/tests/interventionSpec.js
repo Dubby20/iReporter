@@ -1,9 +1,11 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
+import 'dotenv/config';
 import server from '../server';
 import {
   records
 } from './testData';
+// import pool from './database';
 
 
 const {
@@ -11,13 +13,15 @@ const {
 } = chai;
 
 const user = {
-  email: 'ebuka179@gmail.com',
-  password: 'password221'
-};
-const admin = {
-  email: 'jacynnadi20@gmail.com',
+  email: 'duby@yahoo.com',
   password: 'password'
 };
+
+const admin = {
+  email: 'admin@yahoo.com',
+  password: 'password'
+};
+
 chai.use(chaiHttp);
 let userToken;
 let adminToken;
@@ -235,7 +239,7 @@ describe('/GET all interventions', () => {
 describe('/GET/interventions/:id', () => {
   it('it should GET an intervention by the given id', (done) => {
     chai.request(server)
-      .get('/api/v1/interventions/257')
+      .get('/api/v1/interventions/1')
       .set('x-access-token', userToken)
       .end((error, response) => {
         expect(response).to.have.status(200);
@@ -277,7 +281,7 @@ describe('/PATCH interventions/:id/location', () => {
       location: '9.076479, 7.398574'
     };
     chai.request(server)
-      .patch('/api/v1/interventions/258/location')
+      .patch('/api/v1/interventions/1/location')
       .set('content-Type', 'application/json')
       .set('accept', 'application/json')
       .set('x-access-token', userToken)
@@ -383,7 +387,7 @@ describe('/PATCH interventions/:id/comment', () => {
       comment: '24 billion NNPC contract scam'
     };
     chai.request(server)
-      .patch('/api/v1/interventions/258/comment')
+      .patch('/api/v1/interventions/1/comment')
       .set('content-Type', 'application/json')
       .set('accept', 'application/json')
       .set('x-access-token', userToken)
@@ -498,6 +502,7 @@ describe('/DELETE interventions/:id', () => {
       });
   });
 
+
   it('it should not DELETE an intervention id that is not available', (done) => {
     chai.request(server)
       .delete('/api/v1/interventions/90')
@@ -538,12 +543,47 @@ describe('/PATCH interventions/:id/status', () => {
         done();
       });
   });
+
+  // POST ADMIN
+
+  it('it should create an intervention', (done) => {
+    chai
+      .request(server)
+      .post('/api/v1/interventions')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', adminToken)
+      .send(intervention)
+      .end((error, response) => {
+        expect(response).to.have.status(201);
+        expect(response.body).to.be.an('object');
+        expect(response.body.data).to.be.an('array');
+        expect(response.body.data[0]).to.have.property('message').eql('Created intervention record');
+        done();
+      });
+  });
+
+  // DELETE RECORD
+  it('it should delete an intervention id if it is a number', (done) => {
+    chai.request(server)
+      .delete('/api/v1/interventions/2')
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('x-access-token', adminToken)
+      .end((error, response) => {
+        expect(response).to.have.status(202);
+        expect(response.body).to.be.an('object');
+        expect(response.body.data[0]).to.have.property('message').eql('Intervention record has been deleted');
+        done();
+      });
+  });
+
   it('it should UPDATE status of a specific intervention id', (done) => {
     const interventionStatus = {
       status: 'resolved'
     };
     chai.request(server)
-      .patch('/api/v1/interventions/258/status')
+      .patch('/api/v1/interventions/1/status')
       .set('content-Type', 'application/json')
       .set('accept', 'application/json')
       .set('x-access-token', adminToken)
@@ -662,9 +702,9 @@ describe('/PATCH interventions/:id/status', () => {
 });
 
 describe('/GET/users/:id/interventions/', () => {
-  it('it should GET a user red-flag recordd', (done) => {
+  it('it should GET a user intervention recordd', (done) => {
     chai.request(server)
-      .get('/api/v1/users/1/interventions')
+      .get('/api/v1/users/2/interventions')
       .set('x-access-token', userToken)
       .end((error, response) => {
         expect(response).to.have.status(200);
@@ -689,7 +729,7 @@ describe('/GET/users/:id/interventions/', () => {
 
   it('it should return an error message when the given ID is not found', (done) => {
     chai.request(server)
-      .get('/api/v1/users/2/interventions')
+      .get('/api/v1/users/20/interventions')
       .set('x-access-token', userToken)
       .end((error, response) => {
         expect(response).to.have.status(404);

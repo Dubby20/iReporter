@@ -46,7 +46,7 @@ export default class InterventionController {
       })
       .catch(err => response.status(400).json({
         status: 400,
-        error: errors.validationError
+        error: err.message
       }));
   }
 
@@ -250,7 +250,7 @@ export default class InterventionController {
                 data: [{
                   id: delIntervention.id,
                   type: 'intervention',
-                  message: 'intervention record has been deleted'
+                  message: 'Intervention record has been deleted'
                 }]
               });
             }).catch(error => response.status(400).json({

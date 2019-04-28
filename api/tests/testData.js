@@ -122,8 +122,8 @@ export const users = [{
   {
     firstname: 'Dubby',
     lastname: 'Alex',
-    othernames: 'Dubem',
-    username: 'Dubem20',
+    othernames: 'Chidubem',
+    username: 'Dubem',
     email: 'duby@yahoo.com',
     password: 'password',
     phoneNumber: '07056734563'
@@ -197,7 +197,7 @@ export const records = [{
       'https://res.cloudinary.com/djdsxql5q/video/upload/v1547901891/ireporter/u5wuyshxuygocxprvnqu.mp4',
       'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVtbtjMiVvbOLVc7dA53s3_st7BjF-wtTxNu8Tq_-5al0IZBId'
     ],
-    comment: 'Grass Cutting” scandal of ex-secretary to the Federal Government'
+    comment: 'Grass Cutting scandal of ex-secretary to the Federal Government'
   },
   {
     location: '',

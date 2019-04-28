@@ -31,8 +31,8 @@ window.addEventListener('load', (event) => {
   const record = (items) => {
     items.forEach((item) => {
       const eachRecord = `<li class="list">
-      <div>
-      <p class="type">Type:<span>Red-Flag</span></p>
+      <div class="post">
+      <p class="type">Type:<span> Red-Flag</span></p>
     </div>
     <div id="image-frame">
     <a href="" target="_self" class="red-flag">${imgArry(item.images.slice(0, 1))}</a>
