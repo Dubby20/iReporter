@@ -79,8 +79,8 @@ window.addEventListener('load', (event) => {
       <div>
       <p class="status-p">Status:<span class="status-type">${status}</span></p>
     </div>
-    <div class="action-btn">
-      <p>Location: <span id="location">${location}</span><a href="#" onclick="getNewLocation()" class="edit-btn change-location">
+    <div>
+      <p class="action-btn">Location: <span id="location">${location}</span><a href="#" onclick="getNewLocation()" class="edit-btn change-location">
       Change location</a></p>
     </div>
     <div id="location-error" style="margin:8px";></div>

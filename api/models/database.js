@@ -1,27 +1,22 @@
 import pg from 'pg';
-import config from '../config/config';
+import 'dotenv/config';
 
-require('dotenv').config();
-
-
-const dbConnection = () => {
-  const {
-    NODE_ENV
-  } = process.env;
-  let dbURL;
-  if (NODE_ENV === 'development') {
-    dbURL = config.development.database;
-  } else if (NODE_ENV === 'test') {
-    dbURL = config.test.database;
-  } else {
-    dbURL = config.production.database;
+if (!process.env.DATABASE_URL) {
+  let database = process.env.DB_NAME;
+  if (process.env.NODE_ENV === 'test') {
+    database = process.env.DB_NAME_TEST;
   }
-  return dbURL;
-};
+  const user = process.env.DB_USER;
+  const password = process.env.DB_PASSWORD;
+  const host = process.env.DB_HOST;
+  const port = process.env.DB_PORT;
+  const url = `postgres://${user}:${password}@${host}:${port}/${database}`;
+  process.env.DATABASE_URL = url;
+}
 
 const pool = new pg.Pool({
-  connectionString: dbConnection(),
-  ssl: true
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.DB_SSL || false
 });
 
 

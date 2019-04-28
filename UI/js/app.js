@@ -5,17 +5,15 @@ const locationText = document.getElementById('location-code');
 // const modalPage = document.getElementById('modalPage');
 
 const viewReport = (recordId) => {
-  document.getElementById(`modalPage_${recordId}`).style.display = 'block';
-  console.log(recordId);
+  document.getElementById(recordId).style.display = 'block';
 };
 
-const closeBtn = () => {
-  const modalPage = document.getElementById('modalPage');
-  modalPage.style.display = 'none';
+const closeBtn = (recordId) => {
+  document.getElementById(recordId).style.display = 'none';
 };
 
-window.onclick = (event) => {
-  const modalPage = document.getElementById('modalPage');
+window.onclick = (event, recordId) => {
+  const modalPage = document.getElementById(recordId);
   if (event.target === modalPage) {
     modalPage.style.display = 'none';
   }
@@ -100,7 +98,7 @@ hideDisplayBtn();
 const checkToken = () => {
   const user = JSON.parse(localStorage.getItem('userToken'));
   if (!user) {
-    window.location.href = './login.html';
+    window.location.href = '/';
   }
 };
 
@@ -189,6 +187,12 @@ const videoArry = (video) => {
   return displayVideo;
 };
 
+const getStatusId = (record) => {
+  localStorage.removeItem('Id');
+  localStorage.removeItem('reportType');
+  localStorage.setItem('Id', record.id);
+  localStorage.setItem('reportType', record.type);
+};
 // const parseJwt = (token) => {
 //   try {
 //     const base64HeaderUrl = token.split('.')[0];
