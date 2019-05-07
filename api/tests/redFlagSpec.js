@@ -92,7 +92,7 @@ describe('/POST red-flags', () => {
       .end((error, response) => {
         expect(response).to.have.status(422);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('location does not match a Lat Long coordinates');
+        expect(response.body).to.have.property('error').eql('Invalid location');
         done();
       });
   });
@@ -109,7 +109,7 @@ describe('/POST red-flags', () => {
       .end((error, response) => {
         expect(response).to.have.status(422);
         expect(response.body).to.be.an('object');
-        expect(response.body).to.have.property('error').eql('Location must be a string');
+        expect(response.body).to.have.property('error').eql('Invalid location');
         done();
       });
   });

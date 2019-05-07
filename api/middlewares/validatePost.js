@@ -6,7 +6,7 @@ import {
   handleError
 } from '../utils/errorHandler';
 
-const locationRegex = /^([-+]?\d{1,2}([.]\d+)?),\s*([-+]?\d{1,3}([.]\d+)?)$/;
+const locationRegex = /[A-Za-z]/;
 const validIdRegex = /^[1-9]{1,}/;
 
 /**
@@ -27,14 +27,14 @@ export default class PostValidator {
       videos,
       comment
     } = request.body;
-    if (typeof location !== 'string') {
-      return handleError(response, 'Location must be a string');
+    if (typeof location !== 'string' || !locationRegex.test(location)) {
+      return handleError(response, 'Invalid location');
+    }
+    if (location.length < 5) {
+      return handleError(response, 'Location must be at least 5 characters long');
     }
     if (!(location && location.trim().length)) {
       return handleError(response, 'Please enter your location');
-    }
-    if (typeof location !== 'string' || !locationRegex.test(location)) {
-      return handleError(response, 'location does not match a Lat Long coordinates');
     }
 
     if (!Array.isArray(images)) {
@@ -81,7 +81,7 @@ export default class PostValidator {
       return handleError(response, 'Please enter your location');
     }
     if (typeof location !== 'string' || !locationRegex.test(location)) {
-      return handleError(response, 'location does not match a Lat Long coordinates');
+      return handleError(response, 'Invalid location');
     }
     return next();
   }

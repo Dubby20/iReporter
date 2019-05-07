@@ -6,16 +6,6 @@ const getId = (record) => {
   localStorage.setItem('reportType', record.title);
 };
 
-// const imgArry = (image) => {
-//   if (image.length === 0) {
-//     return 'No Image Uploaded';
-//   }
-//   const displayImage = image.map(img => `
-//   <img src="${img}" alt="" class="item" height="200" width="240">
-//   `);
-//   return displayImage;
-// };
-
 
 window.addEventListener('load', (event) => {
   event.preventDefault();
@@ -52,14 +42,14 @@ window.addEventListener('load', (event) => {
   };
 
   fetch(interventions, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'x-access-token': user.token
-      },
-      mode: 'cors'
-    })
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'x-access-token': user.token
+    },
+    mode: 'cors'
+  })
     .then(response => response.json())
     .then((data) => {
       if (data.status === 200) {

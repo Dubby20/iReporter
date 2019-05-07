@@ -87,15 +87,15 @@ const postRecord = (event) => {
   }
   loader.style.display = 'block';
   fetch(postUrl, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'x-access-token': user.token
-      },
-      mode: 'cors',
-      body: JSON.stringify(info)
-    })
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'x-access-token': user.token
+    },
+    mode: 'cors',
+    body: JSON.stringify(info)
+  })
     .then(response => response.json())
     .then((data) => {
       if (data.status === 201) {
@@ -129,9 +129,9 @@ const uploadImage = (event) => {
   formData.append('upload_preset', 'yftnq9xd');
   // eslint-disable-next-line no-undef
   fetch('https://api.cloudinary.com/v1_1/djdsxql5q/image/upload', {
-      method: 'POST',
-      body: formData
-    })
+    method: 'POST',
+    body: formData
+  })
     .then(response => response.json())
     .then((data) => {
       if (typeof data.secure_url !== 'undefined') {
@@ -166,9 +166,9 @@ const uploadVideo = (event) => {
   formData.append('upload_preset', 'yftnq9xd');
   // eslint-disable-next-line no-undef
   fetch('https://api.cloudinary.com/v1_1/djdsxql5q/video/upload', {
-      method: 'POST',
-      body: formData
-    })
+    method: 'POST',
+    body: formData
+  })
     .then(response => response.json())
     .then((data) => {
       if (typeof data.secure_url !== 'undefined') {
@@ -191,29 +191,6 @@ const uploadVideo = (event) => {
     });
 };
 
-// const handleUploads = () => {
-//   const allImages = document.querySelectorAll('.image-uploads');
-//   const allVideos = document.querySelectorAll('.video-uploads');
-
-//   const imageCollection = [];
-//   const videoCollection = [];
-
-//   for (let i = 0; i < allImages.length; i++) {
-//     imageCollection.push(allImages[i].innerHTML);
-//   }
-//   localStorage.setItem('saveImageUploads', JSON.stringify(imageCollection));
-
-//   for (let i = 0; i < allVideos.length; i++) {
-//     videoCollection.push(allVideos[i].innerHTML);
-//   }
-//   localStorage.setItem('saveVideoUploads', JSON.stringify(videoCollection));
-// };
-
-// window.addEventListener('click', (e) => {
-//   if (e.target.className === 'del-btn') {
-//     handleUploads();
-//   }
-// });
 
 imageUpload.addEventListener('change', uploadImage);
 videoUpload.addEventListener('change', uploadVideo);

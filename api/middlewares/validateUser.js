@@ -12,6 +12,7 @@ const phoneNumberRegex = /^(\+?234|0)?[789]\d{9}$/;
 
 export default class ValidateUsers {
   static checkIfUserExists(request, response, next) {
+    console.log(pool);
     const {
       email,
       username
@@ -42,7 +43,7 @@ export default class ValidateUsers {
           }));
       }).catch(err => response.status(400).json({
         status: 400,
-        error: 'Email must be unique'
+        error: err.message
       }));
   }
 

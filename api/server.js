@@ -23,7 +23,7 @@ app.use(
     extended: false
   })
 );
-app.use(express.static(path.join(__dirname, '../UI')));
+// app.use(express.static(path.join(__dirname, '../UI')));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get('/', (request, response) => response.status(200).json({

@@ -1,31 +1,5 @@
 const loader = document.querySelector('.loader');
 
-// const imgArry = (image) => {
-//   if (image.length === 0) {
-//     return 'No Image Uploaded';
-//   }
-//   const displayImage = image.map(
-//     img => `
-//   <img src="${img}" alt="" class="item" height="200" width="240">
-//   `
-//   );
-//   return displayImage;
-// };
-
-// const videoArry = (video) => {
-//   if (video.length === 0) {
-//     return 'No Video Uploaded';
-//   }
-//   const displayVideo = video.map(
-//     (vid, i) => `
-//     <video width="240" height="180" controls>
-//       <source src="${vid}">
-//     </video>
-// `
-//   );
-//   return displayVideo;
-// };
-
 
 let recordUrl;
 let recordType;
@@ -52,14 +26,14 @@ window.addEventListener('load', (event) => {
   loader.style.display = 'block';
 
   fetch(recordUrl, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'x-access-token': user.token
-      },
-      mode: 'cors'
-    })
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      'x-access-token': user.token
+    },
+    mode: 'cors'
+  })
     .then(response => response.json())
     .then((data) => {
       if (data.status === 200) {

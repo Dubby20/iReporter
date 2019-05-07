@@ -11,6 +11,8 @@ if (!process.env.DATABASE_URL) {
   const host = process.env.DB_HOST;
   const port = process.env.DB_PORT;
   const url = `postgres://${user}:${password}@${host}:${port}/${database}`;
+  console.log(url);
+
   process.env.DATABASE_URL = url;
 }
 

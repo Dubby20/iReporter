@@ -15,7 +15,6 @@
     "db:migrate": "npm run babel-node ./api/models/migration createTables",
     "db:seed": "npm run babel-node ./api/models/migration seedData",
     "db:refresh": "npm run db:reset && npm run db:migrate",
-    "build": "babel ./ -d dist",
     "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
     "coverage": "nyc reports --reporter=text-lcov | coveralls",
     "test": "cross-env NODE_ENV=test npm run db:refresh && cross-env NODE_ENV=test npm run db:seed && cross-env NODE_ENV=test nyc --reporter=text mocha  --timeout 5000 -r @babel/register ./api/tests/ --exit --reporter spec"
@@ -38,6 +37,7 @@
   "homepage": "https://github.com/Dubby20/iReporter#readme",
   "dependencies": {
     "@babel/cli": "^7.2.3",
+    "@babel/register": "^7.4.4",
     "bcrypt": "^3.0.2",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
