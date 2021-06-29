@@ -31,23 +31,28 @@ export default class InterventionController {
       videos,
       comment
     } = request.body;
-    pool.query('INSERT INTO interventions (user_id, location, images, videos, comment) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-        [request.user.id, location, images, videos, comment])
+    pool
+      .query(
+        'INSERT INTO interventions (user_id, location, images, videos, comment) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+        [request.user.id, location, images, videos, comment]
+      )
       .then((data) => {
         const intervention = data.rows[0];
         return response.status(201).json({
           status: 201,
-          data: [{
-            id: intervention.id,
-            intervention,
-            message: 'Created intervention record'
-          }]
+          data: [
+            {
+              id: intervention.id,
+              intervention,
+              message: 'Created intervention record'
+            }
+          ]
         });
       })
       .catch(err => response.status(400).json({
-        status: 400,
-        error: err.message
-      }));
+          status: 400,
+          error: 'Failed to create an intervention'
+        }));
   }
 
   /**
@@ -62,7 +67,8 @@ export default class InterventionController {
    */
 
   static allInterventions(request, response) {
-    pool.query('SELECT * FROM interventions')
+    pool
+      .query('SELECT * FROM interventions')
       .then((data) => {
         const intervention = data.rows;
         if (intervention.rowCount < 1) {
@@ -73,16 +79,19 @@ export default class InterventionController {
         }
         return response.status(200).json({
           status: 200,
-          data: [{
-            intervention,
-            type: 'Intervention',
-            message: 'All interventions was retrieved successfully'
-          }]
+          data: [
+            {
+              intervention,
+              type: 'Intervention',
+              message: 'All interventions was retrieved successfully'
+            }
+          ]
         });
-      }).catch(err => response.status(400).json({
-        status: 400,
-        error: errors.validationError
-      }));
+      })
+      .catch(err => response.status(400).json({
+          status: 400,
+          error: 'Failed to fetch all interventions'
+        }));
   }
 
   /**
@@ -96,7 +105,8 @@ export default class InterventionController {
    * @returns {object} interventions object or error message if intervention is not found
    */
   static interventionId(request, response) {
-    pool.query('SELECT * FROM interventions where id = $1', [request.params.id])
+    pool
+      .query('SELECT * FROM interventions where id = $1', [request.params.id])
       .then((data) => {
         const report = data.rows[0];
         if (!report) {
@@ -107,15 +117,18 @@ export default class InterventionController {
         }
         return response.status(200).json({
           status: 200,
-          data: [{
-            report,
-            message: 'Get a specific intervention was successful'
-          }]
+          data: [
+            {
+              report,
+              message: 'Get a specific intervention was successful'
+            }
+          ]
         });
-      }).catch(err => response.status(400).json({
-        status: 400,
-        error: errors.validationError
-      }));
+      })
+      .catch(err => response.status(400).json({
+          status: 400,
+          error: 'Failed to get an intervention'
+        }));
   }
 
   /**
@@ -131,43 +144,53 @@ export default class InterventionController {
        */
 
   static interventionLocation(request, response) {
-    pool.query('SELECT  * FROM interventions WHERE interventions.id = $1', [request.params.id])
+    pool
+      .query('SELECT  * FROM interventions WHERE interventions.id = $1', [
+        request.params.id
+      ])
       .then((interventionId) => {
         if (interventionId.rowCount < 1) {
           return response.status(404).json({
             status: 404,
-            error: 'The location with the given intervention id does not exists'
+            error:
+              'The location with the given intervention id does not exists'
           });
         }
-        const {
-          location
-        } = request.body;
+        const { location } = request.body;
         if (request.user.id === interventionId.rows[0].user_id) {
-          pool.query(`UPDATE interventions SET location = '${location}' WHERE interventions.id = $1 RETURNING *`, [request.params.id])
+          pool
+            .query(
+              `UPDATE interventions SET location = '${location}' WHERE interventions.id = $1 RETURNING *`,
+              [request.params.id]
+            )
             .then((data) => {
               const editInterventionLocation = data.rows[0];
               return response.status(200).json({
                 status: 200,
-                data: [{
-                  id: editInterventionLocation.id,
-                  editInterventionLocation,
-                  message: 'Updated intervention record’s location'
-                }]
+                data: [
+                  {
+                    id: editInterventionLocation.id,
+                    editInterventionLocation,
+                    message: 'Updated intervention record’s location'
+                  }
+                ]
               });
-            }).catch(error => response.status(400).json({
-              status: 400,
-              error: errors.validationError
-            }));
+            })
+            .catch(error => response.status(400).json({
+                status: 400,
+                error: errors.validationError
+              }));
         } else {
           return response.status(403).json({
             status: 403,
             error: 'You must signup or login to access this route'
           });
         }
-      }).catch(error => response.status(400).json({
-        status: 400,
-        error: errors.validationError
-      }));
+      })
+      .catch(error => response.status(400).json({
+          status: 400,
+          error: 'Failed to update an intervention location'
+        }));
   }
 
   /**
@@ -182,7 +205,10 @@ export default class InterventionController {
        * @returns {object} response.
        */
   static editInterventionComment(request, response) {
-    pool.query('SELECT  * FROM interventions WHERE interventions.id = $1', [request.params.id])
+    pool
+      .query('SELECT  * FROM interventions WHERE interventions.id = $1', [
+        request.params.id
+      ])
       .then((interventionId) => {
         if (interventionId.rowCount < 1) {
           return response.status(404).json({
@@ -190,35 +216,41 @@ export default class InterventionController {
             error: 'The comment with the given intervention id does not exists'
           });
         }
-        const {
-          comment
-        } = request.body;
+        const { comment } = request.body;
         if (request.user.id === interventionId.rows[0].user_id) {
-          pool.query(`UPDATE interventions SET comment = '${comment}' WHERE interventions.id = $1 RETURNING *`, [request.params.id])
+          pool
+            .query(
+              `UPDATE interventions SET comment = '${comment}' WHERE interventions.id = $1 RETURNING *`,
+              [request.params.id]
+            )
             .then((data) => {
               const editComment = data.rows[0];
               return response.status(200).json({
                 status: 200,
-                data: [{
-                  id: editComment.id,
-                  editComment,
-                  message: 'Updated intervention record’s comment'
-                }]
+                data: [
+                  {
+                    id: editComment.id,
+                    editComment,
+                    message: 'Updated intervention record’s comment'
+                  }
+                ]
               });
-            }).catch(error => response.status(400).json({
-              status: 400,
-              error: errors.validationError
-            }));
+            })
+            .catch(error => response.status(400).json({
+                status: 400,
+                error: errors.validationError
+              }));
         } else {
           return response.status(401).json({
             status: 401,
             error: 'You must signup or login to access this route'
           });
         }
-      }).catch(error => response.status(400).send({
-        status: 400,
-        error: errors.validationError
-      }));
+      })
+      .catch(error => response.status(400).send({
+          status: 400,
+          error: 'Failed to update a comment'
+        }));
   }
 
   /**
@@ -233,7 +265,10 @@ export default class InterventionController {
        * @returns {object} response.
        */
   static deleteIntervention(request, response) {
-    pool.query('SELECT  * FROM interventions WHERE interventions.id = $1', [request.params.id])
+    pool
+      .query('SELECT  * FROM interventions WHERE interventions.id = $1', [
+        request.params.id
+      ])
       .then((interventionId) => {
         if (interventionId.rowCount < 1) {
           return response.status(404).json({
@@ -242,31 +277,39 @@ export default class InterventionController {
           });
         }
         if (request.user.id === interventionId.rows[0].user_id) {
-          pool.query('DELETE FROM interventions WHERE interventions.id = $1 RETURNING *', [request.params.id])
+          pool
+            .query(
+              'DELETE FROM interventions WHERE interventions.id = $1 RETURNING *',
+              [request.params.id]
+            )
             .then((data) => {
               const delIntervention = data.rows[0];
               response.status(202).json({
                 status: 202,
-                data: [{
-                  id: delIntervention.id,
-                  type: 'intervention',
-                  message: 'Intervention record has been deleted'
-                }]
+                data: [
+                  {
+                    id: delIntervention.id,
+                    type: 'intervention',
+                    message: 'Intervention record has been deleted'
+                  }
+                ]
               });
-            }).catch(error => response.status(400).json({
-              status: 400,
-              error: errors.validationError
-            }));
+            })
+            .catch(error => response.status(400).json({
+                status: 400,
+                error: errors.validationError
+              }));
         } else {
           return response.status(401).json({
             status: 401,
             error: 'You must signup or login to access this route'
           });
         }
-      }).catch(error => response.status(400).json({
-        status: 400,
-        error: errors.validationError
-      }));
+      })
+      .catch(error => response.status(400).json({
+          status: 400,
+          error: 'Failed to delete an intervention'
+        }));
   }
 
   static updateInterventionStatus(request, response) {
@@ -293,7 +336,7 @@ export default class InterventionController {
         });
       }).catch(err => response.status(400).json({
         status: 400,
-        error: err.message
+        error: 'Failed to update intervention status'
       }));
   }
 
@@ -309,7 +352,10 @@ export default class InterventionController {
 
     * @returns {object} object
     */
-    pool.query('SELECT  * FROM interventions WHERE user_id = $1', [request.params.id])
+    pool
+      .query('SELECT  * FROM interventions WHERE user_id = $1', [
+        request.params.id
+      ])
       .then((data) => {
         const interventions = data.rows;
         if (interventions.length === 0) {
@@ -320,15 +366,18 @@ export default class InterventionController {
         }
         return response.status(200).json({
           status: 200,
-          data: [{
-            interventions,
-            type: 'Intervention',
-            message: 'Successful'
-          }]
+          data: [
+            {
+              interventions,
+              type: 'Intervention',
+              message: 'Successful'
+            }
+          ]
         });
-      }).catch(error => response.status(400).json({
-        status: 400,
-        error: errors.validationError
-      }));
+      })
+      .catch(error => response.status(400).json({
+          status: 400,
+          error: 'Failed to fetch a user\'s intervention'
+        }));
   }
 }

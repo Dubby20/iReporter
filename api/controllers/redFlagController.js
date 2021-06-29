@@ -32,23 +32,28 @@ export default class RedFlagController {
       videos,
       comment
     } = request.body;
-    pool.query('INSERT INTO red_flags (user_id, location, images, videos, comment) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-        [request.user.id, location, images, videos, comment])
+    pool
+      .query(
+        'INSERT INTO red_flags (user_id, location, images, videos, comment) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+        [request.user.id, location, images, videos, comment]
+      )
       .then((data) => {
         const redFlag = data.rows[0];
         return response.status(201).json({
           status: 201,
-          data: [{
-            id: redFlag.id,
-            redFlag,
-            message: 'Created red-flag record'
-          }]
+          data: [
+            {
+              id: redFlag.id,
+              redFlag,
+              message: 'Created red-flag record'
+            }
+          ]
         });
       })
       .catch(err => response.status(400).json({
-        status: 400,
-        error: errors.validationError
-      }));
+          status: 400,
+          error: 'Failed to create a red-flag'
+        }));
   }
 
 
@@ -64,7 +69,8 @@ export default class RedFlagController {
  */
 
   static allRedFlags(request, response) {
-    pool.query('SELECT * FROM red_flags')
+    pool
+      .query('SELECT * FROM red_flags')
       .then((data) => {
         const redFlag = data.rows;
         if (redFlag.rowCount < 1) {
@@ -75,16 +81,19 @@ export default class RedFlagController {
         }
         return response.status(200).json({
           status: 200,
-          data: [{
-            redFlag,
-            type: 'Red-flag',
-            message: 'All red-flags was retrieved successfully'
-          }]
+          data: [
+            {
+              redFlag,
+              type: 'Red-flag',
+              message: 'All red-flags was retrieved successfully'
+            }
+          ]
         });
-      }).catch(err => response.status(400).json({
-        status: 400,
-        error: errors.validationError
-      }));
+      })
+      .catch(err => response.status(400).json({
+          status: 400,
+          error: 'Failed to fetch all red-flags'
+        }));
   }
 
   /**
@@ -98,7 +107,8 @@ export default class RedFlagController {
    * @returns {object} red-flags object or error message if red-flag is not found
    */
   static redFlagId(request, response) {
-    pool.query('SELECT * FROM red_flags where id = $1', [request.params.id])
+    pool
+      .query('SELECT * FROM red_flags where id = $1', [request.params.id])
       .then((data) => {
         const report = data.rows[0];
         if (!report) {
@@ -109,15 +119,18 @@ export default class RedFlagController {
         }
         return response.status(200).json({
           status: 200,
-          data: [{
-            report,
-            message: 'Get a specific red-flag was successful'
-          }]
+          data: [
+            {
+              report,
+              message: 'Get a specific red-flag was successful'
+            }
+          ]
         });
-      }).catch(err => response.status(400).json({
-        status: 400,
-        error: errors.validationError
-      }));
+      })
+      .catch(err => response.status(400).json({
+          status: 400,
+          error: 'Failed to get a red-flag'
+        }));
   }
 
   /**
@@ -133,7 +146,10 @@ export default class RedFlagController {
        */
 
   static editRedFlag(request, response) {
-    pool.query('SELECT  * FROM red_flags WHERE red_flags.id = $1', [request.params.id])
+    pool
+      .query('SELECT  * FROM red_flags WHERE red_flags.id = $1', [
+        request.params.id
+      ])
       .then((redFlagId) => {
         if (redFlagId.rowCount < 1) {
           return response.status(404).json({
@@ -141,35 +157,41 @@ export default class RedFlagController {
             error: 'The red-flag with the given id does not exists'
           });
         }
-        const {
-          location
-        } = request.body;
+        const { location } = request.body;
         if (request.user.id === redFlagId.rows[0].user_id) {
-          pool.query(`UPDATE red_flags SET location = '${location}' WHERE red_flags.id = $1 RETURNING *`, [request.params.id])
+          pool
+            .query(
+              `UPDATE red_flags SET location = '${location}' WHERE red_flags.id = $1 RETURNING *`,
+              [request.params.id]
+            )
             .then((data) => {
               const editRedFlagLocation = data.rows[0];
               return response.status(200).json({
                 status: 200,
-                data: [{
-                  id: editRedFlagLocation.id,
-                  editRedFlagLocation,
-                  message: 'Updated red-flag record’s location'
-                }]
+                data: [
+                  {
+                    id: editRedFlagLocation.id,
+                    editRedFlagLocation,
+                    message: 'Updated red-flag record’s location'
+                  }
+                ]
               });
-            }).catch(error => response.status(400).json({
-              status: 400,
-              error: errors.validationError
-            }));
+            })
+            .catch(error => response.status(400).json({
+                status: 400,
+                error: errors.validationError
+              }));
         } else {
           return response.status(401).json({
             status: 401,
             error: 'You must signup or login to access this route'
           });
         }
-      }).catch(error => response.status(400).json({
-        status: 400,
-        error: errors.validationError
-      }));
+      })
+      .catch(error => response.status(400).json({
+          status: 400,
+          error: 'Failed to update a red-flag location'
+        }));
   }
 
   /**
@@ -184,7 +206,10 @@ export default class RedFlagController {
        * @returns {object} response.
        */
   static editRedFlagComment(request, response) {
-    pool.query('SELECT  * FROM red_flags WHERE red_flags.id = $1', [request.params.id])
+    pool
+      .query('SELECT  * FROM red_flags WHERE red_flags.id = $1', [
+        request.params.id
+      ])
       .then((redFlagId) => {
         if (redFlagId.rowCount < 1) {
           return response.status(404).json({
@@ -192,35 +217,41 @@ export default class RedFlagController {
             error: 'The red-flag with the given id does not exists'
           });
         }
-        const {
-          comment
-        } = request.body;
+        const { comment } = request.body;
         if (request.user.id === redFlagId.rows[0].user_id) {
-          pool.query(`UPDATE red_flags SET comment = '${comment}' WHERE red_flags.id = $1 RETURNING *`, [request.params.id])
+          pool
+            .query(
+              `UPDATE red_flags SET comment = '${comment}' WHERE red_flags.id = $1 RETURNING *`,
+              [request.params.id]
+            )
             .then((data) => {
               const editComment = data.rows[0];
               return response.status(200).json({
                 status: 200,
-                data: [{
-                  id: editComment.id,
-                  editComment,
-                  message: 'Updated red-flag record’s comment'
-                }]
+                data: [
+                  {
+                    id: editComment.id,
+                    editComment,
+                    message: 'Updated red-flag record’s comment'
+                  }
+                ]
               });
-            }).catch(error => response.status(400).json({
-              status: 400,
-              error: 'Database Error'
-            }));
+            })
+            .catch(error => response.status(400).json({
+                status: 400,
+                error: 'Database Error'
+              }));
         } else {
           return response.status(401).json({
             status: 401,
             error: 'You must signup or login to access this route'
           });
         }
-      }).catch(error => response.status(400).send({
-        status: 400,
-        error: errors.validationError
-      }));
+      })
+      .catch(error => response.status(400).send({
+          status: 400,
+          error: 'Failed to update a comment'
+        }));
   }
 
   /**
@@ -235,7 +266,10 @@ export default class RedFlagController {
        * @returns {object} response.
        */
   static deleteRedFlag(request, response) {
-    pool.query('SELECT  * FROM red_flags WHERE red_flags.id = $1', [request.params.id])
+    pool
+      .query('SELECT  * FROM red_flags WHERE red_flags.id = $1', [
+        request.params.id
+      ])
       .then((redFlagId) => {
         if (redFlagId.rowCount < 1) {
           return response.status(404).json({
@@ -244,31 +278,39 @@ export default class RedFlagController {
           });
         }
         if (request.user.id === redFlagId.rows[0].user_id) {
-          pool.query('DELETE FROM red_flags WHERE red_flags.id = $1 RETURNING *', [request.params.id])
+          pool
+            .query(
+              'DELETE FROM red_flags WHERE red_flags.id = $1 RETURNING *',
+              [request.params.id]
+            )
             .then((data) => {
               const delRedFlag = data.rows[0];
               response.status(202).json({
                 status: 202,
-                data: [{
-                  id: delRedFlag.id,
-                  type: 'red-flag',
-                  message: 'Red-flag record has been deleted'
-                }]
+                data: [
+                  {
+                    id: delRedFlag.id,
+                    type: 'red-flag',
+                    message: 'Red-flag record has been deleted'
+                  }
+                ]
               });
-            }).catch(error => response.status(400).json({
-              status: 400,
-              error: errors.validationError
-            }));
+            })
+            .catch(error => response.status(400).json({
+                status: 400,
+                error: errors.validationError
+              }));
         } else {
           return response.status(401).json({
             status: 401,
             error: 'You must signup or login to access this route'
           });
         }
-      }).catch(error => response.status(400).json({
-        status: 400,
-        error: errors.validationError
-      }));
+      })
+      .catch(error => response.status(400).json({
+          status: 400,
+          error: 'Failed to delete a red-flag'
+        }));
   }
 
 
@@ -288,7 +330,11 @@ export default class RedFlagController {
     const {
       status
     } = request.body;
-    pool.query(`UPDATE red_flags SET status = '${status}' WHERE id = $1 RETURNING *`, [request.params.id])
+    pool
+      .query(
+        `UPDATE red_flags SET status = '${status}' WHERE id = $1 RETURNING *`,
+        [request.params.id]
+      )
       .then((data) => {
         const redFlagStatus = data.rows;
         if (redFlagStatus.length < 1) {
@@ -299,17 +345,19 @@ export default class RedFlagController {
         }
         return response.status(200).json({
           status: 200,
-          data: [{
-            id: redFlagStatus.id,
-            redFlagStatus,
-            message: 'Updated red-flag record’s status'
-
-          }]
+          data: [
+            {
+              id: redFlagStatus.id,
+              redFlagStatus,
+              message: 'Updated red-flag record’s status'
+            }
+          ]
         });
-      }).catch(err => response.status(400).json({
-        status: 400,
-        error: errors.validationError
-      }));
+      })
+      .catch(err => response.status(400).json({
+          status: 400,
+          error: 'Failed to update red-flag status'
+        }));
   }
 
   static userRedFlagRecords(request, response) {
@@ -324,7 +372,8 @@ export default class RedFlagController {
 
     * @returns {object} object
     */
-    pool.query('SELECT  * FROM red_flags WHERE user_id = $1', [request.params.id])
+    pool
+      .query('SELECT  * FROM red_flags WHERE user_id = $1', [request.params.id])
       .then((data) => {
         const redFlags = data.rows;
         if (redFlags.length === 0) {
@@ -335,15 +384,18 @@ export default class RedFlagController {
         }
         return response.status(200).json({
           status: 200,
-          data: [{
-            redFlags,
-            type: 'Red-flag',
-            message: 'Successful'
-          }]
+          data: [
+            {
+              redFlags,
+              type: 'Red-flag',
+              message: 'Successful'
+            }
+          ]
         });
-      }).catch(error => response.status(400).json({
-        status: 400,
-        error: errors.validationError
-      }));
+      })
+      .catch(error => response.status(400).json({
+          status: 400,
+          error: 'Failed to fetch a user\'s red-flags'
+        }));
   }
 }

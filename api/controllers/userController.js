@@ -69,7 +69,7 @@ export default class UserController {
       }).catch((error) => {
         response.status(400).json({
           status: 400,
-          error: errors.validationError
+          error: 'Failed to create a user'
         });
       });
   }
@@ -148,7 +148,7 @@ export default class UserController {
         });
       }).catch(err => response.status(400).json({
         status: 400,
-        error: err.message
+        error: 'Failed to login'
       }));
   }
 }
