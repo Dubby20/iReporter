@@ -43,7 +43,7 @@
     "cors": "^2.8.5",
     "coveralls": "^3.0.2",
     "dotenv": "^6.2.0",
-    "express": "^4.16.3",
+    "express": "^4.17.3",
     "express-validator": "^5.3.0",
     "http-errors": "^1.7.0",
     "istanbul": "^0.4.5",
